@@ -1,0 +1,11 @@
+This package was originally debianized by Rob Browning
+<rlb@defaultvalue.org> on Wed, 26 May 1999 18:19:13 -0500
+
+The upstream source was obtained from
+
+  ftp://ftp.ecn.purdue.edu/qobi/stalin-0.10alpha2.tgz
+
+Copyright:
+
+Stalin is distributed under the Gnu Public License (GPL). See
+/usr/share/common-licenses/GPL for more details.

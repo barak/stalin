@@ -1,0 +1,28 @@
+Source: stalin
+Section: devel
+Priority: optional
+Build-Depends: libgc-dev, xlibs-dev, libgl-dev, libglut-dev
+Maintainer: Rob Browning <rlb@defaultvalue.org>
+Standards-Version: 3.6.1
+
+Package: stalin
+Architecture: arm i386 m68k sparc
+Depends: ${shlibs:Depends}, libgc-dev
+Description: An extremely aggressive Scheme compiler
+ stalin is an aggressive self-hosting Scheme compiler, designed to
+ generate resource efficient stand-alone executables with very high
+ computational performance.  It is a batch mode compiler like gcc, not
+ an interpreter, and is designed to be used only after your code has
+ stabilized.
+ .
+ It places a few limitations on the content of the source code.  For
+ example, you may not not LOAD or EVAL new expressions or procedure
+ definitions at runtime, but in exchange, it is able to perform
+ various global analyses which may allow it to transparently map
+ Scheme types to C types and to use native C arithmetic operations on
+ a per-expression basis, whenever such operations are proven safe.
+ Further stalin can often reduce or eliminate run-time type checking
+ and dispatching, and omit garbage collection for data of limited
+ scope or accessibility, while omitting unreachable data altogether.
+ .
+ stalin also has a foreign procedure interface to both Xlib and OpenGL.

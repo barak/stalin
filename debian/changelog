@@ -1,0 +1,116 @@
+stalin (0.9+0.10alpha2-1) unstable; urgency=medium
+
+  * New release (0.10alpha2) that the upstream author has requested we use
+    in place of 0.9.
+  * Save space by just making symbolic links for several platforms that
+    need the same C code as stalin-IA32.c.  (closes: #231602)
+    - debian/rules
+  * Remove alpha from Architecture since it was never supposed to be there
+    and the package is known (upstream) not to work there yet.  (closes:
+    #216341).
+    - debian/control
+
+ -- Rob Browning <rlb@defaultvalue.org>  Tue, 17 Aug 2004 17:05:12 -0500
+
+stalin (0.9-4) unstable; urgency=low
+
+  * move to libgc1.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Wed, 20 Aug 2003 08:52:31 -0500
+
+stalin (0.9-3) unstable; urgency=low
+
+  * recompile to pick up new libgc6 revision. (closes: #178366)
+  * don't add /usr/share/doc/ symlink in postinst.
+  * fix spelling error in description.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sun, 26 Jan 2003 13:49:56 -0600
+
+stalin (0.9-2) unstable; urgency=high
+
+  * Use the architecture field to list the archs that stalin
+    supports. (closes: #119735, #120206)
+
+ -- Rob Browning <rlb@defaultvalue.org>  Thu,  6 Dec 2001 11:51:55 -0600
+
+stalin (0.9-1) unstable; urgency=low
+
+  * New upstream version.
+  * Updated to latest upstream release. (closes: #97884)
+  * Presumed stalin-ia32.c may work on arm and m68k since it's the
+    replacement for stalin-32.c.  We'll find out when the autobuild
+    daemons get hold of this.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sun, 23 Sep 2001 10:58:12 -0500
+
+stalin (0.8-10) unstable; urgency=low
+
+  * Add m68k/Linux in ./build.  Thanks to Rick Younie.  (closes: #107648)
+  * Change to depend on libgc6-dev instead of libgc5-dev.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Fri,  7 Sep 2001 13:05:52 -0500
+
+stalin (0.8-9) unstable; urgency=medium
+
+  * Add build-depends. (closes: #105867)
+
+ -- Rob Browning <rlb@defaultvalue.org>  Thu, 19 Jul 2001 09:38:04 -0500
+
+stalin (0.8-8) unstable; urgency=low
+
+  * Update my email address (will package new version soon).
+  * Strip binaries Debian-style.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Tue, 17 Jul 2001 13:49:24 -0500
+
+stalin (0.8-7) unstable; urgency=low
+
+  * change to */share/* from /usr (docs manpages etc).
+  * fix handling of /usr/doc -> /usr/share/doc symlink in control scripts.
+  * added tiny patck to build to fix arm compiles.  Thanks to
+    <Philip.Blundell@pobox.com> (Closes: Bug#58111).
+  * fixed hurd unfriendliness in debian/rules.  Thanks to
+    Marcus.Brinkmann@ruhr-uni-bochum.de (Closes: Bug#54582).
+  * changed location of GPL in copyright file.
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Sun, 24 Dec 2000 00:34:30 -0600
+
+stalin (0.8-6) unstable; urgency=low
+
+  * If you forget to use -On, Stalin now outputs a warning that the
+    current version requires it (Closes: Bug#42387).
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Thu, 28 Oct 1999 00:24:43 -0500
+
+stalin (0.8-5) unstable; urgency=low
+
+  * Add patch for sparc compile (Closes: Bug#41073).
+  * Switch to depend on libgc5-dev.
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Mon,  4 Oct 1999 23:43:29 -0500
+
+stalin (0.8-4) unstable; urgency=low
+
+  * Add dependency on libgc4-dev (Closes: Bug#39178)
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Fri, 11 Jun 1999 14:23:28 -0500
+
+stalin (0.8-3) unstable; urgency=low
+
+  * Spell checked the control file.
+  * Fixed minor problem with compile-time includes
+    (needed -copt -I -copt /usr/include/gc).
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Thu, 10 Jun 1999 14:16:45 -0500
+
+stalin (0.8-2) unstable; urgency=low
+
+  * Minor patch from author for problem in make-xhello.
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Wed,  2 Jun 1999 16:25:33 -0500
+
+stalin (0.8-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Rob Browning <rlb@cs.utexas.edu>  Wed, 26 May 1999 18:11:43 -0500
