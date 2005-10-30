@@ -1,0 +1,25 @@
+Index: sid/build
+===================================================================
+--- sid.orig/build
++++ sid/build
+@@ -67,7 +72,7 @@
+     echo "Cannot (yet) run Stalin on this architecture"
+     exit 1;;
+   *)
+-    cp -f stalin-`./include/stalin-architecture-name`.c stalin.c;;
++    ln -sf stalin-`./include/stalin-architecture-name`.c stalin.c;;
+   esac
+ 
+ # Stalin can be compiled with -freg-struct-return on most platforms. But gcc
+Index: sid/make-single-file
+===================================================================
+--- sid.orig/make-single-file
++++ sid/make-single-file
+@@ -32,6 +32,6 @@
+     stalin5e.sc\
+     main.sc\
+     |sed -f trotsky.sed|cat - last-line.sc\
+-    |remove-extra-blank-lines >stalin.sc
++    |./remove-extra-blank-lines >stalin.sc
+ rm -f stalin{1,2,3{a,b},4{a,b,c,d},5{a,b,c,d,e}}.sc main.sc
+ rm -f last-line.sc trotsky.sed remove-extra-blank-lines

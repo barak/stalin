@@ -67,7 +67,7 @@ case `./include/stalin-architecture-name` in
     echo "Cannot (yet) run Stalin on this architecture"
     exit 1;;
   *)
-    ln -sf stalin-`./include/stalin-architecture-name`.c stalin.c;;
+    cp -f stalin-`./include/stalin-architecture-name`.c stalin.c;;
   esac
 
 # Stalin can be compiled with -freg-struct-return on most platforms. But gcc

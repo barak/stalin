@@ -1,3 +1,25 @@
+stalin (0.9+0.10alpha2-2) unstable; urgency=low
+
+  * Migrate to quilt.
+
+  * Fix problem where bootstrap required . to be in PATH.  Thanks to
+    Christopher Cramer.  (closes: #336502)
+    - debian/patches/misc.diff.
+  
+  * Rebuild against newer libgc.  (closes: #320972, #324498)
+
+  * Build-Depend on and build with gcc-3.4 for now.  A gcc-4.0 build goes
+    off into an infinite loop at the moment.  The compiler can now be
+    selected via the CC environment variable.
+    - debian/patches/allow-compiler-selection.diff
+    - debian/control
+    - debian/rules
+
+  * Add simple after-build sanity checks.
+    - debian/rules
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sun, 30 Oct 2005 15:48:21 -0800
+
 stalin (0.9+0.10alpha2-1) unstable; urgency=medium
 
   * New release (0.10alpha2) that the upstream author has requested we use

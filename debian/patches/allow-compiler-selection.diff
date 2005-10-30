@@ -1,0 +1,61 @@
+Index: sid/build
+===================================================================
+--- sid.orig/build
++++ sid/build
+@@ -22,6 +22,11 @@
+   ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
+ fi
+ 
++if [ x"${CC}" = x ]
++then
++  CC=gcc
++fi
++
+ case `uname -s`/`uname -r` in
+   IRIX*/*)   RANLIB=touch;;
+   SunOS/5.*) RANLIB=touch;;
+@@ -56,7 +61,7 @@
+ rm -f libstalin.a
+ # egcs can be used when it is available
+ #egcs -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+-gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
++${CC} -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+ ar rc libstalin.a xlib-c.o
+ $RANLIB libstalin.a
+ rm xlib-c.o
+Index: sid/build-gl-fpi
+===================================================================
+--- sid.orig/build-gl-fpi
++++ sid/build-gl-fpi
+@@ -1,11 +1,17 @@
+ #!/bin/sh
++
++if [ x"${CC}" = x ]
++then
++  CC=gcc
++fi
++
+ cd include
+ rm -f libstalin.a
+ # egcs can be used when it is available
+ #egcs -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+ #egcs -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
+-gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+-gcc -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
++${CC} -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
++${CC} -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
+ ar rc libstalin.a xlib-c.o gl-c.c
+ case `uname -s`/`uname -r` in
+   IRIX*/*)   RANLIB=touch;;
+Index: sid/makefile
+===================================================================
+--- sid.orig/makefile
++++ sid/makefile
+@@ -1,6 +1,6 @@
+ # Stalin can be compiled with egcs when it is available.
+ #CC = egcs
+-CC = gcc
++CC ?= gcc
+ 
+ OPTIONS = -d1 -d5 -d6 -On -t -c -db\
+           -clone-size-limit 5 -split-even-if-no-widening\
