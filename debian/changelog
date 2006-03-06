@@ -1,3 +1,13 @@
+stalin (0.9+0.10alpha2-2.1) unstable; urgency=low
+
+  * NMU
+  * Change Build-Depends to libx11-dev for xlibs-dev transition 
+    Closes: #347053
+  * Add concrete build depend on xlibmesa-gl-dev (libgl-dev is a virtual
+    package) to avoid possible build dep failure. Closes: #349186
+
+ -- Joey Hess <joeyh@debian.org>  Sun,  5 Mar 2006 21:43:03 -0500
+
 stalin (0.9+0.10alpha2-2) unstable; urgency=low
 
   * Migrate to quilt.

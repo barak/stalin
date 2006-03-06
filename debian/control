@@ -1,7 +1,7 @@
 Source: stalin
 Section: devel
 Priority: optional
-Build-Depends: libgc-dev, xlibs-dev, libgl-dev, libglut-dev, quilt, gcc-3.4
+Build-Depends: libgc-dev, libx11-dev, xlibmesa-gl-dev | libgl-dev, libglut-dev, quilt, gcc-3.4
 Maintainer: Rob Browning <rlb@defaultvalue.org>
 Standards-Version: 3.6.1
 
