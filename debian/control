@@ -1,13 +1,13 @@
 Source: stalin
 Section: devel
 Priority: optional
-Build-Depends: libgc-dev, libx11-dev, xlibmesa-gl-dev | libgl-dev, libglut-dev, quilt, gcc-3.4
+Build-Depends: libgc-dev, libx11-dev, libgl-dev, libglut-dev, quilt, dpkg-dev
 Maintainer: Rob Browning <rlb@defaultvalue.org>
 Standards-Version: 3.6.1
 
 Package: stalin
-Architecture: arm i386 m68k sparc
-Depends: ${shlibs:Depends}, libgc-dev
+Architecture: i386 amd64 ia64 sparc
+Depends: ${shlibs:Depends}, libgc-dev, dpkg-dev
 Description: An extremely aggressive Scheme compiler
  stalin is an aggressive self-hosting Scheme compiler, designed to
  generate resource efficient stand-alone executables with very high

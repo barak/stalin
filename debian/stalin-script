@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+exec /usr/lib/stalin/stalin \
+  -I /usr/lib/stalin \
+  -copt -I -copt /usr/include/gc \
+  -copt -fno-strict-aliasing "$@"

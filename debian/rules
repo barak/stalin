@@ -1,13 +1,13 @@
 #!/usr/bin/make -f
 # debian/rules file - for Stalin
 # Copyright 1994,1995 by Ian Jackson
-# Copyright 1998-2004 by Rob Browning
+# Copyright (C) 1998-2004,2006 by Rob Browning
 
 SHELL    := /bin/bash
 quilt := QUILT_PATCHES=debian/patches quilt
 
-upstream_archive := stalin_0.9+0.10alpha2.orig.tar.gz
-upstream_archive_dir := stalin-0.10alpha2
+upstream_archive := stalin_0.11.orig.tar.gz
+upstream_archive_dir := stalin-0.11
 
 srcname  := $(shell dpkg-parsechangelog | grep Source:)
 srcname  := $(shell echo $(srcname) | perl -pe 's/^Source:\s+//o')
@@ -32,7 +32,6 @@ endef
 
 define checkdir
   dpkg-parsechangelog > /dev/null
-  test -f debian/stalin-wrapper
   @if ! test -f stalin.sc; \
   then \
     echo; \
@@ -47,7 +46,6 @@ endef
 
 define cleanup_all
   $(MAKE) clean
-  rm -f stalin-ARM.c stalin-M68K.c stalin-PowerPC.c stalin-SPARC.c
   $(unpatch)
   rm -rf debian/stamp debian/substvars
   find -name '*~' -o -name core | xargs --no-run-if-empty rm -f
@@ -62,6 +60,9 @@ define run_tests
   cd debian/tmp-test && $(CURDIR)/stalin -On hello.scm
   test -x debian/tmp-test/hello
   test $$(debian/tmp-test/hello) = "hello"
+
+  # These don't work on all debian platforms yet.
+  #cd benchmarks && ./compile-and-run-stalin-old-benchmarks
 endef
 
 DEB_TRASH += debian/tmp-test
@@ -76,14 +77,19 @@ check-diff:
 	@cd debian/tmp-diff && tar xzpSf ../../../$(upstream_archive)
 	@cd debian/tmp-diff && mv $(upstream_archive_dir) orig
 
-	mkdir debian/tmp-diff/new
-	tar cpf - --exclude './debian' --exclude './.pc' . \
+	@mkdir debian/tmp-diff/new
+	@tar cpf - --exclude './debian' --exclude './.pc' . \
 	  | (cd debian/tmp-diff/new && tar xpf -)
 
 	@echo
 	@echo "########################################"
 	@echo "### Diffs outside ./debian"
-	@cd debian/tmp-diff && diff -ruN orig new
+	@cd debian/tmp-diff && diff -ruN \
+	  -x stalin-arch-amd64.c \
+	  -x stalin-arch-i386.c \
+	  -x stalin-arch-ia64.c \
+	  -x stalin-arch-sparc.c \
+	  orig new
 	@echo "########################################"
 	@echo "### Empty file list differences"
 	@diff -u \
@@ -105,7 +111,7 @@ check-auto-parse:
 
 buildpackage:
 	${checkdir}
-	dpkg-buildpackage -D -us -uc -rfakeroot -i'\.hg|\.pc'
+	dpkg-buildpackage -D -us -uc -rfakeroot -i'\.git|\.pc'
 .PHONY: buildpackage
 
 debian/stamp/patch:
@@ -116,15 +122,8 @@ debian/stamp/patch:
 build: debian/stamp/build
 debian/stamp/build: debian/stamp/patch
 	$(checkdir)
-        # these architectures are equivalent, so we do this to save a LOT of space
-	ln -sf stalin-IA32.c stalin-ARM.c
-	ln -sf stalin-IA32.c stalin-M68K.c
-	ln -sf stalin-IA32.c stalin-PowerPC.c
-        # even though indlude/stalin.architectures doesn't match, the generated
-        # source (cross-compiled via gluck) does, so this should be OK for SPARC.
-	ln -sf stalin-IA32.c stalin-SPARC.c
-	CC=gcc-3.4 ./build
-	CC=gcc-3.4 ./build-gl-fpi
+	./build
+	./build-gl-fpi
 	$(run_tests)
 	mkdir -p $(dir $@) && touch $@
 .PHONY: build
@@ -148,14 +147,13 @@ binary-arch:	checkroot build
 
         # Binaries
 	install -d debian/tmp/usr/bin
-	cp debian/stalin-wrapper debian/tmp/usr/bin/stalin
+	cp debian/stalin-script debian/tmp/usr/bin/stalin
 
         # libs (some of these should be in share, but stalin doesn't make the
         # distinction ATM)
 	install -d debian/tmp/usr/lib/stalin
 	cp -r include/* debian/tmp/usr/lib/stalin
 	install -s include/stalin debian/tmp/usr/lib/stalin/
-
 
         # manpages
 	install -d debian/tmp/usr/share/man/man1
@@ -164,7 +162,8 @@ binary-arch:	checkroot build
 
         # docs
 	install -d debian/tmp/usr/share/doc/$(srcname)
-	install README ANNOUNCEMENT stalin.el debian/tmp/usr/share/doc/$(srcname)
+	install README ANNOUNCEMENT debian/tmp/usr/share/doc/$(srcname)
+	install stalin.el debian/tmp/usr/share/doc/$(srcname)
 	cp debian/changelog debian/tmp/usr/share/doc/$(srcname)/changelog.Debian
 	cp -a benchmarks debian/tmp/usr/share/doc/$(srcname)
 	find debian/tmp/usr/share/doc/$(srcname) -type f | xargs gzip -9v

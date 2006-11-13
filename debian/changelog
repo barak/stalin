@@ -1,12 +1,38 @@
-stalin (0.9+0.10alpha2-2.1) unstable; urgency=low
+stalin (0.11-1) unstable; urgency=medium
 
-  * NMU
-  * Change Build-Depends to libx11-dev for xlibs-dev transition 
-    Closes: #347053
-  * Add concrete build depend on xlibmesa-gl-dev (libgl-dev is a virtual
-    package) to avoid possible build dep failure. Closes: #349186
+  * Migrate to a new upstream release; This should resolve the licensing
+    issues with the opengl/xlib bindings. (closes: #375943)
 
- -- Joey Hess <joeyh@debian.org>  Sun,  5 Mar 2006 21:43:03 -0500
+  * Remove dependency on gcc-3.4.  The bug in gcc-4.1 has been fixed, and
+    gcc-4.0 should work correctly as well.
+
+  * Add dependencies on dpkg-dev; stalin-architecture-name uses it now.
+
+  * Add support for ia64 and amd64.
+
+  * Generate new precompiled C source for all architectures. (closes: #337169)
+
+  * Drop support for m68k and arm since, if nothing else, their buildds
+    don't have enough RAM.  For the same reason, don't add powerpc.
+    (closes: #271836, #273130)
+
+  * Change xlibs-dev dependency to libx11-dev. (closes: #347053)
+
+  * Add build-time support for selection of scheme compiler,
+    i.e. "stalin=./stalin ./build"
+
+  * Change upstream gcc -O3 to -O2; -O3 requires much more RAM.
+
+  * Generalize makefile architecture support (i.e. stalin-arch-%.c) and
+    add all-precompiled-srcs target.
+
+  * Test the build by running some benchmarks afterward.
+
+  * Invoke benchmarks/make-clean from "make clean".
+
+  * Drop stalin-wrapper; stalin itself handles things now.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sun, 12 Nov 2006 22:47:26 -0800
 
 stalin (0.9+0.10alpha2-2) unstable; urgency=low
 
