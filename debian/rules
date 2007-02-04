@@ -17,7 +17,13 @@ version  := $(shell echo $(version) | perl -pe 's/^Version:\s+//o')
 upstream := $(shell echo $(version) | perl -pe 's/-[^-]*$$//o')
 deb_rev  := $(shell echo $(version) | perl -pe 's/.*-//o')
 
-target    := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+host_arch    := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+ifeq ($(host_arch),amd64)
+  cc_optimization := -O1
+else
+  cc_optimization := -O2
+endif
 
 define patch
   $(quilt) push -a
@@ -122,7 +128,7 @@ debian/stamp/patch:
 build: debian/stamp/build
 debian/stamp/build: debian/stamp/patch
 	$(checkdir)
-	./build
+	CC_OPTIMIZATION=$(cc_optimization) ./build
 	./build-gl-fpi
 	$(run_tests)
 	mkdir -p $(dir $@) && touch $@

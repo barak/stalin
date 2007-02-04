@@ -1,3 +1,20 @@
+stalin (0.11-2) unstable; urgency=low
+
+  * Add kfreebsd-i386 and kfreebsd-amd64 to the architectures list.
+    (closes: #314857)
+
+  * Add real package alternatives for all of the virtual build
+    dependencies.  (closes: #409450)
+
+  * Use stalin's internal copy of libgc for now.  Debian's doesn't build
+    with the same options (gc-Makefile.sed) and runs out of RAM during a
+    bootstrap build.
+
+  * Try using -O1 on amd64 to reduce memory usage.  Apparently -O2
+    wouldn't build on a 2GB machine (see bug #404734).
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sun,  4 Feb 2007 11:29:45 -0800
+
 stalin (0.11-1) unstable; urgency=medium
 
   * Migrate to a new upstream release; This should resolve the licensing
