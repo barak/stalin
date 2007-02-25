@@ -17,10 +17,10 @@ version  := $(shell echo $(version) | perl -pe 's/^Version:\s+//o')
 upstream := $(shell echo $(version) | perl -pe 's/-[^-]*$$//o')
 deb_rev  := $(shell echo $(version) | perl -pe 's/.*-//o')
 
-host_arch    := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+build_cpu    := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 
-ifeq ($(host_arch),amd64)
-  cc_optimization := -O1
+ifeq ($(build_cpu),amd64)
+  cc_optimization := -O0
 else
   cc_optimization := -O2
 endif

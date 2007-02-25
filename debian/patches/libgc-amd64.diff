@@ -1,0 +1,35 @@
+--- gc6.8.orig/include/private/gcconfig.h
++++ gc6.8/include/private/gcconfig.h
+@@ -334,6 +334,10 @@
+ #   define I386
+ #   define mach_type_known
+ # endif
++# if defined(FREEBSD) && defined(__x86_64__)
++#   define X86_64
++#   define mach_type_known
++# endif
+ # if defined(__NetBSD__) && (defined(i386) || defined(__i386__))
+ #   define I386
+ #   define mach_type_known
+only in patch2:
+unchanged:
+--- gc6.8.orig/os_dep.c
++++ gc6.8/os_dep.c
+@@ -84,7 +84,7 @@
+ #   define NEED_FIND_LIMIT
+ # endif
+ 
+-#if defined(FREEBSD) && (defined(I386) || defined(powerpc) || defined(__powerpc__))
++#if defined(FREEBSD) && (defined(I386) || defined(X86_64) || defined(powerpc) || defined(__powerpc__))
+ #  include <machine/trap.h>
+ #  if !defined(PCR)
+ #    define NEED_FIND_LIMIT
+@@ -1392,7 +1392,7 @@
+ }
+ # endif
+ 
+-# if defined(FREEBSD) && (defined(I386) || defined(powerpc) || defined(__powerpc__)) && !defined(PCR)
++# if defined(FREEBSD) && (defined(I386) || defined(X86_64) || defined(powerpc) || defined(__powerpc__)) && !defined(PCR)
+ /* Its unclear whether this should be identical to the above, or 	*/
+ /* whether it should apply to non-X86 architectures.			*/
+ /* For now we don't assume that there is always an empty page after	*/
