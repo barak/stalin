@@ -1,3 +1,10 @@
+stalin (0.11-4) unstable; urgency=low
+
+  * Really fix support for GNU/kFreeBSD.  Thanks again to Petr Salinger.
+    (closes: #410810)
+
+ -- Rob Browning <rlb@defaultvalue.org>  Fri,  2 Mar 2007 17:38:34 -0800
+
 stalin (0.11-3) unstable; urgency=low
 
   * Turn off optimization on amd64 in order to be able to build within 2GB

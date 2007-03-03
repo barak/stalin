@@ -122,7 +122,7 @@ Index: sid/include/stalin-architecture-name
 +    echo "Please install the dpkg-dev package."
 +    exit 1
 +  fi
-+  echo `dpkg-architecture -qDEB_BUILD_ARCH`
++  echo `dpkg-architecture -qDEB_HOST_ARCH_CPU`
 +  exit 0
 +fi
 +
