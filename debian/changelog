@@ -1,3 +1,17 @@
+stalin (0.11-5) unstable; urgency=low
+
+  * Build with debugging information (gcc -g).
+
+  * Remove build dependency on build-essential dpkg-dev package.
+    Thanks to Manoj Srivastava <srivasta@debian.org> for the report.
+    (closes: #553474)
+
+  * Switch to debhelper which should fix issues with quilt and the clean
+    target.  Thanks to Raphael Hertzog <hertzog@debian.org> for the
+    report. (closes: 484910)
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sat, 31 Oct 2009 16:08:15 -0700
+
 stalin (0.11-4) unstable; urgency=low
 
   * Really fix support for GNU/kFreeBSD.  Thanks again to Petr Salinger.

@@ -1,7 +1,7 @@
 Source: stalin
 Section: devel
 Priority: optional
-Build-Depends: libgc-dev, quilt, dpkg-dev, libx11-dev, 
+Build-Depends: debhelper (>= 7.0.50), libgc-dev, quilt, libx11-dev,
   libgl1-mesa-dev | libgl-dev,
   freeglut3-dev | libglut-dev
 Maintainer: Rob Browning <rlb@defaultvalue.org>
