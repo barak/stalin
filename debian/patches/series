@@ -1,2 +1,6 @@
 allow-compiler-selection.diff
 misc.diff
+prebuilt-arch-amd64.diff
+prebuilt-arch-i386.diff
+prebuilt-arch-ia64.diff
+prebuilt-arch-sparc.diff
