@@ -1,0 +1,6 @@
+#!/bin/sh
+./compile-stalin-old-benchmarks
+./compile-s2c-old-benchmarks
+./compile-gambit-old-benchmarks
+./compile-bigloo-old-benchmarks
+./compile-chicken-old-benchmarks

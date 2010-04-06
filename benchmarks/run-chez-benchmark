@@ -1,0 +1,9 @@
+#!/bin/sh
+unset noclobber
+ulimit -s unlimited
+ulimit -c 0
+sed -f chez.sed $1.sc >$1-chez.ss
+echo run $1
+time chez $1-chez.ss >/dev/null
+time chez $1-chez.ss >/dev/null
+time chez $1-chez.ss >/dev/null

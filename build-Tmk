@@ -1,0 +1,37 @@
+#!/bin/sh
+rm -rf Tmk-1.0.3.3
+tar xf Tmk-1.0.3.3.tar
+chmod +w Tmk-1.0.3.3/include/Tmk.h
+sed -f Tmk-h.sed Tmk-1.0.3.3/include/Tmk.h >Tmk-1.0.3.3/include/Tmk.h.new
+mv -f Tmk-1.0.3.3/include/Tmk.h.new Tmk-1.0.3.3/include/Tmk.h
+cd Tmk-1.0.3.3
+case `uname -m`/`uname -s`/`uname -r` in
+  i[3456]86/Linux/2.*.*)
+    make i386_linux2
+    cp lib.i386_linux2/libTmk_udp.a ../include/libTmk.a
+    ranlib ../include/libTmk.a;;
+  sun4*/SunOS/4.*)
+    make sparc_sunos4
+    cp lib.sparc_sunos4/libTmk_udp.a ../include/libTmk.a
+    ranlib ../include/libTmk.a;;
+  sun4*/SunOS/5.*)
+    make sparc_sunos5
+    cp lib.sparc_sunos5/libTmk_udp.a ../include/libTmk.a;;
+  IP*/IRIX64/6.*)
+    make mips_irix6
+    cp lib.mips_irix6/libTmk_udp.a ../include/libTmk.a;;
+  alpha/Linux/2.*.*)
+    make alpha_linux2
+    cp lib.alpha_linux2/libTmk_udp.a ../include/libTmk.a
+    ranlib ../include/libTmk.a;;
+  alpha/OSF1/V4.*)
+    make alpha_osf4
+    cp lib.alpha_osf4/libTmk_udp.a ../include/libTmk.a
+    ranlib ../include/libTmk.a;;
+  *)
+    echo "Cannot (yet) run Stalin/Tmk on this architecture"
+    exit 1;;
+  esac
+cp include/Tmk.h ../include/.
+cd ..
+rm -rf Tmk-1.0.3.3

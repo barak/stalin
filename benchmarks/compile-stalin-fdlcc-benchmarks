@@ -1,0 +1,23 @@
+#!/bin/sh
+./compile-stalin-benchmark boyer
+./compile-stalin-benchmark graphs
+./compile-stalin-benchmark lattice
+./compile-stalin-benchmark nucleic2 -d
+./compile-stalin-benchmark matrix
+./compile-stalin-benchmark earley
+./compile-stalin-benchmark scheme\
+  "-clone-size-limit 0 -do-not-index-allocated-structure-types-by-expression -do-not-index-constant-structure-types-by-expression -treat-all-symbols-as-external"
+./compile-stalin-benchmark conform
+./compile-stalin-benchmark nboyer
+./compile-stalin-benchmark sboyer
+./compile-stalin-benchmark dynamic\
+  -do-not-index-allocated-structure-types-by-expression
+./compile-stalin-benchmark fannkuch
+./compile-stalin-benchmark simplex -d
+./compile-stalin-benchmark em-functional -d
+./compile-stalin-benchmark em-imperative -d
+./compile-stalin-benchmark nfm -d
+./compile-stalin-benchmark integ -d
+./compile-stalin-benchmark gold -d
+./compile-stalin-benchmark sort -d
+./compile-stalin-benchmark rrr

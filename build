@@ -1,0 +1,84 @@
+#!/bin/sh
+
+# On SPARCv9 under Solaris you need to use cc since gcc doesn't support
+# SPARCv9 under Solaris.
+
+# On PowerPC64 under AIX you cannot compile the compiler with gcc since you
+# get errors of the form:
+# 1252-171 The displacement must be greater than or equal to
+#          -32768 and less than or equal to 32767.
+# It might be possible to compile smaller programs with gcc. To compile the
+# compiler you need to use cc. It is not clear whethr you can compile libgc.a
+# and libstalin.a with one compiler and Scheme programs such as Stalin with
+# another.
+
+if [ -r /etc/debian_version ]
+then
+    DEBIAN_SYSTEM=t
+fi
+
+if [ x"${DEBIAN_SYSTEM}" != x ]
+then
+  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
+fi
+
+case `uname -s`/`uname -r` in
+  IRIX*/*)   RANLIB=touch;;
+  SunOS/5.*) RANLIB=touch;;
+  *)         RANLIB=ranlib;;
+  esac
+
+# gc-Makefile.sed changed CC from cc to gcc and adds
+# -DLARGE_CONFIG -DUSE_MMAP -DDONT_ADD_BYTE_AT_END
+# to CFLAGS.
+# Might also try -DSILENT and either
+# -DUSE_I686_PREFETCH or -DUSE_3DNOW_PREFETCH
+
+if [ x"${DEBIAN_SYSTEM}" = x ]
+then
+  # Under Debian, we have libgc, but otherwise, don't assume we have the Boehm
+  # GC available.
+  rm -rf gc6.1alpha5
+  gunzip -c gc6.1alpha5.tar.gz | tar xf -
+  rm -f gc6.1alpha5/Makefile.new
+  sed -f gc-Makefile.sed gc6.1alpha5/Makefile >gc6.1alpha5/Makefile.new
+  mv -f gc6.1alpha5/Makefile.new gc6.1alpha5/Makefile
+  cd gc6.1alpha5
+  make test
+  cd ..
+  cp -f gc6.1alpha5/include/gc.h include/gc.h
+  cp -f gc6.1alpha5/gc.a include/libgc.a
+  $RANLIB include/libgc.a
+  rm -rf gc6.1alpha5
+fi
+
+cd include
+rm -f libstalin.a
+# egcs can be used when it is available
+#egcs -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+ar rc libstalin.a xlib-c.o
+$RANLIB libstalin.a
+rm xlib-c.o
+cd ..
+
+case `./include/stalin-architecture-name` in
+  unknown)
+    echo "Cannot (yet) run Stalin on this architecture"
+    exit 1;;
+  *)
+    cp -f stalin-`./include/stalin-architecture-name`.c stalin.c;;
+  esac
+
+# Stalin can be compiled with -freg-struct-return on most platforms. But gcc
+# and egcs have a bug on Linux/Alpha that causes them to crash when given
+# -freg-struct-return.
+
+case `uname -m`/`uname -s` in
+  alpha/Linux)
+    ARCH_OPTS="${ARCH_OPTS}";;
+  *)
+    ARCH_OPTS="${ARCH_OPTS} -freg-struct-return";;
+  esac
+
+exec make ARCH_OPTS="${ARCH_OPTS}"

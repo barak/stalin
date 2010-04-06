@@ -1,0 +1,8 @@
+#!/bin/sh
+unset noclobber
+./unbuff >stalin.results ./run-stalin-old-benchmarks
+./unbuff >s2c.results ./run-s2c-old-benchmarks
+./unbuff >gambit.results ./run-gambit-old-benchmarks
+./unbuff >bigloo.results ./run-bigloo-old-benchmarks
+./unbuff >chez.results ./run-chez-old-benchmarks
+./unbuff >chicken.results ./run-chicken-old-benchmarks

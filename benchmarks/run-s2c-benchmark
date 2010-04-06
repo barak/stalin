@@ -1,0 +1,11 @@
+#!/bin/sh
+SCMAXHEAP=350
+export SCMAXHEAP
+SCHEAP=16
+export SCHEAP
+ulimit -s unlimited
+ulimit -c 0
+echo run $1
+time ./$1-s2c >/dev/null
+time ./$1-s2c >/dev/null
+time ./$1-s2c >/dev/null

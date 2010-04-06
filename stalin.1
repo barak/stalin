@@ -1,0 +1,819 @@
+.TH STALIN 1 "March 2002" "0.10"
+.SH NAME
+stalin - A global optimizing compiler for Scheme
+.SH SYNOPSIS
+.TP
+.B stalin
+.RB [\| \-version \|]
+.br
+
+.RB [\| \-I
+.IR include-directory \|]*
+.br
+.RB [\|[\| \-s \||\| -x \||\| -q \||\| -t \|]\|]
+.br
+
+.RB [\|[\| \-treat-all-symbols-as-external \||\|
+.br
+.BR \ \ \-do-not-treat-all-symbols-as-external \|]\|]
+.br
+.RB [\|[\| \-index-allocated-string-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-allocated-string-types-by-expression \|]\|]
+.br
+
+.RB [\|[\| \-index-constant-structure-types-by-slot-types \||\|
+.br
+.BR \ \ \-do-not-index-constant-structure-types-by-slot-types \|]\|]
+.br
+.RB [\|[\| \-index-constant-structure-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-constant-structure-types-by-expression \|]\|]
+.br
+.RB [\|[\| \-index-allocated-structure-types-by-slot-types \||\|
+.br
+.BR \ \ \-do-not-index-allocated-structure-types-by-slot-types \|]\|]
+.br
+.RB [\|[\| \-index-allocated-structure-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-allocated-structure-types-by-expression \|]\|]
+.br
+
+.RB [\|[\| \-index-constant-headed-vector-types-by-element-type \||\|
+.br
+.BR \ \ \-do-not-index-constant-headed-vector-types-by-element-type \|]\|]
+.br
+.RB [\|[\| \-index-constant-headed-vector-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-constant-headed-vector-types-by-expression \|]\|]
+.br
+.RB [\|[\| \-index-allocated-headed-vector-types-by-element-type \||\|
+.br
+.BR \ \ \-do-not-index-allocated-headed-vector-types-by-element-type \|]\|]
+.br
+.RB [\|[\| \-index-allocated-headed-vector-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-allocated-headed-vector-types-by-expression \|]\|]
+.br
+.RB [\|[\| \-index-constant-nonheaded-vector-types-by-element-type \||\|
+.br
+.BR \ \ \-do-not-index-constant-nonheaded-vector-types-by-element-type \|]\|]
+.br
+.RB [\|[\| \-index-constant-nonheaded-vector-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-constant-nonheaded-vector-types-by-expression \|]\|]
+.br
+.RB [\|[\| \-index-allocated-nonheaded-vector-types-by-element-type \||\|
+.br
+.BR \ \ \-do-not-index-allocated-nonheaded-vector-types-by-element-type \|]\|]
+.br
+.RB [\|[\| \-index-allocated-nonheaded-vector-types-by-expression \||\|
+.br
+.BR \ \ \-do-not-index-allocated-nonheaded-vector-types-by-expression \|]\|]
+.br
+
+.RB [\|[\| \-no-clone-size-limit \||\|
+.br
+.BR \ \ \-clone-size-limit
+.IR number-of-expressions \|]\|]
+.br
+.RB [\| \-split-even-if-no-widening \|]
+.br
+.RB [\|[\| \-fully-convert-to-CPS \||\|
+.br
+.BR \ \ \-no-escaping-continuations \|]\|]
+.br
+.RB [\| \-du \|]
+.br
+
+.RB [\| \-Ob \|]
+.RB [\| \-Om \|]
+.RB [\| \-On \|]
+.RB [\| \-Or \|]
+.RB [\| \-Ot \|]
+.br
+
+.RB [\| \-d0 \|]
+.RB [\| \-d1 \|]
+.RB [\| \-d2 \|]
+.RB [\| \-d3 \|]
+.RB [\| \-d4 \|]
+.RB [\| \-d5 \|]
+.RB [\| \-d6 \|]
+.RB [\| \-d7 \|]
+.br
+.RB [\| \-closure-conversion-statistics \|]
+.br
+
+.RB [\| \-dc \|]
+.RB [\| \-dC \|]
+.RB [\| \-dH \|]
+.RB [\| \-dg \|]
+.RB [\| \-dh \|]
+.br
+
+.RB [\| \-d \|]
+.br
+.RB [\| \-architecture
+.IR name \|]
+.br
+.RB [\|[\| \-baseline \||\|
+.br
+.BR \ \ \-conventional \||\|
+.br
+.BR \ \ \-lightweight \|]\|]
+.br
+.RB [\|[\| \-immediate-flat \||\|
+.br
+.BR \ \ \-indirect-flat \||\|
+.br
+.BR \ \ \-immediate-display \||\|
+.br
+.BR \ \ \-indirect-display \||\|
+.br
+.BR \ \ \-linked \|]\|]
+.br
+.RB [\|[\| \-align-strings \||\| \-do-not-align-strings \|]\|]
+.br
+.RB [\| \-de \|]
+.RB [\| \-df \|]
+.RB [\| \-dG \|]
+.RB [\| \-di \|]
+.RB [\| \-dI \|]
+.RB [\| \-dp \|]
+.RB [\| \-dP \|]
+.br
+.RB [\| \-ds \|]
+.RB [\| \-dS \|]
+.RB [\| \-Tmk \|]
+.br
+.RB [\| \-no-tail-call-optimization \|]
+.br
+
+.RB [\| \-db \|]
+.RB [\| \-c \|]
+.RB [\| \-k \|]
+.br
+.RB [\| \-cc
+.IR C-compiler \|]
+.br
+.RB [\| \-copt
+.IR C-compiler-option \|]*
+.br
+
+.RI [\| pathname \|]
+.PP
+Compiles the Scheme source file \fIpathname\fR.sc first into a C file
+\fIpathname\fR.c and then into an executable image \fIpathname\fR.
+Also produces a database file \fIpathname\fR.db.
+The \fIpathname\fR argument is required unless \fB\-version\fR is specified.
+.SH DESCRIPTION
+Stalin is an extremely efficient compiler for Scheme.  It is designed to be
+used not as a development tool but rather as a means to generate efficient
+executable images either for application delivery or for production research
+runs.  In contrast to traditional Scheme implementations, Stalin is a
+batch-mode compiler.  There is no interactive READ-EVAL-PRINT loop.  Stalin
+compiles a single Scheme source file into an executable image (indirectly via
+C).  Running that image has equivalent semantics to loading the Scheme source
+file into a virgin Scheme interpreter and then terminating its execution.  The
+chief limitation is that it is not possible to LOAD or EVAL new expressions or
+procedure definitions into a running program after compilation.  In return for
+this limitation, Stalin does substantial global compile-time analysis of the
+source program under this closed-world assumption and produces executable
+images that are small, stand-alone, and fast.
+.PP
+Stalin incorporates numerous strategies for generating efficient code.  Among
+them, Stalin does global static type analysis using a soft type system that
+supports recursive union types.  Stalin can determine a narrow or even
+monomorphic type for each source code expression in arbitrary Scheme programs
+with no type declarations.  This allows Stalin to reduce, or often eliminate,
+run-time type checking and dispatching.  Stalin also does low-level
+representation selection on a per-expression basis.  This allows the use of
+unboxed base machine data representations for all monomorphic types resulting
+in extremely high-performance numeric code.  Stalin also does global static
+life-time analysis for all allocated data.  This allows much temporary
+allocated storage to be reclaimed without garbage collection.  Finally, Stalin
+has very efficient strategies for compiling closures.  Together, these
+compilation techniques synergistically yield efficient object code.
+Furthermore, the executable images created by Stalin do not contain
+(user-defined or library) procedures that aren't called, variables and
+parameters that aren't used, and expressions that cannot be reached.  This
+encourages a programming style whereby one creates and uses very general
+library procedures without fear that executable images will suffer from code
+bloat.
+.SH OPTIONS
+.TP
+.B \-version
+Prints the version of Stalin and exits immediately.
+.PP
+The following options control preprocessing:
+.TP
+.B \-I
+Specifies the directories to search for Scheme include files.
+This option can be repeated to specify multiple directories.
+Stalin first searches for include files in the current directory, then each of
+the directories specified in the command line, and finally in the default
+installation include directory.
+.TP
+.B \-s
+Includes the macros from the Scheme->C compatibility library.
+Currently, this defines the WHEN and UNLESS syntax.
+.TP
+.B \-x
+Includes the macros from the Xlib and GL library.
+Currently, this defines the FOREIGN-FUNCTION and FOREIGN-DEFINE syntax.
+This implies \fB\-s\fR.
+.TP
+.B \-q
+Includes the macros from the QobiScheme library.
+Currently, this defines the DEFINE-STRUCTURE syntax, among other things.
+This implies \fB\-x\fR.
+.TP
+.B \-t
+Includes the macros needed to compile Stalin with itself.
+This implies \fB\-q\fR.
+.PP
+The following options control the precision of flow analysis:
+.TP
+.B \-treat-all-symbols-as-external
+During flow analysis, generate a single abstract external symbol that is
+shared among all symbols.
+.TP
+.B \-do-not-treat-all-symbols-as-external
+During flow analysis, when processing constant expressions that contain
+symbols, generate a new abstract internal symbol for each distinct symbol
+constant in the program.
+This is the default.
+.TP
+.B \-index-allocated-string-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate strings, generate a new abstract string for each such expression.
+This is the default.
+.TP
+.B \-do-not-index-allocated-string-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate strings, generate a single abstract string that is shared among
+all such expressions.
+.PP
+Note that there are no versions of the above options for element type because
+the element type of a string is always char.
+Furthermore, there are no versions of the above options for constant
+expressions because there is always only a single abstract constant string.
+.TP
+.B \-index-constant-structure-types-by-slot-types
+During flow analysis, when processing constant expressions that contain
+structures, generate a new abstract structure for each set of potential
+slot types for that structure.
+.TP
+.B \-do-not-index-constant-structure-types-by-slot-types
+During flow analysis, when processing constant expressions that contain
+structures, generate a single abstract structure that is shared among all sets
+of potential slot types for that structure.
+This is the default.
+.TP
+.B \-index-constant-structure-types-by-expression
+During flow analysis, when processing constant expression that contain
+structures, generate a new abstract structure for each such expression.
+This is the default.
+.TP
+.B \-do-not-index-constant-structure-types-by-expression
+During flow analysis, when processing constant expressions that contain
+structures, generate a single abstract structure that is shared among all such
+expressions.
+.TP
+.B \-index-allocated-structure-types-by-slot-types
+During flow analysis, when processing procedure-call expressions that can
+allocate structures, generate a new abstract structure for each set of
+potential slot types for that structure.
+.TP
+.B \-do-not-index-allocated-structure-types-by-slot-types
+During flow analysis, when processing procedure-call expressions that can
+allocate structures, generate a single abstract structure that is shared among
+all sets of potential slot types for that structure.
+This is the default.
+.TP
+.B \-index-allocated-structure-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate structures, generate a new abstract structure for each such
+expression.
+This is the default.
+.TP
+.B \-do-not-index-allocated-structure-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate structures, generate a single abstract structure that is shared among
+all such expressions.
+.PP
+Note that, currently, pairs are the only kind of structure that can appear in
+constant expressions.
+This may change in the future, if the reader is extended to support other kinds
+of structures.
+.TP
+.B \-index-constant-headed-vector-types-by-element-type
+During flow analysis, when processing constant expressions that contain headed
+vectors, generate a new abstract headed vector for each potential element type
+for that headed vector.
+.TP
+.B \-do-not-index-constant-headed-vector-types-by-element-type
+During flow analysis, when processing constant expressions that contain headed
+vectors, generate a single abstract headed vector that is shared among all
+potential element types for that headed vector.
+This is the default.
+.TP
+.B \-index-constant-headed-vector-types-by-expression
+During flow analysis, when processing constant expressions that contain headed
+vectors, generate a new abstract headed vector for each such expression.
+This is the default.
+.TP
+.B \-do-not-index-constant-headed-vector-types-by-expression
+During flow analysis, when processing constant expressions that contain headed
+vectors, generate a single abstract headed vector that is shared among all
+such expressions.
+.TP
+.B \-index-allocated-headed-vector-types-by-element-type
+During flow analysis, when processing procedure-call expressions that can
+allocate headed vectors, generate a new abstract headed vector for each
+potential element type for that headed vector.
+.TP
+.B \-do-not-index-allocated-headed-vector-types-by-element-type
+During flow analysis, when processing procedure-call expressions that can
+allocate headed vectors, generate a single abstract headed vector that is
+shared among all potential element types for that headed vector.
+This is the default.
+.TP
+.B \-index-allocated-headed-vector-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate headed vectors, generate a new abstract headed vector for each such
+expression.
+This is the default.
+.TP
+.B \-do-not-index-allocated-headed-vector-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate headed vectors, generate a single abstract headed vector that is
+shared among all such expressions.
+.TP
+.B \-index-constant-nonheaded-vector-types-by-element-type
+During flow analysis, when processing constant expressions that contain
+nonheaded vectors, generate a new abstract nonheaded vector for each potential
+element type for that nonheaded vector.
+.TP
+.B \-do-not-index-constant-nonheaded-vector-types-by-element-type
+During flow analysis, when processing constant expressions that contain
+nonheaded vectors, generate a single abstract nonheaded vector that is shared
+among all potential element types for that nonheaded vector.
+This is the default.
+.TP
+.B \-index-constant-nonheaded-vector-types-by-expression
+During flow analysis, when processing constant expressions that contain
+nonheaded vectors, generate a new abstract nonheaded vector for each such
+expression.
+This is the default.
+.TP
+.B \-do-not-index-constant-nonheaded-vector-types-by-expression
+During flow analysis, when processing constant expressions that contain
+nonheaded vectors, generate a single abstract nonheaded vector that is shared
+among all such expressions.
+.TP
+.B \-index-allocated-nonheaded-vector-types-by-element-type
+During flow analysis, when processing procedure-call expressions that can
+allocate nonheaded vectors, generate a new abstract nonheaded vector for each
+potential element type for that nonheaded vector.
+.TP
+.B \-do-not-index-allocated-nonheaded-vector-types-by-element-type
+During flow analysis, when processing procedure-call expressions that can
+allocate nonheaded vectors, generate a single abstract nonheaded vector that
+is shared among all potential element types for that nonheaded vector.
+This is the default.
+.TP
+.B \-index-allocated-nonheaded-vector-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate nonheaded vectors, generate a new abstract nonheaded vector for each
+such expression.
+This is the default.
+.TP
+.B \-do-not-index-allocated-nonheaded-vector-types-by-expression
+During flow analysis, when processing procedure-call expressions that can
+allocate nonheaded vectors, generate a single abstract nonheaded vector that
+is shared among all such expressions.
+.PP
+Note that, currently, constant expressions cannot contain nonheaded vectors
+and nonheaded vectors are never allocated by any procedure-call expression.
+ARGV is the only nonheaded vector.
+These options are included only for completeness and in case future extensions
+to the language allow nonheaded vector constants and procedures that allocate
+nonheaded vectors.
+.TP
+.B \-no-clone-size-limit
+Allow unlimited polyvariance, i.e. make copies of procedures of any size.
+.TP
+.B \-clone-size-limit
+Specify the polyvariance limit, i.e. make copies of procedures that have fewer
+than this many expressions.
+Must be a nonnegative integer.
+Defaults to 80.
+Specify 0 to disable polyvariance.
+.TP
+.B \-split-even-if-no-widening
+Normally, polyvariance will make a copy of a procedure only if it is called
+with arguments of different types.
+Specify this option to make copies of procedures even when they are called with
+arguments of the same type.
+This will allow them to be in-lined.
+.TP
+.B \-fully-convert-to-CPS
+Normally, lightweight CPS conversion is applied, converting only those
+expressions and procedures needed to support escaping continuations.
+When this option is specified, the program is fully converted to CPS.
+.TP
+.B \-no-escaping-continuations
+Normally, full continuations are supported.
+When this option is specified, the only continuations that are supported are
+those that cannot be called after the procedure that created the continuation
+has returned.
+.TP
+.B \-du
+Normally, after flow analysis, Stalin forces each type set to have at most one
+structure-type member of a given name, at most one headed-vector-type member,
+and at most one nonheaded-vector-type member.
+This option disables this, allowing type sets to have multiple structure-type
+members of a given name, multiple headed-vector-type members, and multiple
+nonheaded-vector-type members.
+Sometimes yields more efficient code and sometimes yields less efficient code.
+.PP
+The following options control the amount of run-time error-checking code
+generated.
+Note that, independent of the settings of these options, Stalin will always
+generate code that obeys the semantics of the Scheme language for correct
+programs.
+These options only control the level of safety, that is the degree of run-time
+error checking for incorrect programs.
+.TP
+.B \-Ob
+Specifies that code to check for out-of-bound vector or string subscripts is
+to be suppressed.
+If not specified, a run-time error will be issued if a vector or string
+subscript is out of bounds.
+If specified, the behavior of programs that have an out-of-bound vector or
+string subscript is undefined.
+.TP
+.B \-Om
+Specifies that code to check for out-of-memory errors is to be suppressed.
+If not specified, a run-time error will be issued if sufficient memory cannot
+be allocated.
+If specified, the behavior of programs that run out of memory is undefined.
+.TP
+.B \-On
+Specifies that code to check for exact integer overflow is to be suppressed.
+If not specified, a run-time error will be issued on exact integer overflow.
+If specified, the behavior of programs that cause exact integer overflow is
+undefined.
+Currently, Stalin does not know how to generate overflow checking code so this
+option must be specified.
+.TP
+.B \-Or
+Specifies that code to check for various run-time file-system errors is to be
+suppressed.
+If not specified, a run-time error will be issued when an unsuccessful attempt
+is made to open or close a file.
+If specified, the behavior of programs that make such unsuccessful file-access
+attempts is undefined.
+.TP
+.B \-Ot
+Specifies that code to check that primitive procedures are passed arguments
+of the correct type is suppressed.
+If not specified, a run-time error will be issued if a primitive procedure is
+called with arguments of the wrong type.
+If specified, the behavior of programs that call a primitive procedure with
+data of the wrong type is undefined.
+.PP
+The following options control the verbosity of the compiler:
+.TP
+.B \-d0
+Produces a compile-time backtrace upon a compiler error.
+.TP
+.B \-d1
+Produces commentary during compilation describing what the compiler is doing.
+.TP
+.B \-d2
+Produces a decorated listing of the source program after flow analysis.
+.TP
+.B \-d3
+Produces a decorated listing of the source program after equivalent types have
+been merged.
+.TP
+.B \-d4
+Produces a call graph of the source program.
+.TP
+.B \-d5
+Produces a description of all nontrivial native procedures generated.
+.TP
+.B \-d6
+Produces a list of all expressions and closures that allocate storage along
+with a description of where that storage is allocated.
+.TP
+.B \-d7
+Produces a trace of the lightweight closure-conversion process.
+.TP
+.B \-closure-conversion-statistics
+Produces a summary of the closure-conversion statistics.
+These are automatically processed by the program \fIbcl-to-latex.sc\fR which
+is run by the \fIbcl-benchmark\fR script (both in the
+\fI/usr/local/stalin/benchmarks\fR directory) to produce tables II, III, and
+IV, of the paper \fIFlow-Directed Lightweight Closure Conversion\fR.
+.PP
+The following options control the storage management strategy used by compiled
+code:
+.TP
+.B \-dc
+Disables the use of \fIalloca(3)\fR.
+Normally, the compiler will use \fIalloca(3)\fR to allocate on the call stack
+when possible.
+.TP
+.B \-dC
+Disables the use of the Boehm conservative garbage collector.
+Normally, the compiler will use the Boehm collector to allocate data whose
+lifetime is not known to be short.
+Note that the compiler will still use the Boehm collector for some data if it
+cannot allocate that data on the stack or on a region.
+.TP
+.B \-dH
+Disables the use of regions for allocating data.
+.TP
+.B \-dg
+Generate code to produce diagnostic messages when region segments are
+allocated and freed.
+.TP
+.B \-dh
+Disables the use of expandable regions and uses fixed-size regions instead.
+.PP
+The following options control code generation:
+.TP
+.B \-d
+Specifies that inexact reals are represented as C doubles.
+Normally, inexact reals are represented as C floats.
+.TP
+.B \-architecture
+Specify the architecture for which to generate code.
+The default is to generate code for whatever architecture the compiler is run
+on.
+Currently, the known architectures are IA32, IA32-align-double, SPARC,
+SPARCv9, SPARC64, MIPS, Alpha, ARM, M68K, PowerPC, and S390.
+.TP
+.B \-baseline
+Do not perform lightweight closure conversion.
+Closures are created for all procedures.
+The user would not normally specify this option.
+It is only intended to measure the effectiveness of lightweight closure
+conversion.
+It is used by the \fIbcl-benchmark\fR script (in the
+\fI/usr/local/stalin/benchmarks\fR directory) to produce tables II, III, and
+IV, of the paper \fIFlow-Directed Lightweight Closure Conversion\fR.
+.TP
+.B \-conventional
+Perform a simplified version of lightweight closure conversion that does not
+rely on interprocedural analysis.
+Attempts to mimic what `conventional' compilers do (whatever that is).
+The user would not normally specify this option.
+It is only intended to measure the effectiveness of lightweight closure
+conversion.
+It is used by the \fIbcl-benchmark\fR script (in the
+\fI/usr/local/stalin/benchmarks\fR directory) to produce tables II, III, and
+IV of the paper \fIFlow-Directed Lightweight Closure Conversion\fR.
+.TP
+.B \-lightweight
+Perform lightweight closure conversion.
+This is the default.
+.TP
+.B \-immediate-flat
+Generate code using immediate flat closures.
+This is not (yet) implemented.
+.TP
+.B \-indirect-flat
+Generate code using indirect flat closures.
+This is not (yet) implemented.
+.TP
+.B \-immediate-display
+Generate code using immediate display closures.
+.TP
+.B \-indirect-display
+Generate code using indirect display closures.
+This is not (yet) implemented.
+.TP
+.B \-linked
+Generate code using linked closures.
+This is the default.
+.TP
+.B \-align-strings
+Align all strings to fixnum alignment.
+This will not work when strings are returned by foreign procedures that are
+not aligned to fixnum alignment.
+It will also not work when ARGV is used, since those strings are also not
+aligned to fixnum alignment.
+This is the default.
+.TP
+.B \-do-not-align-strings
+Do not align strings to fixnum alignment.
+This must be specified when strings returned by foreign procedures are not
+aligned to fixnum alignment.
+.TP
+.B \-de
+Enables the compiler optimization known as EQ? forgery.
+Sometimes yields more efficient code and sometimes yields less efficient code.
+.TP
+.B \-df
+Disables the compiler optimization known as forgery.
+.TP
+.B \-dG
+Pass arguments using global variables instead of parameters whenever possible.
+.TP
+.B \-di
+Generate if statements instead of switch statements for dispatching.
+.TP
+.B \-dI
+Enables the use of immediate structures.
+.TP
+.B \-dp
+Enables representation promotion.
+Promotes some type sets from squeezed to squished or squished to general if
+this will decrease the amount of run-time branching or dispatching
+representation coercions.
+Sometimes yields more efficient code and sometimes yields less efficient code.
+.TP
+.B \-dP
+Enables copy propagation.
+Sometimes yields more efficient code and sometimes yields less efficient code.
+.TP
+.B \-ds
+Disables the compiler optimization known as squeezing.
+.TP
+.B \-dS
+Disables the compiler optimization known as squishing.
+.TP
+.B \-Tmk
+Enables generation of code that works with the Treadmarks
+distributed-shared-memory package.
+Currently this option is not fully implemented and is not known to work.
+.TP
+.B \-no-tail-call-optimization
+Stalin now generates code that is properly tail recursive, by default, in all
+but the rarest of circumstances.
+And it can be coerced into generating properly tail-recursive code in all
+circumstances by appropriate options.
+Some tail-recursive calls, those where the call site is in-lined in the
+target, are translated as C goto statements and always result in
+properly tail-recursive code.
+The rest are translated as C function calls in tail position.
+This relies on the C compiler to perform tail-call optimization.
+\fIgcc(1)\fR versions 2.96 and 3.0.2 (and perhaps other versions) perform
+tail-call optimization on IA32 (and perhaps other architectures) when
+\fB-foptimize-sibling-calls\fR is specified.
+(\fB-O2\fR implies \fB-foptimize-sibling-calls\fR.)
+\fIgcc(1)\fR only performs tail-call optimization on IA32 in certain
+circumstances.
+First, the target and the call site must have compatible signatures.
+To guarantee compatible signatures, Stalin passes parameters to C functions
+that are part of tail-recursive loops in global variables.
+Second, the target must not be declared \fI__attribute__ ((noreturn))\fR.
+Thus Stalin will not generate a \fI__attribute__ ((noreturn))\fR declaration
+for a function that is part of a tail-recursive loop even if Stalin knows that
+it never returns.
+Third, the function containing the call site cannot call \fIalloca(3)\fR.
+\fIgcc(1)\fR does no flow analysis.
+Any call to \fIalloca(3)\fR in the function containing the call site, no matter
+whether the allocated data escapes, will disable tail-call optimization.
+Thus Stalin disables stack allocation of data in any procedure in-lined in a
+procedure that is part of a tail-recursive loop.
+Finally, the call site cannot contain a reentrant region because reentrant
+regions are freed upon procedure exit and a tail call would require an
+intervening region reclamation.
+Thus Stalin disables allocation of data on a reentrant region in any procedure
+that is part of a tail-recursive loop.
+Disabling these optimizations incurs a cost for the benefit of achieving
+tail-call optimization.
+If your C compiler does not perform tail-call optimization then you may wish
+not to pay the cost.
+The \fB-no-tail-call-optimization\fR option causes Stalin not to take these
+above four measures to generate code on which \fIgcc(1)\fR would perform
+tail-call optimization.
+Even when specifying this option, Stalin still translates calls, where the call
+site is in-lined in the target, as C goto statements.
+There are three rare occasions that can still foil proper tail recursion.
+First, if you specify \fB-dC\fR you may force Stalin to use stack or region
+allocation even in a tail-call cycle.
+You can avoid this by not specifying \fB-dC\fR.
+Second, \fIgcc(1)\fR will not perform tail-call optimization when the function
+containing the call site applies unary & to a local variable.
+\fIgcc(1)\fR does no flow analysis.
+Any application of unary & to a local variable in the function containing the
+call site, no matter whether the pointer escapes, will disable tail-call
+optimization.
+Stalin can generate such uses of unary & when you specify \fB-de\fR or don't
+specify \fB-df\fR.
+You can avoid such cases by specifying \fB-df\fR and not specifying \fB-de\fR.
+Finally, \fIgcc(1)\fR will not perform tail-call optimization when the function
+containing the call site calls \fIsetjmp(3)\fR.
+\fIgcc(1)\fR does no flow analysis.
+Any call to \fIsetjmp(3)\fR in the function containing the call site, no matter
+whether the \fIjmp_buf\fR  escapes, will disable tail-call optimization.
+Stalin translates certain calls to \fIcall-with-current-continuation\fR as
+calls to \fIsetjmp(3)\fR.
+You can force Stalin not to do so by specifying \fB-fully-convert-to-CPS\fR.
+Stalin will generate a warning in the first and third cases, namely, when
+tail-call optimization is foiled by reentrant-region allocation or calls to
+\fIalloca(3)\fR or \fIsetjmp(3)\fR.
+So you can hold off specifying \fB-fully-convert-to-CPS\fR or
+refraining from specifying \fB-dC\fR until you see such warnings.
+No such warning is generated, however, when uses of unary & foil tail-call
+optimization.
+So you might want to always specify \fB-df\fR and refrain from specifying
+\fB-de\fR if you desire your programs to be properly tail recursive.
+.PP
+The following options control the C-compilation phase:
+.TP
+.B \-db
+Disables the production of a database file.
+.TP
+.B \-c
+Specifies that the C compiler is not to be called after generating the C code.
+Normally, the C compiler is called after generating the C code to produce an
+executable image.
+This implies \fB\-k\fR.
+.TP
+.B \-k
+Specifies that the generated C file is not to be deleted.
+Normally, the generated C file is deleted after it is compiled.
+.TP
+.B \-cc
+Specifies the C compiler to use.
+Defaults to \fIgcc(1)\fR.
+.TP
+.B \-copt
+Specifies the options that the C compiler is to be called with.
+Normally the C compiler is called without any options.
+This option can be repeated to allow passing multiple options to the C
+compiler.
+.SH FILES
+.I /usr/local/stalin/include/
+default directory for Scheme include files and library archive files
+.br
+.I /usr/local/stalin/include/Scheme-to-C-compatibility.sc
+include file for Scheme->C compatibility
+.br
+.I /usr/local/stalin/include/QobiScheme.sc
+include file for QobiScheme
+.br
+.I /usr/local/stalin/include/xlib.sc
+include file for Xlib FPI
+.br
+.I /usr/local/stalin/include/xlib-original.sc
+include file for Xlib FPI
+.br
+.I /usr/local/stalin/include/libstalin.a
+library archive for Xlib FPI
+.br
+.I /usr/local/stalin/include/gc.h
+include file for the Boehm conservative garbage collector
+.br
+.I /usr/local/stalin/include/libgc.a
+library archive for the Boehm conservative garbage collector
+.br
+.I /usr/local/stalin/include/stalin.architectures
+the known architectures and their code-generation parameters
+.br
+.I /usr/local/stalin/include/stalin-architecture-name
+shell script that determines the architecture on which Stalin is running
+.br
+.I /usr/local/stalin/stalin-architecture.c
+program to construct a new entry for \fIstalin.architectures\fR with the
+code-generation parameters for the machine on which it is run
+.br
+.I /usr/local/stalin/benchmarks
+directory containing benchmarks from the paper \fIFlow-Directed Lightweight
+Closure Conversion\fR
+.br
+.I /usr/local/stalin/benchmarks/bcl-benchmark
+script for producing tables II, III, and IV from the paper \fIFlow-Directed
+Lightweight Closure Conversion\fR
+.br
+.I /usr/local/stalin/benchmarks/bcl-to-latex.sc
+Scheme program for producing tables II, III, and IV from the paper
+\fIFlow-Directed Lightweight Closure Conversion\fR
+.SH SEE\ ALSO
+.BR sci "(2), " scc "(2), " gcc "(1), " ld "(1), " alloca "(3), " setjmp "(3), " gc (8)
+.SH BUGS
+Version 0.10 is an alpha release and contains many known bugs.
+Not everything is fully implemented.
+Bug mail should be addressed to
+.I Bug-Stalin@AI.MIT.EDU
+and not to the author.
+Please include the version number (0.10) in the message.
+Periodic announcements of bug fixes, enhancements, and new releases will be
+made to \fIInfo-Stalin@AI.MIT.EDU\fR.
+Send mail to
+.I Info-Stalin-Request@AI.MIT.EDU
+to be added to the
+.I Info-Stalin@AI.MIT.EDU
+mailing list.
+.SH AUTHOR
+Jeffrey Mark Siskind
+.SH THANKS
+Rob Browning packaged version 0.10 for Debian Linux.

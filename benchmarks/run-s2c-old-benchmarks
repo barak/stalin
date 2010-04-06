@@ -1,0 +1,42 @@
+#!/bin/sh
+./run-s2c-benchmark boyer
+./run-s2c-benchmark browse
+./run-s2c-benchmark cpstak
+echo run ctak
+#./run-s2c-benchmark ctak
+./run-s2c-benchmark dderiv
+./run-s2c-benchmark deriv
+./run-s2c-benchmark destruct
+./run-s2c-benchmark div-iter
+./run-s2c-benchmark div-rec
+./run-s2c-benchmark fft
+./run-s2c-benchmark fprint
+./run-s2c-benchmark fread
+echo run puzzle
+#./run-s2c-benchmark puzzle
+./run-s2c-benchmark tak
+./run-s2c-benchmark takl
+./run-s2c-benchmark takr
+./run-s2c-benchmark tprint
+./run-s2c-benchmark traverse
+./run-s2c-benchmark traverse-init
+./run-s2c-benchmark fannkuch
+./run-s2c-benchmark simplex
+./run-s2c-benchmark em-functional
+./run-s2c-benchmark em-functional-partial-split
+./run-s2c-benchmark em-functional-split
+./run-s2c-benchmark em-functional-do-split
+./run-s2c-benchmark em-imperative
+./run-s2c-benchmark em-imperative-split
+./run-s2c-benchmark nfm
+./run-s2c-benchmark integ
+echo run integ2
+#./run-s2c-benchmark integ2
+./run-s2c-benchmark gold
+./run-s2c-benchmark gold2
+./run-s2c-benchmark sort
+./run-s2c-benchmark sort2
+./run-s2c-benchmark dfa
+./run-s2c-benchmark dfa2
+./run-s2c-benchmark graphs
+./run-s2c-benchmark lattice

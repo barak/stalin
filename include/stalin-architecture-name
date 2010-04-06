@@ -1,0 +1,33 @@
+#!/bin/sh
+case `uname -m`/`uname -s` in
+  i[3456]86/*)
+    echo "IA32";;
+  sparc/Linux)
+    echo "SPARC";;
+  sparc64/Linux)
+    echo "SPARC64";;
+  sun4*/*)
+    echo "SPARC";;
+  IP*/IRIX*)
+    echo "MIPS";;
+  alpha/*)
+    echo "Alpha";;
+  arm*/*)
+    echo "ARM";;
+  m68k/Linux)
+    echo "M68K";;
+  "Power Macintosh/Darwin")
+    echo "PowerPC";;
+  s390/Linux)
+    echo "S390";;
+  000661704C00/AIX)
+    echo "PowerPC64";;
+  000661714C00/AIX)
+    echo "PowerPC64";;
+  000661724C00/AIX)
+    echo "PowerPC64";;
+  000661734C00/AIX)
+    echo "PowerPC64";;
+  *)
+    echo "unknown";;
+  esac

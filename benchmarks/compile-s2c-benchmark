@@ -1,0 +1,10 @@
+#!/bin/sh
+unset noclobber
+unset SCMAXHEAP
+unset SCHEAP
+ulimit -s unlimited
+ulimit -c 0
+echo compile $1
+sed -f s2c.sed $1.sc >$1-s2c.sc
+time scc -O3 -fomit-frame-pointer -freg-struct-return\
+     -Ob -Og -Ot $2 -o $1-s2c $1-s2c.sc

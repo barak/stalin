@@ -1,0 +1,21 @@
+#!/bin/sh
+./run-chicken-benchmark boyer
+./run-chicken-benchmark graphs
+./run-chicken-benchmark lattice
+./run-chicken-benchmark nucleic2
+./run-chicken-benchmark matrix
+./run-chicken-benchmark earley
+./run-chicken-benchmark scheme
+./run-chicken-benchmark conform
+./run-chicken-benchmark nboyer
+./run-chicken-benchmark sboyer
+./run-chicken-benchmark dynamic
+./run-chicken-benchmark fannkuch
+./run-chicken-benchmark simplex
+./run-chicken-benchmark em-functional
+./run-chicken-benchmark em-imperative
+./run-chicken-benchmark nfm
+./run-chicken-benchmark integ
+./run-chicken-benchmark gold
+./run-chicken-benchmark sort
+./run-chicken-benchmark rrr

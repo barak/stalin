@@ -1,0 +1,39 @@
+#!/bin/sh
+./compile-and-run-s2c-benchmark boyer -On
+./compile-and-run-s2c-benchmark browse -On
+./compile-and-run-s2c-benchmark cpstak -On
+#./compile-and-run-s2c-benchmark ctak -On
+./compile-and-run-s2c-benchmark dderiv -On
+./compile-and-run-s2c-benchmark deriv -On
+./compile-and-run-s2c-benchmark destruct -On
+./compile-and-run-s2c-benchmark div-iter -On
+./compile-and-run-s2c-benchmark div-rec -On
+./compile-and-run-s2c-benchmark fft
+./compile-and-run-s2c-benchmark fprint -On
+./compile-and-run-s2c-benchmark fread -On
+#./compile-and-run-s2c-benchmark puzzle -On
+./compile-and-run-s2c-benchmark tak -On
+./compile-and-run-s2c-benchmark takl -On
+./compile-and-run-s2c-benchmark takr -On
+./compile-and-run-s2c-benchmark tprint -On
+./compile-and-run-s2c-benchmark traverse -On
+./compile-and-run-s2c-benchmark traverse-init -On
+./compile-and-run-s2c-benchmark fannkuch -On
+./compile-and-run-s2c-benchmark simplex
+./compile-and-run-s2c-benchmark em-functional
+./compile-and-run-s2c-benchmark em-functional-partial-split
+./compile-and-run-s2c-benchmark em-functional-split
+./compile-and-run-s2c-benchmark em-functional-do-split
+./compile-and-run-s2c-benchmark em-imperative
+./compile-and-run-s2c-benchmark em-imperative-split
+./compile-and-run-s2c-benchmark nfm
+./compile-and-run-s2c-benchmark integ
+#./compile-and-run-s2c-benchmark integ2
+./compile-and-run-s2c-benchmark gold
+./compile-and-run-s2c-benchmark gold2
+./compile-and-run-s2c-benchmark sort
+./compile-and-run-s2c-benchmark sort2
+./compile-and-run-s2c-benchmark dfa -On
+./compile-and-run-s2c-benchmark dfa2 -On
+./compile-and-run-s2c-benchmark graphs -On
+./compile-and-run-s2c-benchmark lattice -On

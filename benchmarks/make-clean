@@ -1,0 +1,10 @@
+#!/bin/sh
+rm -f core
+rm -f *~
+rm -f *-{stalin,s2c,gambit,bigloo,chez,chicken}{,_.c,.c,.db,.sc,.scm,.ss,.o}
+rm -f {hello,xhello,define-application-example}{,.c,.db,.o}
+rm -f {benchmarks-to-latex,bcl-to-latex}{,.c,.db,.o}
+rm -f *.results
+rm -f {old-results,fdlcc-results,bcl}.{ps,aux,log,dvi}
+rm -f unbuff
+rm -f pick-up-flow.pgm

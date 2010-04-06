@@ -1,0 +1,20 @@
+#!/bin/sh
+./compile-and-run-bigloo-benchmark boyer -farithmetic
+./compile-and-run-bigloo-benchmark graphs -farithmetic
+./compile-and-run-bigloo-benchmark lattice -farithmetic
+./compile-and-run-bigloo-benchmark nucleic2
+./compile-and-run-bigloo-benchmark matrix -farithmetic
+./compile-and-run-bigloo-benchmark earley -farithmetic
+./compile-and-run-bigloo-benchmark scheme -farithmetic
+./compile-and-run-bigloo-benchmark conform -farithmetic
+./compile-and-run-bigloo-benchmark nboyer -farithmetic
+./compile-and-run-bigloo-benchmark sboyer -farithmetic
+./compile-and-run-bigloo-benchmark fannkuch -farithmetic
+./compile-and-run-bigloo-benchmark simplex
+./compile-and-run-bigloo-benchmark em-functional
+./compile-and-run-bigloo-benchmark em-imperative
+./compile-and-run-bigloo-benchmark nfm
+./compile-and-run-bigloo-benchmark integ
+./compile-and-run-bigloo-benchmark gold
+./compile-and-run-bigloo-benchmark sort
+./compile-and-run-bigloo-benchmark rrr -farithmetic

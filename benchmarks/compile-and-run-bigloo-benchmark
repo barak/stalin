@@ -1,0 +1,11 @@
+#!/bin/sh
+unset noclobber
+ulimit -s unlimited
+ulimit -c 0
+echo compile $1
+sed -f bigloo.sed $1.sc >$1-bigloo.scm
+time bigloo2.0e -call/cc -unsafe -Obench -O6 -fstack $2\
+     -copt "-O3 -fomit-frame-pointer -freg-struct-return"\
+     -o $1-bigloo -suffix scm $1-bigloo.scm
+echo run $1
+time ./$1-bigloo >/dev/null

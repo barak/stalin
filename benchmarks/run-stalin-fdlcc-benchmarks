@@ -1,0 +1,21 @@
+#!/bin/sh
+./run-stalin-benchmark boyer
+./run-stalin-benchmark graphs
+./run-stalin-benchmark lattice
+./run-stalin-benchmark nucleic2
+./run-stalin-benchmark matrix
+./run-stalin-benchmark earley
+./run-stalin-benchmark scheme
+./run-stalin-benchmark conform
+./run-stalin-benchmark nboyer
+./run-stalin-benchmark sboyer
+./run-stalin-benchmark dynamic
+./run-stalin-benchmark fannkuch
+./run-stalin-benchmark simplex
+./run-stalin-benchmark em-functional
+./run-stalin-benchmark em-imperative
+./run-stalin-benchmark nfm
+./run-stalin-benchmark integ
+./run-stalin-benchmark gold
+./run-stalin-benchmark sort
+./run-stalin-benchmark rrr

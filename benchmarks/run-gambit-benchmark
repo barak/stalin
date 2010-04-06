@@ -1,0 +1,7 @@
+#!/bin/sh
+ulimit -s unlimited
+ulimit -c 0
+echo run $1
+time ./$1-gambit >/dev/null
+time ./$1-gambit >/dev/null
+time ./$1-gambit >/dev/null

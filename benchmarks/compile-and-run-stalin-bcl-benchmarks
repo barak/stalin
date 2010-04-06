@@ -1,0 +1,10 @@
+#!/bin/sh
+echo baseline
+./compile-stalin-baseline-benchmarks
+./run-stalin-fdlcc-benchmarks
+echo conventional
+./compile-stalin-conventional-benchmarks
+./run-stalin-fdlcc-benchmarks
+echo lightweight
+./compile-stalin-lightweight-benchmarks
+./run-stalin-fdlcc-benchmarks

@@ -1,0 +1,21 @@
+#!/bin/sh
+./compile-and-run-s2c-benchmark boyer -On
+./compile-and-run-s2c-benchmark graphs -On
+./compile-and-run-s2c-benchmark lattice -On
+./compile-and-run-s2c-benchmark nucleic2
+./compile-and-run-s2c-benchmark matrix -On
+./compile-and-run-s2c-benchmark earley -On
+./compile-and-run-s2c-benchmark scheme -On
+./compile-and-run-s2c-benchmark conform -On
+./compile-and-run-s2c-benchmark nboyer -On
+./compile-and-run-s2c-benchmark sboyer -On
+./compile-and-run-s2c-benchmark dynamic -On
+./compile-and-run-s2c-benchmark fannkuch -On
+./compile-and-run-s2c-benchmark simplex
+./compile-and-run-s2c-benchmark em-functional
+./compile-and-run-s2c-benchmark em-imperative
+./compile-and-run-s2c-benchmark nfm
+./compile-and-run-s2c-benchmark integ
+./compile-and-run-s2c-benchmark gold
+./compile-and-run-s2c-benchmark sort
+./compile-and-run-s2c-benchmark rrr -On

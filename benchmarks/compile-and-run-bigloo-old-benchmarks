@@ -1,0 +1,39 @@
+#!/bin/sh
+./compile-and-run-bigloo-benchmark boyer -farithmetic
+./compile-and-run-bigloo-benchmark browse -farithmetic
+./compile-and-run-bigloo-benchmark cpstak -farithmetic
+./compile-and-run-bigloo-benchmark ctak -farithmetic
+./compile-and-run-bigloo-benchmark dderiv -farithmetic
+./compile-and-run-bigloo-benchmark deriv -farithmetic
+./compile-and-run-bigloo-benchmark destruct -farithmetic
+./compile-and-run-bigloo-benchmark div-iter -farithmetic
+./compile-and-run-bigloo-benchmark div-rec -farithmetic
+./compile-and-run-bigloo-benchmark fft
+./compile-and-run-bigloo-benchmark fprint -farithmetic
+./compile-and-run-bigloo-benchmark fread -farithmetic
+./compile-and-run-bigloo-benchmark puzzle -farithmetic
+./compile-and-run-bigloo-benchmark tak -farithmetic
+./compile-and-run-bigloo-benchmark takl -farithmetic
+./compile-and-run-bigloo-benchmark takr -farithmetic
+./compile-and-run-bigloo-benchmark tprint -farithmetic
+./compile-and-run-bigloo-benchmark traverse -farithmetic
+./compile-and-run-bigloo-benchmark traverse-init -farithmetic
+./compile-and-run-bigloo-benchmark fannkuch -farithmetic
+./compile-and-run-bigloo-benchmark simplex
+./compile-and-run-bigloo-benchmark em-functional
+./compile-and-run-bigloo-benchmark em-functional-partial-split
+./compile-and-run-bigloo-benchmark em-functional-split
+./compile-and-run-bigloo-benchmark em-functional-do-split
+./compile-and-run-bigloo-benchmark em-imperative
+./compile-and-run-bigloo-benchmark em-imperative-split
+./compile-and-run-bigloo-benchmark nfm
+./compile-and-run-bigloo-benchmark integ
+./compile-and-run-bigloo-benchmark integ2
+./compile-and-run-bigloo-benchmark gold
+./compile-and-run-bigloo-benchmark gold2
+./compile-and-run-bigloo-benchmark sort
+./compile-and-run-bigloo-benchmark sort2
+./compile-and-run-bigloo-benchmark dfa -farithmetic
+./compile-and-run-bigloo-benchmark dfa2 -farithmetic
+./compile-and-run-bigloo-benchmark graphs -farithmetic
+./compile-and-run-bigloo-benchmark lattice -farithmetic

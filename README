@@ -1,0 +1,445 @@
+		  Stalin - a STAtic Language ImplementatioN
+	     Finally, a Lisp compiler that does what it should...
+
+			     Jeffrey Mark Siskind
+			 NEC Research Institute, Inc.
+			      4 Independence Way
+			 Princeton NJ 08540-6620 USA
+			     voice: 609/951-2705
+			      FAX: 609/951-2483
+			   Qobi@research.nj.nec.com
+			ftp://ftp.nj.nec.com/pub/qobi
+		  http://www.neci.nj.nec.com/homepages/qobi
+
+			   Saturday 20 October 2001
+
+				 INTRODUCTION
+
+This is release 0.10 of Stalin, a global optimizing compiler for Scheme.  It is
+an alpha release and contains many known bugs.  Not everything is fully
+implemented.  This is the first self-hosting release.  Stalin can now compile
+itself.  Unlike previous releases, this release does not require you to have
+Scheme->C.  And it does not require you to install Infrastructure or
+QobiScheme.
+
+Stalin is an extremely efficient compiler for Scheme.  It is designed to be
+used not as a development tool but rather as a means to generate efficient
+executable images either for application delivery or for production research
+runs.  In contrast to traditional Scheme implementations, Stalin is a
+batch-mode compiler.  There is no interactive READ-EVAL-PRINT loop.  Stalin
+compiles a single Scheme source file into an executable image (indirectly via
+C).  Running that image has equivalent semantics to loading the Scheme source
+file into a virgin Scheme interpreter and then terminating its execution.  The
+chief limitation is that it is not possible to LOAD or EVAL new expressions or
+procedure definitions into a running program after compilation.  In return for
+this limitation, Stalin does substantial global compile-time analysis of the
+source program under this closed-world assumption and produces executable
+images that are small, stand-alone, and fast.
+
+Stalin incorporates numerous strategies for generating efficient code.  Among
+them, Stalin does global static type analysis using a soft type system that
+supports recursive union types.  Stalin can determine a narrow or even
+monomorphic type for each source code expression in arbitrary Scheme programs
+with no type declarations.  This allows Stalin to reduce, or often eliminate,
+run-time type checking and dispatching.  Stalin also does low-level
+representation selection on a per-expression basis.  This allows the use of
+unboxed base machine data representations for all monomorphic types resulting
+in extremely high-performance numeric code.  Stalin also does global static
+life-time analysis for all allocated data.  This allows much temporary
+allocated storage to be reclaimed without garbage collection.  Finally, Stalin
+has very efficient strategies for compiling closures.  Together, these
+compilation techniques synergistically yield efficient object code.
+Furthermore, the executable images created by Stalin do not contain
+(user-defined or library) procedures that aren't called, variables and
+parameters that aren't used, and expressions that cannot be reached.  This
+encourages a programming style whereby one creates and uses very general
+library procedures without fear that executable images will suffer from code
+bloat.
+
+				IMPORTANT NOTE
+
+Contrary to any other indication in the documentation, this release does not
+run on DEC/Alpha under Linux due to limitations of gcc (it is not able to
+compile the file stalin-Alpha.c because it has too many global variables).  It
+is possible to run Stalin under Linux on DEC/Alpha when it is compiled with
+Scheme->C (rather than self compiled) but I am not currently distributing that
+version.  Contact me if you need to run Stalin under Alpha Linux and I will
+send you the Scheme->C version.
+
+It might be possible to compile stalin-Alpha.c with the DEC C compiler under
+Digital Unix.  I do not have access to this environment to try this.  If
+anybody else does, I would appreciate any feedback as to whether this works.
+
+				  DEVIATIONS
+
+Stalin nominally accepts the language defined by The Revised^4 Report on the
+Algorithmic Language Scheme (R4RS).  The language accepted by Stalin is known
+to deviate from R4RS in a number of ways as described below.  (If you discover
+additional differences, please send mail to Big-Stalin@AI.MIT.EDU.)  Many of
+these simply are features that are not (yet) implemented though I make no
+commitment to fully comply with R4RS and reserve the right to deviate from
+R4RS for any reason whatsoever, particularly performance.
+
+ 1. Unimplemented syntax:
+    4.2.6 Nested quasiquotation is not supported.
+    appendix Macros
+ 2. Unimplemented procedures:
+    6.5.5    NUMERATOR
+             DENOMINATOR
+             RATIONALIZE
+             MAKE-RECTANGULAR
+             MAKE-POLAR
+             REAL-PART
+             IMAG-PART
+             MAGNITUDE
+             ANGLE
+    6.10.4   LOAD
+             TRANSCRIPT-ON
+             TRANSCRIPT-OFF
+ 3. (1.1) Tail recursion optimization is done only on self calls.
+ 4. (6.5) The following numeric data types are not supported:
+    a. bignums: exact integers of arbitrary magnitude
+       Furthermore, exact integer arithmetic can overflow without signaling an
+       error and without yielding an inexact floating point number.
+    b. ratios: exact non-integer rationals
+    c. polar format complex numbers
+    d. exact rectangular format complex numbers
+ 5. It is not possible to access all of the underlying C scalar types.  (This
+    is not an incompatibility with R4RS but nonetheless important for other
+    reasons.)
+    a. No independent control over the float/double distinction.
+    b. No long/short chars/ints/floats/doubles
+    c. No unsigned chars/ints
+ 6. (1.3.1) No R4RS compliance mode is provided.
+ 7. Limitations of (6.5.6) STRING->NUMBER, (6.10.2) READ, and the source
+    program:
+    a. Can't parse largest negative number.
+    b. Can't parse polar numbers with @.
+    c. Can't parse rectangular numbers with i.
+    d. Can't parse ratios with /.
+    e. Can't parse numbers with embedded #.
+    f. Can't parse exactness with #E and #I.
+    g. Can't parse inexact numbers with mantissas where the digit string
+       before the decimal point would overflow if read as an exact number,
+    h. On Intel, SPARC, and SGI, the source program can't contain exact
+       integer constants <-536870912 or >536870911.  On Intel and SPARC, the
+       compiler will generate incorrect C code without warning.  On SGI, the
+       compiler might signal an exception or might generate incorrect C code
+       without warning.  On Alpha, the source program can't contain exact
+       integer constants <-2305843009213693952 or >2305843009213693951.  The
+       compiler will generate incorrect C code without warning.
+ 8. (6.5.6) STRING->NUMBER doesn't accept the optional radix argument.
+ 9. APPLY and CALL-WITH-CURRENT-CONTINUATION don't accept continuations or
+    foreign procedures as their first argument.
+10. (6.2) EQV? might return #T when given two procedures that can never be
+    called.
+    (BEGIN (DEFINE (F X) (LAMBDA () X)) (EQV? (F 1) (F 2))) ==> #T
+    EQV? might return #T when given two fictitious pairs or degenerate vectors.
+    (EQV? (CONS #T #T) (CONS #T #T)) ==> #T
+    (EQV? (VECTOR #T) (VECTOR #T)) ==> #T
+11. (6.5.5) =, <, >, <=, >= might not be transitive.
+12. (6.5.6) STRING->NUMBER, READ, DISPLAY, and WRITE don't obey write/read
+    invariance for inexact numbers.
+13. (APPLY (LAMBDA X X) y) ==> y without checking that y is a list and without
+    copying y.  Furthermore, because of the way LIST is defined, (APPLY LIST X)
+    doesn't copy X.
+14. (6.10.1) Closing a port that has already been closed yields undefined
+    behaviour rather than having no effect.
+
+				  EXTENSIONS
+
+Stalin extends R4RS in a number of ways:
+
+ 1. New syntax: PRIMITIVE-PROCEDURE and FOREIGN-PROCEDURE.
+ 2. New procedures: LIST-LENGTH, SUBLIST, SUB, LIST-APPEND, LIST-REVERSE, REF,
+    LIST-SET!, REF!, LIST-FILL!, FILL!, LIST-COPY, STRING->UNINTERNED-SYMBOL,
+    STRING-REVERSE, <<, >>, BITWISE-NOT, BITWISE-AND, BITWISE-OR,
+    MAKE-DISPLACED-VECTOR, SUBVECTOR, VECTOR-APPEND, VECTOR-REVERSE,
+    VECTOR-COPY, PANIC, POINTER?, INTEGER->STRING, INTEGER->INPUT-PORT,
+    INTEGER->OUTPUT-PORT, and INTEGER->POINTER.
+ 3. New data type: pointer.  ZERO? can be used to check for null pointers
+    (as well as null strings and null ports).  INTEGER->POINTER can be used to
+    convert an integer address to a pointer.  INTEGER->STRING,
+    INTEGER->INPUT-PORT, and INTEGER->OUTPUT-PORT can be used to convert an
+    integer address to a string, input port, or output-port, respectively.
+ 4. New variable: ARGV is bound to a vector of strings containing the
+    command line arguments.
+ 5. If the last expression executed by the program evaluates to an integer,
+    then its value is returned as the status code of the program.  Otherwise,
+    the status code zero is returned.
+ 6. Vectors are self evaluating.
+ 7. DO iterator list can be empty.
+ 8. Bodies can be empty.
+ 9. The commands of DO and the expressions of COND, CASE, BEGIN, and DO are
+    considered bodies.
+10. Bodies can have definitions intermixed with expressions.
+11. Definitions are executed in order and can reference variables defined by
+    previous definitions.
+12. Any body with just definitions treated like BEGIN.
+13. Binding can be just a variable in LET, LET*, and LETREC.
+14. DEFINE can take a single argument.
+15. (EQV? "" "") ==> #T
+    (EQV? #() #()) ==> #T
+16. The procedures LENGTH, APPEND, REVERSE, and COPY are generic.
+17. EOF objects, input ports, and output ports are disjoint from each other
+    and all other data types.
+18. All EOF objects are EQ?.
+
+A future version of this document will describe all of the above extensions in
+greater detail.
+
+				 INSTALLATION
+
+The Stalin compiler is written in Scheme and can compile itself.  (While I
+have run Stalin under other Scheme implementations such as Scheme->C, SCM, and
+Gambit-C, this requires some modification of the Stalin source code.)  To
+compile and use Stalin, you must have a C compiler installed.
+
+To install Stalin, do:
+
+% uncompress stalin-0.10.tar.Z
+% tar xf stalin-0.10.tar
+% cd stalin-0.10
+% ./build
+
+This takes about eleven minutes and 50M on a 450MHz Xeon with 512K L2.
+
+To test Stalin, do:
+
+% cd benchmarks
+% ./compile-and-run-stalin-benchmarks
+
+which will compile and run some sample programs including the Gabriel
+benchmarks.  This takes about an hour and 150M on a 450MHz Xeon with 512K L2.
+Stalin can now compile all of the Gabriel benchmarks.
+
+If you wish to compare the performance of Stalin against Scheme->C, Gambit-C,
+Bigloo, and Chez (assuming that you have these systems installed) you can do:
+
+% ./benchmark
+
+This will compile all of the example with each of the Scheme compilers, run
+each example three times, and automatically produce a file `results.tex' with
+absolute CPU times for each benchmark and compiler as well as ratios of the
+CPU times used by Stalin vs. the other compilers.  This takes about two days
+and 150M on a 450MHz Xeon with 512K L2.
+
+You might wish to put the executable `stalin' in your standard directory of
+executables.  You might also wish to put the man page `stalin.man' in your
+standard directory of man pages.  And you might wish to copy the directory
+`include' to `/usr/local/stalin/include'.  If you do the latter then you need
+not specify the -I option when using Stalin.
+
+Stalin comes with an experimental Emacs interface.  To use this interface
+you first need to compile the program pp.sc.  This program must be compiled
+with Scheme->C (which is not included in the Stalin distribution).  Compile
+this program with the following commands:
+
+% scc -o pp pp.sc
+% rm pp.c
+
+and then put `pp' in your path.  The Emacs interface is in the file
+`stalin.el'.  Read the instructions at the beginning of that file for an
+explanation of how to use that interface.
+
+Stalin also comes with an experimental FPI to OpenGL.  This interface assumes
+that you have the files `GL/gl.h', `GL/glu.h', and `GL/glut.h' in your C
+compiler include path.  To install this interface, do:
+
+% ./build-gl-fpi
+
+Please note that the OpenGL interface requires Mark Kilgard's GLUT which
+doesn't come with OpenGL by default.  GLUT can be obtained from:
+
+http://reality.sgi.com/mjk_asd/glut3/glut3.html
+
+Since Stalin is now self-hosting, this distribution comes with pre-generated
+C code.  The initial installation is done simply by compiling this C code.
+Since the C code generated by Stalin varies depending on architectural
+parameters, this distribution comes with two pre-generated versions: the file
+`stalin-32.c' for 32-bit architectures and the file `stalin-Alpha.c' for the
+DEC/Alpha.  The `build' script automatically determines the architecture that
+it is running on and copies the appropriate file to `stalin.c' and then
+compiles this file.  If you wish to rebuild Stalin from the Scheme sources
+(given a running Stalin compiler), you can touch or modify the file `stalin.sc'
+and then do:
+
+% make
+
+which will first generate `stalin.c' from `stalin.sc' and then generate
+`stalin' from `stalin.c'.  This takes about 17 hours and 800M on a 450MHz Xeon
+with 512K L2.  This will automatically make a version that is appropriate for
+the architecture that you are running on.  If you wish to cross-generate C
+code for a different architecture, then do either:
+
+% make stalin-32.c
+
+or:
+
+% make stalin-Alpha.c
+
+This takes about 17 hours and 800M on a 450MHz Xeon with 512K L2.
+
+				    USAGE
+
+See the man page for how to invoke Stalin.
+
+The Stalin distribution comes with a number of examples in the benchmarks
+directory.  The first example is a simple "Hello World" program in the file
+`hello.sc'.  To compile and run it do:
+
+% ./make-hello
+% ./hello
+
+The second example is a version of the "Hello World" program that uses Xlib in
+the file `xhello.sc'.  To compile and run it, first set your DISPLAY
+environment variable appropriately and then do:
+
+% ./make-xhello
+% ./xhello
+
+then click on the window to exit.  The third example illustrates how to use
+the application framework that is included in QobiScheme.  It is in the file
+`define-application-example.sc'.  To compile and run it, first set your DISPLAY
+environment variable appropriately and then do:
+
+% ./make-define-application-example
+% ./define-application-example
+
+This program illustrates simple buttons ("Quit"), on/off buttons ("Flag"),
+radio buttons ("Line" and "Ellipse"), mode buttons ("A/B/C"),
+increment/decrement buttons ("-K" and "+K"), keystroke accelerators (c-X c-C
+and c-H), the builtin help facility, the type-in buffer with a few Emacs-like
+key bindings, mouse-clickable regions, and rubber-banding (click on the
+display pane to draw lines and ellipses).
+
+			 FOREIGN PROCEDURE INTERFACE
+
+Stalin has a rudimentary foreign procedure interface.  The syntax
+
+   (FOREIGN-PROCEDURE (<arg type> ...) <return type> <name>)
+
+returns a procedure.  <arg type> must be one of CHAR, SIGNED-CHAR,
+UNSIGNED-CHAR, SHORT, UNSIGNED-SHORT, INT, UNSIGNED, LONG, UNSIGNED-LONG,
+FLOAT, DOUBLE, LONG-DOUBLE, CHAR*, FILE*, or VOID*.  <return type> must be one
+of CHAR, SIGNED-CHAR, UNSIGNED-CHAR, SHORT, UNSIGNED-SHORT, INT, UNSIGNED,
+LONG, UNSIGNED-LONG, FLOAT, DOUBLE, LONG-DOUBLE, CHAR*, INPUT-PORT,
+OUTPUT-PORT, VOID*, VOID, or NO-RETURN.  <name> must be a string that
+names the entry point.  Calling that procedure calls the named entry point.
+Foreign procedure are first-class objects and can be passed as arguments to
+Scheme procedures, returned as results, and stored in and accessed from
+variables, pairs, vectors, and structures.  PROCEDURE? returns #T when given a
+foreign procedure as its argument.
+
+                 <type>         C              Scheme
+		 -------------------------------------------------------
+                 CHAR           char           character
+                 SIGNED-CHAR    signed char    character
+                 UNSIGNED-CHAR  unsigned char  character
+                 SHORT          short          exact integer
+                 UNSIGNED-SHORT unsigned short exact integer
+                 INT            int            exact integer
+                 UNSIGNED       unsigned       exact integer
+                 LONG           long           exact integer
+                 UNSIGNED-LONG  unsigned long  exact integer
+                 FLOAT          float          inexact real
+                 DOUBLE         double         inexact real
+                 LONG-DOUBLE    long double    inexact real
+                 CHAR*          char*          string
+                 FILE*          FILE*          input port or output port
+                 INPUT-PORT     FILE*          input port
+                 OUTPUT-PORT    FILE*          output port
+                 VOID           void           unspecified
+                 NO-RETURN      void           unspecified
+                 VOID*          void*          pointer
+
+When a foreign procedure is created, the entry point must take the given
+number of types and have its argument and return types declared to correspond
+to the above mapping from <type> to C.  A foreign procedure must be called with
+the correct number of arguments of the correct types as specified by the above
+mapping from <type> to Scheme.  No automatic type conversion is done on entry
+to or exit from the foreign procedure.  If -Ot is not specified, a run time
+error will be generated if a foreign procedure is called with the wrong number
+of arguments or arguments of the wrong type.  Such type checking is eliminated
+if the compiler can prove that it is redundant or if the -Ot option is
+specified.  The foreign procedure returns a Scheme value of the type specified
+by the above mapping from <type> to Scheme unless the <return type> is VOID or
+NO-RETURN.  If the <return type> is VOID, the returned value is unspecified.
+If the <return type> is NO-RETURN then the procedure doesn't return.  As an
+example, the expression
+   ((FOREIGN-PROCEDURE (CHAR*) INT "atoi") (VECTOR-REF ARGV 1))
+parses the first command line argument into an exact integer.
+
+Stalin introduces a new object type called `pointer'.  Pointers are first class
+objects and can be passed as arguments to Scheme procedures, returned as
+results, and stored in and accessed from variables, pairs, vectors, and
+structures.  Pointers are disjoint from all other Scheme types.  The only
+primitive procedures that are defined on pointers, however, are POINTER? and
+ZERO?.  POINTER? takes a single argument.  It returns #T if that argument is a
+pointer and #F otherwise.  If ZERO? is given a pointer as its argument it
+returns #T if the pointer is NULL and #F otherwise.  Pointers, however, can be
+passed into and out of foreign procedures as values of the C type void*.
+
+ZERO? can also be given a string or a port as its argument.  It returns #T if
+the string or port is NULL and #F otherwise.  Note that null strings are
+distinct from empty strings.  Null strings and ports are never created by
+ordinary Scheme procedures.  They can only be created by foreign procedures and
+the Scheme procedures INTEGER->STRING, INTEGER->INPUT-PORT, and
+INTEGER->OUTPUT-PORT.
+
+A foreign procedure invocation should not access a CHAR* or FILE* value that
+was passed as an argument to a different invocation of the same or different
+foreign procedure as that value might have been reclaimed in the interim.
+
+				 PORTABILITY
+
+Stalin should run under Solaris 1 and 2 on Sun/SPARCs (in 32-bit mode),
+IRIX 4, 5, and 6 on SGI/MIPs (in 32-bit mode), Linux on Intel/x86s (both with
+libc5 and glibc) and DEC/Alphas, and OSF/1 V3 and V4 on DEC/Alphas though it
+has only been extensively tested on Linux on Intel/x86s and DEC/Alphas.
+
+				 FUTURE PLANS
+
+Stalin currently provides only a minimal set of features, coinciding mostly
+with those specified in R4RS.  Future plans include several language
+extensions: macros, displaced strings, an object system with inheritance and
+generic procedures, weak pointers and finalization, hash tables, a condition
+system, a module system, separate compilation, and a debugger.  Additional
+compile-time optimizations are planned, as well improving the speed of the
+compiler.
+
+				COMMUNICATION
+
+Bug mail should be addressed to Bug-Stalin@AI.MIT.EDU and not to me personally.
+Please include the version number (0.10) in the message.  Periodic
+announcements of bug fixes, enhancements, and new releases will be made to
+Info-Stalin@AI.MIT.EDU.  Send mail to Info-Stalin-Request@AI.MIT.EDU to be
+added to the Info-Stalin@AI.MIT.EDU mailing list.
+
+				HOW TO OBTAIN
+
+The current release of Stalin is available by anonymous FTP from
+ftp://ftp.nj.nec.com/pub/qobi/stalin.tar.Z.
+
+			       ACKNOWLEDGEMENTS
+
+Rob Browning <rlb@cs.utexas.edu>, Jeffrey B. Siegal <jbs@quiotix.com>,
+Bengt Kleberg <bengt@softwell.se>, and Sven Hartrumpf
+<Sven.Hartrumpf@FernUni-Hagen.de> contributed portions of the code and
+documentation.
+
+				  CONDITIONS
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.

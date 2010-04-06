@@ -1,0 +1,41 @@
+#!/bin/sh
+./compile-stalin-benchmark boyer\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark graphs\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark lattice\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark nucleic2\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark matrix\
+  "-baseline -closure-conversion-statistics -dc"
+./compile-stalin-benchmark earley\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark scheme\
+  "-clone-size-limit 0 -do-not-index-allocated-structure-types-by-expression -do-not-index-constant-structure-types-by-expression -treat-all-symbols-as-external -baseline -closure-conversion-statistics"
+./compile-stalin-benchmark conform\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark nboyer\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark sboyer\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark dynamic\
+  "-do-not-index-allocated-structure-types-by-expression -baseline -closure-conversion-statistics"
+./compile-stalin-benchmark fannkuch\
+  "-baseline -closure-conversion-statistics"
+./compile-stalin-benchmark simplex\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark em-functional\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark em-imperative\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark nfm\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark integ\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark gold\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark sort\
+  "-baseline -closure-conversion-statistics -d"
+./compile-stalin-benchmark rrr\
+  "-baseline -closure-conversion-statistics"

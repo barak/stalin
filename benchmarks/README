@@ -1,0 +1,51 @@
+This directory contains various benchmarks and examples.  The top-level scripts
+are:
+
+make-clean:                      Clean up this directory.
+old-benchmark:                   Run the old set of benchmarks, including all
+                                 of the Gabriel benchmarks.  The output of this
+                                 script is in the file old-results.tex.
+fdlcc-benchmark:                 Run the benchmarks from the paper Flow-
+                                 Directed Lightweight Closure Conversion.  The
+                                 output of this script is in the file
+                                 fdlcc-results.tex.
+bcl-benchmark:                   Run the fdlcc benchmarks comparing the
+                                 baseline, conventional, and lightweight
+                                 strategies.  The output of this script is in
+                                 the file bcl.tex.
+make-hello:                      Compile the file hello.sc.
+make-xhello:                     Compile the file xhello.sc.
+make-define-application-example: Compile the file
+                                 define-application-example.sc.
+-------------------------------------------------------------------------------
+boyer:         version obtained from Scheme repository; also available from
+               Debray and Jagannathan & Wright
+graphs:        version obtained from Jagannathan & Wright; also available from
+               Debray
+lattice:       version obtained from Jagannathan & Wright; also available from
+               Debray
+nucleic2:      pseudoknot-strict; also available from Clinger and Jagannathan &
+               Wright
+matrix:        version obtained from Debray; also available from Jagannathan &
+               Wright
+earley:        version obtained from Debray
+scheme:        version obtained from Debray
+conform:       version obtained from Debray
+nboyer:        version obtained from Clinger
+sboyer:        version obtained from Clinger
+dynamic:       version obtained from Clinger; also available from Jagannathan &
+               Wright
+fannkuch:      version obtained from Haible
+simplex:       version obtained from Siskind
+em-functional: version obtained from Siskind
+em-imperative: version obtained from Siskind
+nfm:           version obtained from Siskind
+integ:         version obtained from O'Keefe
+gold:          version obtained from O'Keefe
+sort:          version obtained from O'Keefe
+rrr:           version obtained from Siskind
+
+To do:
+maze
+nbody
+splay

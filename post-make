@@ -1,0 +1,5 @@
+#!/bin/sh
+lib=`pwd`/include
+mv stalin $lib
+(echo "#!/bin/sh"; echo "exec $lib/stalin -I $lib "'$@') >stalin
+chmod a+x stalin

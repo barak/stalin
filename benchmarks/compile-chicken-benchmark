@@ -1,0 +1,8 @@
+#!/bin/sh
+unset noclobber
+ulimit -s unlimited
+ulimit -c 0
+echo compile $1
+sed -f chicken.sed $1.sc >$1-chicken.scm
+time chicken $1-chicken.scm -optimize-level 4 -block -output-file $1-chicken.c
+time gcc $1-chicken.c `chicken-config -cflags -libs` -o $1-chicken

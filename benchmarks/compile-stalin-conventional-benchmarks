@@ -1,0 +1,41 @@
+#!/bin/sh
+./compile-stalin-benchmark boyer\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark graphs\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark lattice\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark nucleic2\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark matrix\
+  "-conventional -closure-conversion-statistics -dc"
+./compile-stalin-benchmark earley\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark scheme\
+  "-clone-size-limit 0 -do-not-index-allocated-structure-types-by-expression -do-not-index-constant-structure-types-by-expression -treat-all-symbols-as-external -conventional -closure-conversion-statistics"
+./compile-stalin-benchmark conform\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark nboyer\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark sboyer\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark dynamic\
+  "-do-not-index-allocated-structure-types-by-expression -conventional -closure-conversion-statistics"
+./compile-stalin-benchmark fannkuch\
+  "-conventional -closure-conversion-statistics"
+./compile-stalin-benchmark simplex\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark em-functional\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark em-imperative\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark nfm\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark integ\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark gold\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark sort\
+  "-conventional -closure-conversion-statistics -d"
+./compile-stalin-benchmark rrr\
+  "-conventional -closure-conversion-statistics"

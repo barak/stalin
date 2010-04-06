@@ -1,0 +1,413 @@
+;;; There are the following equivalence classes of architectures:
+;;;   IA32, ARM, M68K, PowerPC
+;;;   IA32-align-double, SPARC64, S390
+;;;   SPARC
+;;;   SPARCv9, Alpha
+;;;   MIPS
+;;;   PowerPC64
+
+(("IA32"
+  ;; OS: Linux, probably others
+  ;; compiler: gcc, probably others
+  ;; compiler options: default
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  2					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  2					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("IA32-align-double"
+  ;; OS: Linux, probably others
+  ;; compiler: gcc
+  ;; compiler options: -malign-double
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  3					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("SPARC"
+  ;; OS: Linux, Solaris, probably others
+  ;; compiler: gcc, Sun Solaris C compiler, probably others
+  ;; compiler options: default
+  ;; needs work: need architectures for gcc with combinations of
+  ;;		 -munaligned-doubles and -mfaster-structs
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  2					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("SPARCv9"
+  ;; OS: Solaris, probably others
+  ;; compiler: Sun Solaris C compiler, probably others
+  ;; compiler options: -xarch=v9
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned long"			;*squished*
+  "long"				;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  3					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  3					;*squished-alignment*
+  3					;*file-alignment*
+  3					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  8					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  8					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("SPARC64"
+  ;; OS: unknown
+  ;; compiler: unknown
+  ;; compiler options: unknown
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  3					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ;; needs work: to check this
+ ("MIPS"
+  ;; OS: IRIX
+  ;; compiler: gcc, SGI C compiler
+  ;; compiler options: default
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  ;; needs work: not sure if this should be 2 or 3
+  2					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  2					;*file-alignment*
+  3					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("Alpha"
+  ;; OS: Linux, OSF1
+  ;; compiler: gcc, DEC C Compiler
+  ;; compiler options: default
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned long"			;*squished*
+  "long"				;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  3					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  3					;*squished-alignment*
+  3					;*file-alignment*
+  3					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  8					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  8					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ;; needs work: to check this
+ ("ARM"
+  ;; OS: Linux
+  ;; compiler: gcc
+  ;; compiler options: unknown
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  2					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  2					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ;; needs work: to check this
+ ("M68K"
+  ;; OS: Linux
+  ;; compiler: gcc
+  ;; compiler options: unknown
+  ;; needs work: need architecture for -malign-int
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  2					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  2					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("PowerPC"
+  ;; OS: Darwin
+  ;; compiler: unknown
+  ;; compiler options: unknown
+  ;; needs work: need architectures for gcc with combinations of
+  ;;		 -mbit-align, -mstrict-align, and -mno-eabi
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  2					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  2					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("S390"
+  ;; OS: Linux
+  ;; compiler: unknown
+  ;; compiler options: unknown
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned"				;*squished*
+  "int"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  2					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  2					;*squished-alignment*
+  3					;*file-alignment*
+  2					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  4					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  4					;*squished-size*
+  #f)					;*include-malloc-for-alloca?*
+ ("PowerPC64"
+  ;; OS: AIX
+  ;; compiler: gcc, xlc
+  ;; compiler options: -maix64 (under gcc), -q64 (under xlc)
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned long"			;*squished*
+  "long"				;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  2					;*flonum-alignment* when double
+  3					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  3					;*squished-alignment*
+  3					;*file-alignment*
+  3					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  8					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  8					;*squished-size*
+  #t))					;*include-malloc-for-alloca?*

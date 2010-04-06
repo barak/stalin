@@ -1,0 +1,54 @@
+I am pleased to announce the availability of Stalin 0.10.  Stalin is an
+aggressively optimizing whole-program compiler for Scheme that does
+polyvariant interprocedural flow analysis, flow-directed interprocedural
+escape analysis, flow-directed lightweight CPS conversion, flow-directed
+lightweight closure conversion, flow-directed interprocedural lifetime
+analysis, automatic in-lining, unboxing, and flow-directed program-specific and
+program-point-specific low-level representation selection and code generation.
+Major improvements of this release include:
+
+  self hosting: Stalin now compiles itself.  The distributed code is self-
+    compiled.  Scheme->C is no longer used or needed to build Stalin.
+
+  architectural parameterization: Stalin is now parameterized to allow you to
+    specify the sizes and alignments independently for different machine data
+    types.  This makes it easier to port Stalin to different C compilers and
+    architectures.
+
+  polyvariance: Stalin will automatically make multiple copies of procedures
+    to specialize them for different argument types and to facilitate
+    in-lining.  Heuristics and users controls prevent unwieldy code growth.
+
+  garbage collection: Stalin now includes the Boehm conservative garbage
+    collector.  Stalin automatically estimates the lifetime of data allocated
+    at each allocation point and decides, at compile time, whether to allocate
+    that data on the stack, on a region (which is managed like a stack and can
+    be reclaimed without garbage collection), or on the garbage collected heap.
+
+  APPLY, MAP, and FOR-EACH: Stalin now fully implements APPLY, MAP, and
+    FOR-EACH with procedures and call sites of arbitrary arity.
+
+  FPI for Xlib and OpenGL: Stalin now comes with a foreign-procedure interface
+    for Xlib and OpenGL.
+
+  QobiScheme: Stalin now comes with a version of QobiScheme, an extensive
+    library of Scheme code that includes FORMAT, conditionalization primitives,
+    structures, Common-Lisp-like sequence procedures, random-number
+    generators, the gamma distribution, numerical integration,
+    nondeterministic and constraint-based programming constructs,
+    memoization, a string processing package, a context-free grammar parsing
+    package, extended I/O, pathname parsing procedures, tries, a linear algebra
+    package, the simplex algorithm, the Jacobi algorithm, convex hull, an
+    image processing package, JPEG and MPEG compression and decompression,
+    multivariate nonlinear optimization, the EM algorithm, timing procedures,
+    and a CLIM-like package for building window-based applications.
+
+  improved compiler: Stalin has been largely rewritten.  It is smaller, faster,
+    more robust, and produces smaller and faster code.
+
+  GPL: Stalin is now released under the GNU Public License, version 2.
+
+Stalin 0.10 runs on a variety of Unix and Linux platforms including Intel IA32,
+Sun SPARC, SGI MIPS, Compaq Alpha, Intel ARM, and Motorola M68K.  It is
+available by anonymous FTP from
+ftp://ftp.nj.nec.com/pub/qobi/stalin.tar.Z.

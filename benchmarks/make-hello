@@ -1,0 +1,6 @@
+#!/bin/sh
+ulimit -s unlimited
+ulimit -c 0
+../stalin -d0 -d1 -d5 -d6 -On\
+ -copt -O2 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return\
+ hello

@@ -1,0 +1,11 @@
+#!/bin/sh
+rm -rf stalin
+rm -rf stalin.c
+rm -rf include/gc.h
+rm -rf include/Tmk.h
+rm -rf include/libgc.a
+rm -rf include/libstalin.a
+rm -rf include/libTmk.a
+rm -rf include/stalin
+cd benchmarks
+./make-clean

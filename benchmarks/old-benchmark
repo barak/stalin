@@ -1,0 +1,7 @@
+#!/bin/sh
+gcc -o unbuff unbuff.c
+../stalin -q -On -db benchmarks-to-latex
+./compile-old-benchmarks
+./run-old-benchmarks
+./benchmarks-to-latex
+mv results.tex old-results.tex

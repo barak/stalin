@@ -1,0 +1,39 @@
+#!/bin/sh
+./compile-bigloo-benchmark boyer -farithmetic
+./compile-bigloo-benchmark browse -farithmetic
+./compile-bigloo-benchmark cpstak -farithmetic
+./compile-bigloo-benchmark ctak -farithmetic
+./compile-bigloo-benchmark dderiv -farithmetic
+./compile-bigloo-benchmark deriv -farithmetic
+./compile-bigloo-benchmark destruct -farithmetic
+./compile-bigloo-benchmark div-iter -farithmetic
+./compile-bigloo-benchmark div-rec -farithmetic
+./compile-bigloo-benchmark fft
+./compile-bigloo-benchmark fprint -farithmetic
+./compile-bigloo-benchmark fread -farithmetic
+./compile-bigloo-benchmark puzzle -farithmetic
+./compile-bigloo-benchmark tak -farithmetic
+./compile-bigloo-benchmark takl -farithmetic
+./compile-bigloo-benchmark takr -farithmetic
+./compile-bigloo-benchmark tprint -farithmetic
+./compile-bigloo-benchmark traverse -farithmetic
+./compile-bigloo-benchmark traverse-init -farithmetic
+./compile-bigloo-benchmark fannkuch -farithmetic
+./compile-bigloo-benchmark simplex
+./compile-bigloo-benchmark em-functional
+./compile-bigloo-benchmark em-functional-partial-split
+./compile-bigloo-benchmark em-functional-split
+./compile-bigloo-benchmark em-functional-do-split
+./compile-bigloo-benchmark em-imperative
+./compile-bigloo-benchmark em-imperative-split
+./compile-bigloo-benchmark nfm
+./compile-bigloo-benchmark integ
+./compile-bigloo-benchmark integ2
+./compile-bigloo-benchmark gold
+./compile-bigloo-benchmark gold2
+./compile-bigloo-benchmark sort
+./compile-bigloo-benchmark sort2
+./compile-bigloo-benchmark dfa -farithmetic
+./compile-bigloo-benchmark dfa2 -farithmetic
+./compile-bigloo-benchmark graphs -farithmetic
+./compile-bigloo-benchmark lattice -farithmetic

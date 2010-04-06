@@ -1,0 +1,9 @@
+#!/bin/sh
+unset noclobber
+ulimit -s unlimited
+ulimit -c 0
+echo compile $1
+sed -f gambit.sed $1.sc >$1-gambit.scm
+time gsc $1-gambit
+time gcc -O3 -fomit-frame-pointer -freg-struct-return\
+     -D___SINGLE_HOST -o $1-gambit $1-gambit.c $1-gambit_.c -lgambc

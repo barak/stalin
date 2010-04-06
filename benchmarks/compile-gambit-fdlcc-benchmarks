@@ -1,0 +1,21 @@
+#!/bin/sh
+./compile-gambit-fixnum-benchmark boyer
+./compile-gambit-fixnum-benchmark graphs
+./compile-gambit-fixnum-benchmark lattice
+./compile-gambit-benchmark nucleic2
+./compile-gambit-fixnum-benchmark matrix
+./compile-gambit-fixnum-benchmark earley
+./compile-gambit-fixnum-benchmark scheme
+./compile-gambit-fixnum-benchmark conform
+./compile-gambit-fixnum-benchmark nboyer
+./compile-gambit-fixnum-benchmark sboyer
+./compile-gambit-fixnum-benchmark dynamic
+./compile-gambit-fixnum-benchmark fannkuch
+./compile-gambit-benchmark simplex
+./compile-gambit-benchmark em-functional
+./compile-gambit-benchmark em-imperative
+./compile-gambit-benchmark nfm
+./compile-gambit-benchmark integ
+./compile-gambit-benchmark gold
+./compile-gambit-benchmark sort
+./compile-gambit-fixnum-benchmark rrr

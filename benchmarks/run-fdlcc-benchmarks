@@ -1,0 +1,8 @@
+#!/bin/sh
+unset noclobber
+./unbuff >stalin.results ./run-stalin-fdlcc-benchmarks
+./unbuff >s2c.results ./run-s2c-fdlcc-benchmarks
+./unbuff >gambit.results ./run-gambit-fdlcc-benchmarks
+./unbuff >bigloo.results ./run-bigloo-fdlcc-benchmarks
+./unbuff >chez.results ./run-chez-fdlcc-benchmarks
+./unbuff >chicken.results ./run-chicken-fdlcc-benchmarks

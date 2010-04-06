@@ -1,0 +1,39 @@
+#!/bin/sh
+./compile-and-run-stalin-benchmark boyer
+./compile-and-run-stalin-benchmark browse
+./compile-and-run-stalin-benchmark cpstak
+./compile-and-run-stalin-benchmark ctak
+./compile-and-run-stalin-benchmark dderiv
+./compile-and-run-stalin-benchmark deriv
+./compile-and-run-stalin-benchmark destruct
+./compile-and-run-stalin-benchmark div-iter
+./compile-and-run-stalin-benchmark div-rec
+./compile-and-run-stalin-benchmark fft -d
+./compile-and-run-stalin-benchmark fprint
+./compile-and-run-stalin-benchmark fread
+./compile-and-run-stalin-benchmark puzzle
+./compile-and-run-stalin-benchmark tak
+./compile-and-run-stalin-benchmark takl
+./compile-and-run-stalin-benchmark takr
+./compile-and-run-stalin-benchmark tprint
+./compile-and-run-stalin-benchmark traverse
+./compile-and-run-stalin-benchmark traverse-init
+./compile-and-run-stalin-benchmark fannkuch
+./compile-and-run-stalin-benchmark simplex -d
+./compile-and-run-stalin-benchmark em-functional -d
+./compile-and-run-stalin-benchmark em-functional-partial-split -d
+./compile-and-run-stalin-benchmark em-functional-split -d
+./compile-and-run-stalin-benchmark em-functional-do-split -d
+./compile-and-run-stalin-benchmark em-imperative -d
+./compile-and-run-stalin-benchmark em-imperative-split -d
+./compile-and-run-stalin-benchmark nfm -d
+./compile-and-run-stalin-benchmark integ -d
+./compile-and-run-stalin-benchmark integ2 -d
+./compile-and-run-stalin-benchmark gold -d
+./compile-and-run-stalin-benchmark gold2 -d
+./compile-and-run-stalin-benchmark sort -d
+./compile-and-run-stalin-benchmark sort2 -d
+./compile-and-run-stalin-benchmark dfa
+./compile-and-run-stalin-benchmark dfa2
+./compile-and-run-stalin-benchmark graphs
+./compile-and-run-stalin-benchmark lattice

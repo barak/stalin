@@ -1,0 +1,13 @@
+#!/bin/sh
+./make-clean
+./compile-stalin-old-benchmarks
+./compile-s2c-old-benchmarks
+./compile-gambit-old-benchmarks
+./compile-bigloo-old-benchmarks
+./compile-chicken-old-benchmarks
+./run-stalin-old-benchmarks
+./run-s2c-old-benchmarks
+./run-gambit-old-benchmarks
+./run-bigloo-old-benchmarks
+./run-chez-old-benchmarks
+./run-chicken-old-benchmarks

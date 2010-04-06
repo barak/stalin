@@ -1,0 +1,13 @@
+#!/bin/sh
+./make-clean
+./compile-stalin-fdlcc-benchmarks
+./compile-s2c-fdlcc-benchmarks
+./compile-gambit-fdlcc-benchmarks
+./compile-bigloo-fdlcc-benchmarks
+./compile-chicken-fdlcc-benchmarks
+./run-stalin-fdlcc-benchmarks
+./run-s2c-fdlcc-benchmarks
+./run-gambit-fdlcc-benchmarks
+./run-bigloo-fdlcc-benchmarks
+./run-chez-fdlcc-benchmarks
+./run-chicken-fdlcc-benchmarks

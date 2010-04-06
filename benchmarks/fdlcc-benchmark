@@ -1,0 +1,7 @@
+#!/bin/sh
+gcc -o unbuff unbuff.c
+../stalin -q -On -db benchmarks-to-latex
+./compile-fdlcc-benchmarks
+./run-fdlcc-benchmarks
+./benchmarks-to-latex
+mv results.tex fdlcc-results.tex

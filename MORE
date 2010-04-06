@@ -1,0 +1,33 @@
+All this assumes that you have installed this directory as ~/stalin-0.10alpha2
+
+To compile the Scheme->C version of Stalin do:
+
+First download and install:
+
+ftp://ftp.ecn.purdue.edu/qobi/infrastructure.tar.Z
+ftp://ftp.ecn.purdue.edu/qobi/QobiScheme.tar.Z
+
+Then do:
+
+% cd ~/stalin-0.10/source
+% make port
+% cd `architecture-path`
+% make
+% cp stalin ../..
+% cd ../..
+% ./post-make
+
+To compile the native version of Stalin from the precompiled C file do:
+
+% cd ~/stalin-0.10
+% ./build
+
+To generate the native single-file stalin.sc from the split-file sources do:
+
+% cd ~/stalin-0.10
+% ./make-single-file
+
+To regenerate the precompiled C file for the native version of Stalin do:
+
+% cd ~/stalin-0.10
+% make stalin-IA32.c

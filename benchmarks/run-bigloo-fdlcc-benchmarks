@@ -1,0 +1,21 @@
+#!/bin/sh
+./run-bigloo-benchmark boyer
+./run-bigloo-benchmark graphs
+./run-bigloo-benchmark lattice
+./run-bigloo-benchmark nucleic2
+./run-bigloo-benchmark matrix
+./run-bigloo-benchmark earley
+./run-bigloo-benchmark scheme
+./run-bigloo-benchmark conform
+./run-bigloo-benchmark nboyer
+./run-bigloo-benchmark sboyer
+./run-bigloo-benchmark dynamic
+./run-bigloo-benchmark fannkuch
+./run-bigloo-benchmark simplex
+./run-bigloo-benchmark em-functional
+./run-bigloo-benchmark em-imperative
+./run-bigloo-benchmark nfm
+./run-bigloo-benchmark integ
+./run-bigloo-benchmark gold
+./run-bigloo-benchmark sort
+./run-bigloo-benchmark rrr

@@ -1,0 +1,21 @@
+#!/bin/sh
+./run-gambit-benchmark boyer
+./run-gambit-benchmark graphs
+./run-gambit-benchmark lattice
+./run-gambit-benchmark nucleic2
+./run-gambit-benchmark matrix
+./run-gambit-benchmark earley
+./run-gambit-benchmark scheme
+./run-gambit-benchmark conform
+./run-gambit-benchmark nboyer
+./run-gambit-benchmark sboyer
+./run-gambit-benchmark dynamic
+./run-gambit-benchmark fannkuch
+./run-gambit-benchmark simplex
+./run-gambit-benchmark em-functional
+./run-gambit-benchmark em-imperative
+./run-gambit-benchmark nfm
+./run-gambit-benchmark integ
+./run-gambit-benchmark gold
+./run-gambit-benchmark sort
+./run-gambit-benchmark rrr

@@ -1,0 +1,26 @@
+#!/bin/sh
+unset noclobber
+ulimit -s unlimited
+ulimit -c 0
+case `uname -m` in
+  i[3456]86)
+    s="-d0 -d1 -d5 -d6 -Ob -Om -On -Or -Ot -k -ia32"
+    c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
+  sun4*)
+    s="-d0 -d1 -d5 -d6 -Ob -Om -On -Or -Ot -k -sparc"
+    c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
+  IP*)
+    s="-d0 -d1 -d5 -d6 -Ob -Om -On -Or -Ot -k -mips"
+    c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
+  alpha)
+    s="-d0 -d1 -d5 -d6 -Ob -Om -On -Or -Ot -k -alpha"
+    c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -ieee";;
+  *)
+    echo "Cannot (yet) run Stalin on this architecture"
+  esac
+o="$s $c"
+echo compile $1
+sed -f stalin.sed $1.sc >$1-stalin.sc
+time ../stalin $o $2 $1-stalin
+echo run $1
+time ./$1-stalin >/dev/null
