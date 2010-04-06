@@ -1,12 +1,13 @@
 ;;; LaHaShem HaAretz U'Mloah
 
-;;; Stalin 0.10 - A global optimizing compiler for Scheme
+;;; Stalin 0.11 - A global optimizing compiler for Scheme
 ;;; Copyright 1993, 1994, and 1995 University of Toronto. All rights reserved.
 ;;; Copyright 1996 Technion. All rights reserved.
 ;;; Copyright 1996 and 1997 University of Vermont. All rights reserved.
 ;;; Copyright 1997, 1998, 1999, 2000, and 2001 NEC Research Institute, Inc. All
 ;;; rights reserved.
-;;; Copyright 2002 and 2003 Purdue University. All rights reserved.
+;;; Copyright 2002, 2003, 2004, 2005, and 2006 Purdue University. All rights
+;;; reserved.
 
 ;;; This program is free software; you can redistribute it and/or
 ;;; modify it under the terms of the GNU General Public License
@@ -24,14 +25,15 @@
 
 ;;; written by:
 ;;;    Jeffrey Mark Siskind
-;;;    NEC Research Institute, Inc.
-;;;    4 Independence Way
-;;;    Princeton NJ 08540-6620 USA
-;;;    voice: 609/951-2705
-;;;    FAX:   609/951-2483
-;;;    Qobi@research.nj.nec.com
-;;;    ftp://ftp.nj.nec.com/pub/qobi
-;;;    http://www.neci.nj.nec.com/homepages/qobi
+;;;    School of Electrical and Computer Engineering
+;;;    Purdue University
+;;;    Electrical Engineering Building, Room 330
+;;;    465 Northwestern Avenue
+;;;    West Lafayette IN 47907-2035 USA
+;;;    voice: 765/496-3197
+;;;    fax: 765/494-6440
+;;;    qobi@purdue.edu
+;;;    http://www.ece.purdue.edu/~qobi
 
 ;;; Begin delete for Trotsky
 (module stalin4c)
@@ -852,7 +854,15 @@
 			       c
 			       (return-type-set e0))
 		  (move r t (return-type-set e0)))))
-	    (newline-between (semicolon-after c) (compile-return r)))))))))
+	    (newline-between
+	     (semicolon-after c)
+	     (if (and (native-procedure-type? u0)
+		      (converted-continuation? (callee-environment u0 y)))
+		 ;; This case was instituted to fix the bug in except.sc. I'm
+		 ;; not sure that this is the correct was to fix the bug. And I
+		 ;; don't know if we need to do a compile-restore here.
+		 (c:return)
+		 (compile-return r))))))))))
   ((foreign-procedure-type? u0)
    (when (can-be-non? null-type? w)
     (unimplemented y "APPLY of a foreign procedure is not (yet) implemented"))
@@ -1974,10 +1984,10 @@
   (if *tag-size?*
       (c:assert (c:== (c:sizeof *tag*) (c:fixnum *tag-size*)))
       (c:noop))
-  (if *squished-size?*
+  (if (and *squish?* *squished-size?*)
       (c:assert (c:== (c:sizeof *squished*) (c:fixnum *squished-size*)))
       (c:noop))
-  (if *squished-size?*
+  (if (and *squish?* *squished-size?*)
       (c:assert (c:== (c:sizeof *signed-squished*) (c:fixnum *squished-size*)))
       (c:noop))
   (newlines-between

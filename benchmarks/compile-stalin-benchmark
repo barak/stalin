@@ -4,16 +4,16 @@ ulimit -s unlimited
 ulimit -c 0
 case `uname -m` in
   i[3456]86)
-    s="-Ob -Om -On -Or -Ot -k -ia32"
+    s="-Ob -Om -On -Or -Ot -k -architecture IA32"
     c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
   sun4*)
-    s="-Ob -Om -On -Or -Ot -k -sparc"
+    s="-Ob -Om -On -Or -Ot -k -architecture SPARC"
     c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
   IP*)
-    s="-Ob -Om -On -Or -Ot -k -mips"
+    s="-Ob -Om -On -Or -Ot -k -architecture Mips"
     c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
   alpha)
-    s="-Ob -Om -On -Or -Ot -k -alpha"
+    s="-Ob -Om -On -Or -Ot -k -architecture Alpha"
     c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -ieee";;
   *)
     echo "Cannot (yet) run Stalin on this architecture"

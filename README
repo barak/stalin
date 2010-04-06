@@ -2,20 +2,21 @@
 	     Finally, a Lisp compiler that does what it should...
 
 			     Jeffrey Mark Siskind
-			 NEC Research Institute, Inc.
-			      4 Independence Way
-			 Princeton NJ 08540-6620 USA
-			     voice: 609/951-2705
-			      FAX: 609/951-2483
-			   Qobi@research.nj.nec.com
-			ftp://ftp.nj.nec.com/pub/qobi
-		  http://www.neci.nj.nec.com/homepages/qobi
+		School of Electrical and Computer Engineering
+			      Purdue University
+		  Electrical Engineering Building, Room 330
+			   465 Northwestern Avenue
+		       West Lafayette IN 47907-2035 USA
+			     voice: 765/496-3197
+			      fax: 765/494-6440
+			       qobi@purdue.edu
+		       http://www.ece.purdue.edu/~qobi
 
-			   Saturday 20 October 2001
+			    Monday 2 October 2006
 
 				 INTRODUCTION
 
-This is release 0.10 of Stalin, a global optimizing compiler for Scheme.  It is
+This is release 0.11 of Stalin, a global optimizing compiler for Scheme.  It is
 an alpha release and contains many known bugs.  Not everything is fully
 implemented.  This is the first self-hosting release.  Stalin can now compile
 itself.  Unlike previous releases, this release does not require you to have
@@ -197,12 +198,10 @@ compile and use Stalin, you must have a C compiler installed.
 
 To install Stalin, do:
 
-% uncompress stalin-0.10.tar.Z
-% tar xf stalin-0.10.tar
-% cd stalin-0.10
+% uncompress stalin-0.11.tar.Z
+% tar xf stalin-0.11.tar
+% cd stalin-0.11
 % ./build
-
-This takes about eleven minutes and 50M on a 450MHz Xeon with 512K L2.
 
 To test Stalin, do:
 
@@ -210,8 +209,7 @@ To test Stalin, do:
 % ./compile-and-run-stalin-benchmarks
 
 which will compile and run some sample programs including the Gabriel
-benchmarks.  This takes about an hour and 150M on a 450MHz Xeon with 512K L2.
-Stalin can now compile all of the Gabriel benchmarks.
+benchmarks.
 
 If you wish to compare the performance of Stalin against Scheme->C, Gambit-C,
 Bigloo, and Chez (assuming that you have these systems installed) you can do:
@@ -221,8 +219,7 @@ Bigloo, and Chez (assuming that you have these systems installed) you can do:
 This will compile all of the example with each of the Scheme compilers, run
 each example three times, and automatically produce a file `results.tex' with
 absolute CPU times for each benchmark and compiler as well as ratios of the
-CPU times used by Stalin vs. the other compilers.  This takes about two days
-and 150M on a 450MHz Xeon with 512K L2.
+CPU times used by Stalin vs. the other compilers.
 
 You might wish to put the executable `stalin' in your standard directory of
 executables.  You might also wish to put the man page `stalin.man' in your
@@ -267,18 +264,15 @@ and then do:
 % make
 
 which will first generate `stalin.c' from `stalin.sc' and then generate
-`stalin' from `stalin.c'.  This takes about 17 hours and 800M on a 450MHz Xeon
-with 512K L2.  This will automatically make a version that is appropriate for
-the architecture that you are running on.  If you wish to cross-generate C
-code for a different architecture, then do either:
+`stalin' from `stalin.c'.  This will automatically make a version that is
+appropriate for the architecture that you are running on.  If you wish to
+cross-generate C code for a different architecture, then do either:
 
 % make stalin-32.c
 
 or:
 
 % make stalin-Alpha.c
-
-This takes about 17 hours and 800M on a 450MHz Xeon with 512K L2.
 
 				    USAGE
 
@@ -411,7 +405,7 @@ compiler.
 				COMMUNICATION
 
 Bug mail should be addressed to Bug-Stalin@AI.MIT.EDU and not to me personally.
-Please include the version number (0.10) in the message.  Periodic
+Please include the version number (0.11) in the message.  Periodic
 announcements of bug fixes, enhancements, and new releases will be made to
 Info-Stalin@AI.MIT.EDU.  Send mail to Info-Stalin-Request@AI.MIT.EDU to be
 added to the Info-Stalin@AI.MIT.EDU mailing list.
@@ -419,7 +413,7 @@ added to the Info-Stalin@AI.MIT.EDU mailing list.
 				HOW TO OBTAIN
 
 The current release of Stalin is available by anonymous FTP from
-ftp://ftp.nj.nec.com/pub/qobi/stalin.tar.Z.
+ftp://ftp.ecn.nec.com/qobi/stalin.tar.Z.
 
 			       ACKNOWLEDGEMENTS
 

@@ -1,9 +1,7 @@
-# Stalin can be compiled with egcs when it is available.
-#CC = egcs
 CC = gcc
 
 OPTIONS = -d1 -d5 -d6 -On -t -c -db\
-          -clone-size-limit 5 -split-even-if-no-widening\
+          -clone-size-limit 4 -split-even-if-no-widening\
           -do-not-align-strings\
           -treat-all-symbols-as-external\
           -do-not-index-constant-structure-types-by-expression\
@@ -15,7 +13,8 @@ OPTIONS = -d1 -d5 -d6 -On -t -c -db\
 # this.
 
 stalin: stalin.c
-	$(CC) -o stalin -I./include -O2 -fomit-frame-pointer ${ARCH_OPTS} \
+	$(CC) -o stalin -I./include -O3 -fomit-frame-pointer\
+              -fno-strict-aliasing ${ARCH_OPTS}\
 	      stalin.c -L./include -lm -lgc
 	./post-make
 
@@ -77,8 +76,10 @@ stalin-PowerPC64.c: stalin.sc
 # "distclean" target?
 clean:
 	rm -f ./include/gc.h
+	rm -f ./include/gc_config_macros.h
 	rm -f ./include/libgc.a
 	rm -f ./include/libstalin.a
+	rm -f ./include/libTmk.a
 	rm -f ./include/stalin
 	rm -f ./stalin.c
 	rm -f ./stalin

@@ -43,6 +43,15 @@
 (define (collect-all) ((lambda ())))
 (define (collect-info) '(0))
 
+(define (flush-buffer port)
+ ((foreign-procedure (file*) int "fflush" "stdio") port))
+
+(define (make-file-port stdio-file mode) stdio-file)
+
+(define (port->stdio-file port) port)
+
+(define (time-of-day) (panic "TIME-OF-DAY is not (yet) implemented"))
+
 (define bit-not bitwise-not)
 
 (define bit-and bitwise-and)

@@ -1,9 +1,6 @@
 #!/bin/sh
 cd include
 rm -f libstalin.a
-# egcs can be used when it is available
-#egcs -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
-#egcs -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
 gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
 gcc -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
 ar rc libstalin.a xlib-c.o gl-c.c

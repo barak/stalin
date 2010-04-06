@@ -10,7 +10,7 @@ INSTALLLIBA = $(INSTALLLIB)/$(ARCHITECTURE_PATH)
 INSTALLBIN  = $(INSTALLDIR)/bin
 INSTALLBINA = $(INSTALLBIN)/$(ARCHITECTURE_PATH)
 
-RELEASE_VERSION = 0.10
+RELEASE_VERSION = 0.11
 RELEASE_FILE = stalin-$(RELEASE_VERSION)
 
 TARGETS = stalin
@@ -266,6 +266,54 @@ error_no_error:
 #i686-Linux-2.4.9-13 LRL = $(INSTALLLIBA)/QobiScheme.a\
 #i686-Linux-2.4.9-13       $(INSTALLLIBA)/scxl.a\
 #i686-Linux-2.4.9-13       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
+
+#i686-Linux-2.4.17-0.13ecn1 CC = gcc
+#i686-Linux-2.4.17-0.13ecn1 CFLAGS = -O2 -DLINUX
+#i686-Linux-2.4.17-0.13ecn1 SCCFLAGS = -O2
+#i686-Linux-2.4.17-0.13ecn1 SCCLDFLAGS =
+#i686-Linux-2.4.17-0.13ecn1 LRL = $(INSTALLLIBA)/QobiScheme.a\
+#i686-Linux-2.4.17-0.13ecn1       $(INSTALLLIBA)/scxl.a\
+#i686-Linux-2.4.17-0.13ecn1       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
+
+#i686-Linux-2.4.18-4_72smp CC = gcc
+#i686-Linux-2.4.18-4_72smp CFLAGS = -O2 -DLINUX
+#i686-Linux-2.4.18-4_72smp SCCFLAGS =
+#i686-Linux-2.4.18-4_72smp SCCLDFLAGS =
+#i686-Linux-2.4.18-4_72smp LRL = $(INSTALLLIBA)/QobiScheme.a\
+#i686-Linux-2.4.18-4_72smp       $(INSTALLLIBA)/scxl.a\
+#i686-Linux-2.4.18-4_72smp       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
+
+#i686-Linux-2.4.18-19.7.x CC = gcc
+#i686-Linux-2.4.18-19.7.x CFLAGS = -O2 -DLINUX
+#i686-Linux-2.4.18-19.7.x SCCFLAGS = -O2
+#i686-Linux-2.4.18-19.7.x SCCLDFLAGS =
+#i686-Linux-2.4.18-19.7.x LRL = $(INSTALLLIBA)/QobiScheme.a\
+#i686-Linux-2.4.18-19.7.x       $(INSTALLLIBA)/scxl.a\
+#i686-Linux-2.4.18-19.7.x       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
+
+#i686-Linux-2.4.18-24.7.x CC = gcc
+#i686-Linux-2.4.18-24.7.x CFLAGS = -O2 -DLINUX
+#i686-Linux-2.4.18-24.7.x SCCFLAGS = -O2
+#i686-Linux-2.4.18-24.7.x SCCLDFLAGS =
+#i686-Linux-2.4.18-24.7.x LRL = $(INSTALLLIBA)/QobiScheme.a\
+#i686-Linux-2.4.18-24.7.x       $(INSTALLLIBA)/scxl.a\
+#i686-Linux-2.4.18-24.7.x       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
+
+#i686-Linux-2.6.8.1 CC = gcc
+#i686-Linux-2.6.8.1 CFLAGS = -O2 -DLINUX
+#i686-Linux-2.6.8.1 SCCFLAGS =
+#i686-Linux-2.6.8.1 SCCLDFLAGS =
+#i686-Linux-2.6.8.1 LRL = $(INSTALLLIBA)/QobiScheme.a\
+#i686-Linux-2.6.8.1       $(INSTALLLIBA)/scxl.a\
+#i686-Linux-2.6.8.1       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
+
+#i686-Linux-2.6.15-1-k7-smp CC = gcc
+#i686-Linux-2.6.15-1-k7-smp CFLAGS = -O2 -DLINUX
+#i686-Linux-2.6.15-1-k7-smp SCCFLAGS =
+#i686-Linux-2.6.15-1-k7-smp SCCLDFLAGS =
+#i686-Linux-2.6.15-1-k7-smp LRL = $(INSTALLLIBA)/QobiScheme.a\
+#i686-Linux-2.6.15-1-k7-smp       $(INSTALLLIBA)/scxl.a\
+#i686-Linux-2.6.15-1-k7-smp       stalin{?,??}.o -L/usr/X11R6/lib -lX11 -lm
 
 #alpha-OSF1-V3.2 CC = cc
 #alpha-OSF1-V3.2 CFLAGS = -O4 -migrate -ieee_with_no_inexact
