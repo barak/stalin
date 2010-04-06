@@ -1,0 +1,5 @@
+*.a
+/.pc/
+/include/stalin
+/stalin
+/stalin.c
