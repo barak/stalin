@@ -1,12 +1,13 @@
 ;;; LaHaShem HaAretz U'Mloah
 
-;;; Stalin 0.10 - A global optimizing compiler for Scheme
+;;; Stalin 0.11 - A global optimizing compiler for Scheme
 ;;; Copyright 1993, 1994, and 1995 University of Toronto. All rights reserved.
 ;;; Copyright 1996 Technion. All rights reserved.
 ;;; Copyright 1996 and 1997 University of Vermont. All rights reserved.
 ;;; Copyright 1997, 1998, 1999, 2000, and 2001 NEC Research Institute, Inc. All
 ;;; rights reserved.
-;;; Copyright 2002 and 2003 Purdue University. All rights reserved.
+;;; Copyright 2002, 2003, 2004, 2005, and 2006 Purdue University. All rights
+;;; reserved.
 
 ;;; This program is free software; you can redistribute it and/or
 ;;; modify it under the terms of the GNU General Public License
@@ -24,14 +25,15 @@
 
 ;;; written by:
 ;;;    Jeffrey Mark Siskind
-;;;    NEC Research Institute, Inc.
-;;;    4 Independence Way
-;;;    Princeton NJ 08540-6620 USA
-;;;    voice: 609/951-2705
-;;;    FAX:   609/951-2483
-;;;    Qobi@research.nj.nec.com
-;;;    ftp://ftp.nj.nec.com/pub/qobi
-;;;    http://www.neci.nj.nec.com/homepages/qobi
+;;;    School of Electrical and Computer Engineering
+;;;    Purdue University
+;;;    Electrical Engineering Building, Room 330
+;;;    465 Northwestern Avenue
+;;;    West Lafayette IN 47907-2035 USA
+;;;    voice: 765/496-3197
+;;;    fax: 765/494-6440
+;;;    qobi@purdue.edu
+;;;    http://www.ece.purdue.edu/~qobi
 
 ;;; Begin delete for Trotsky
 (module stalin2)
@@ -46,15 +48,10 @@
 
 ;;; Begin delete for Trotsky
 
-(define (no-cursor) #f)
-
-(define (no-version) #f)
-
 (define (notify format-string . args)
  ;; conventions: FORMAT-STRING ARGS
  (let ((string (apply format #f format-string args)))
   (cond
-   (*october?* (fuck-up))
    (else (display string) (newline)))))
 
 (define (split-into-lines s)
@@ -72,7 +69,6 @@
 (define (notify-pp format-string . args)
  ;; conventions: FORMAT-STRING ARGS
  (cond
-  (*october?* (fuck-up))
   (else (let ((pretty? (write-pretty)))
 	 ;; conventions: PRETTY?
 	 (set-write-pretty! #t)
@@ -83,7 +79,6 @@
 (define (notify-pp3 format-string . args)
  ;; conventions: FORMAT-STRING ARGS
  (cond
-  (*october?* (fuck-up))
   (else (let ((level (write-level))
 	      (pretty? (write-pretty)))
 	 ;; conventions: LEVEL PRETTY?
@@ -94,7 +89,12 @@
 	 (set-write-pretty! pretty?))
 	(newline))))
 
-(define (terminate) (exit -1))
+(define *throw* #f)			;debugging
+
+(define (terminate)
+ (cond (*throw* (*throw* #f))		;debugging
+       (*october?* (abort))
+       (else (exit -1))))
 
 ;;; End delete for Trotsky
 

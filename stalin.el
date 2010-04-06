@@ -567,7 +567,8 @@
 
 (defun stalin:show-type-set (w)
  (ilisp-display-output-adaptively
-  (with-output-to-string (pp (stalin:externalize-type-set w)))))
+  (with-output-to-string (pp (stalin:externalize-type-set w)))
+  ilisp-arglist-output))
 
 (defun stalin:goto-variable (g)
  (let ((p (stalin:variable-character-position g)))

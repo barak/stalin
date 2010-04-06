@@ -1,12 +1,13 @@
 ;;; LaHaShem HaAretz U'Mloah
 
-;;; Stalin 0.10 - A global optimizing compiler for Scheme
+;;; Stalin 0.11 - A global optimizing compiler for Scheme
 ;;; Copyright 1993, 1994, and 1995 University of Toronto. All rights reserved.
 ;;; Copyright 1996 Technion. All rights reserved.
 ;;; Copyright 1996 and 1997 University of Vermont. All rights reserved.
 ;;; Copyright 1997, 1998, 1999, 2000, and 2001 NEC Research Institute, Inc. All
 ;;; rights reserved.
-;;; Copyright 2002 and 2003 Purdue University. All rights reserved.
+;;; Copyright 2002, 2003, 2004, 2005, and 2006 Purdue University. All rights
+;;; reserved.
 
 ;;; This program is free software; you can redistribute it and/or
 ;;; modify it under the terms of the GNU General Public License
@@ -24,14 +25,15 @@
 
 ;;; written by:
 ;;;    Jeffrey Mark Siskind
-;;;    NEC Research Institute, Inc.
-;;;    4 Independence Way
-;;;    Princeton NJ 08540-6620 USA
-;;;    voice: 609/951-2705
-;;;    FAX:   609/951-2483
-;;;    Qobi@research.nj.nec.com
-;;;    ftp://ftp.nj.nec.com/pub/qobi
-;;;    http://www.neci.nj.nec.com/homepages/qobi
+;;;    School of Electrical and Computer Engineering
+;;;    Purdue University
+;;;    Electrical Engineering Building, Room 330
+;;;    465 Northwestern Avenue
+;;;    West Lafayette IN 47907-2035 USA
+;;;    voice: 765/496-3197
+;;;    fax: 765/494-6440
+;;;    qobi@purdue.edu
+;;;    http://www.ece.purdue.edu/~qobi
 
 ;;; Begin delete for Trotsky
 (module stalin4a)
@@ -455,6 +457,7 @@
 
 (define (c:unsigned-char-cast c) (c:cast (space-between "unsigned" "char") c))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:fixnum-cast c) (c:cast *fixnum* c))
 
 (define (c:flonum-cast c) (c:cast *flonum* c))
@@ -575,14 +578,17 @@
 
 (define (c:>= c1 c2) (binary c1 ">=" c2))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:+ c1 c2) (if (equal? c2 "0") c1 (binary c1 "+" c2)))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:- c . cs)
  (when (> (length cs) 1) (fuck-up))
  (cond ((null? cs) (unary "-" c))
        ((equal? (first cs) "0") c)
        (else (binary c "-" (first cs)))))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:* c . cs)
  (when (> (length cs) 1) (fuck-up))
  (if (null? cs) (unary "*" c) (binary c "*" (first cs))))
@@ -594,8 +600,10 @@
  ;;             arguments.
  (binary c1 "%" c2))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:<< c1 c2) (if (equal? c2 "0") c1 (binary c1 "<<" c2)))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:>> c1 c2)
  ;; needs work: The >> operator in C is implementation dependent for negative
  ;;             arguments.
@@ -615,6 +623,7 @@
 
 (define (c:! c) (unary "!" c))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:++ c) (parentheses-around (c:protect (list c "++"))))
 
 ;;; C statement constructors
@@ -627,6 +636,7 @@
 
 (define (c::= c1 c2) (semicolon-after (c:= c1 c2)))
 
+;;; needs work: Calls to this might need checks for -On.
 (define (c:+= c1 c2)
  (semicolon-after
   (c:protect (space-between (unparenthesize c1) "+=" (unparenthesize c2)))))
@@ -1231,15 +1241,17 @@
 	(type-set-alignment (headed-vector-type-element u))))
   (else (fuck-up))))
 
-(define (no-pointer-members? w)
- (must-be? (lambda (u)
-	    (or (char-type? u)
-		(fictitious? u)
-		(fixnum-type? u)
-		;; needs work: Can be extended to allow squishing a singleton
-		;;             immediate structure if its slot is squished.
-		(degenerate-vector-type? u)))
-	   w))
+(define (pointer-member? u)
+ (and (not (char-type? u))
+      (not (fictitious? u))
+      (not (fixnum-type? u))
+      ;; needs work: Can be extended to allow squishing a singleton
+      ;;             immediate structure if its slot is squished.
+      (not (degenerate-vector-type? u))))
+
+(define (non-pointer-member? u) (not (pointer-member? u)))
+
+(define (no-pointer-members? w) (must-be? non-pointer-member? w))
 
 (define (squish-alignment w)
  (if (no-pointer-members? w)
@@ -1275,17 +1287,7 @@
      ;; stdin, and stdout. In fact, the only place where we do have control
      ;; over alignment is in the region allocator.
      (reduce min
-	     (map type-alignment&
-		  (members-that
-		   (lambda (u)
-		    (and (not (char-type? u))
-			 (not (fictitious? u))
-			 (not (fixnum-type? u))
-			 ;; needs work: Can be extended to allow squishing a
-			 ;;             singleton immediate structure if its
-			 ;;             slot is squished.
-			 (not (degenerate-vector-type? u))))
-		   w))
+	     (map type-alignment& (members-that pointer-member? w))
 	     ;; This can't happen if the type set is squished.
 	     #f)))
 
@@ -1692,23 +1694,21 @@
 	 (else (set-headed-vector-type-size?! u #t)
 	       *pointer-size*)))
   ((nonheaded-vector-type? u)
-   (cond
-    ((degenerate-vector-type? u)
-     (set! *length-size?* #t)
-     *length-size*)
-    (else
-     (set-nonheaded-vector-type-size?! u #t)
-     (align (+ (align *length-size* *pointer-alignment*) *pointer-size*)
-	    (type-alignment u)))))
+   (cond ((degenerate-vector-type? u)
+	  (set! *length-size?* #t)
+	  *length-size*)
+	 (else
+	  (set-nonheaded-vector-type-size?! u #t)
+	  (align (+ (align *length-size* *pointer-alignment*) *pointer-size*)
+		 (type-alignment u)))))
   ((displaced-vector-type? u)
-   (cond
-    ((degenerate-vector-type? u)
-     (set! *length-size?* #t)
-     *length-size*)
-    (else
-     (set-displaced-vector-type-size?! u #t)
-     (align (+ (align *length-size* *pointer-alignment*) *pointer-size*)
-	    (type-alignment u)))))
+   (cond ((degenerate-vector-type? u)
+	  (set! *length-size?* #t)
+	  *length-size*)
+	 (else
+	  (set-displaced-vector-type-size?! u #t)
+	  (align (+ (align *length-size* *pointer-alignment*) *pointer-size*)
+		 (type-alignment u)))))
   (else (fuck-up))))
 
 (define (type-set-size w)
@@ -2487,16 +2487,7 @@
   (cond ((char-type? u) 0)
 	((fictitious? u) 0)
 	((<= (length us) (expt 2 (squish-alignment w))) (positionq u us))
-	((can-be-non?
-	  (lambda (u)
-	   (or (char-type? u)
-	       (fictitious? u)
-	       (fixnum-type? u)
-	       ;; needs work: Can be extended to allow squishing a
-	       ;;             singleton immediate structure if its slot
-	       ;;             is squished.
-	       (degenerate-vector-type? u)))
-	  w)
+	((can-be? pointer-member? w)
 	 ;; This guarantees that a pointer member is assigned squish tag zero.
 	 (positionq
 	  u
@@ -2587,19 +2578,19 @@
      (if (some char-type? us)
 	 (if (memq (squeezed-member w) us)
 	     (c:if (c:< c1 (c:type-set-cast (c:char-offset) w))
-		   (c (the-member-that char-type? w))
+		   (c2 (the-member-that char-type? w))
 		   (c:if (c:>= c1 (c:type-set-cast (c:value-offset) w))
-			 (c (squeezed-member w))
+			 (c2 (squeezed-member w))
 			 (c3 #f)
 			 #f)
 		   #f)
 	     (c:if (c:< c1 (c:type-set-cast (c:char-offset) w))
-		   (c (the-member-that char-type? w))
+		   (c2 (the-member-that char-type? w))
 		   (c3 #f)
 		   #f))
 	 (if (memq (squeezed-member w) us)
 	     (c:if (c:>= c1 (c:type-set-cast (c:value-offset) w))
-		   (c (squeezed-member w))
+		   (c2 (squeezed-member w))
 		   (c3 #f)
 		   #f)
 	     (c3 #f)))
@@ -2661,24 +2652,37 @@
 		    #f)))))
 
 (define (compile-squished-type-switch us w c1 c2 c3 p?)
+ ;; We dispatch on C1 of type W. If the type U of C1 is in US we generate
+ ;; code by calling (C2 U). Otherwise we generate it with (C3 #f) because the
+ ;; error might occur.
+ ;; In our case W should be (union fixnum char) and US should be {char}.
+ ;; Neither fixnum nor char are fictitious.
+ ;; If W can be both a character and a nonfictitous noncharacter, then US2 is
+ ;; is the set of all nonfictitous noncharacter types in W. Otherwise US2 is
+ ;; the set of all nonfictitious types in W. I think that this means that US2
+ ;; is the set of all nonfictitous noncharacter types in W except when W has
+ ;; char but no other nonfictitious types in which case it is just char.
+ ;; In our case US2 should be {FIXNUM} and US1 should be empty.
  (define (c u) (if (memq u us) (c2 u) (c3 #f)))
  (if (and (not (some fictitious? us)) (can-be? fictitious? w))
-     (let ((us1 (members-that fictitious? w))
-	   (us2 (if (and (can-be? char-type? w)
-			 (can-be-non?
-			  (lambda (u) (or (char-type? u) (fictitious? u))) w))
+     ;; This case is taken when some fictitious types take the C3 branch.
+     (let ((us2 (if (can-be?
+		     (lambda (u)
+		      (and (pointer-member? u) (zero? (squish-tag u w))))
+		     w)
 		    (members-that
 		     (lambda (u)
 		      (and (not (char-type? u)) (not (fictitious? u)))) w)
 		    (members-that (lambda (u) (not (fictitious? u))) w))))
-      (if (can-be?
-	   (lambda (u)
-	    (or (fictitious? u)
-		(some (lambda (u1)
-		       (and (not (fictitious? u1))
-			    (= (squish-tag u w) (squish-tag u1 w))))
-		      us)))
-	   w)
+      ;; This holds when W contains a fictitious type or a nonfictitious type
+      ;; with the same squish tag.
+      (if (can-be? (lambda (u)
+		    (or (fictitious? u)
+			(some (lambda (u1)
+			       (and (not (fictitious? u1))
+				    (= (squish-tag u w) (squish-tag u1 w))))
+			      us)))
+		   w)
 	  (c:switch
 	   (extract-squish-tag c1 w)
 	   (map (lambda (u) (c:fixnum (squish-tag u w))) us2)
@@ -2723,9 +2727,11 @@
 	    us2)
 	   p?)))
      (let ((us1 (members-that fictitious? w))
-	   (us2 (if (and (can-be? char-type? w)
-			 (can-be-non?
-			  (lambda (u) (or (char-type? u) (fictitious? u))) w))
+	   ;; Exclude char if it can have a pointer member.
+	   (us2 (if (can-be?
+		     (lambda (u)
+		      (and (pointer-member? u) (zero? (squish-tag u w))))
+		     w)
 		    (members-that
 		     (lambda (u)
 		      (and (not (char-type? u)) (not (fictitious? u)))) w)
@@ -2734,14 +2740,15 @@
        c1
        (map c:type-tag us1)
        (map c us1)
-       (if (can-be?
-	    (lambda (u)
-	     (or (fictitious? u)
-		 (some (lambda (u1)
-			(and (not (fictitious? u1))
-			     (= (squish-tag u w) (squish-tag u1 w))))
-		       us)))
-	    w)
+       ;; This test is used only to decide if there needs to be a default in
+       ;; the switch for C3. It appears to be bogus.
+       (if (can-be? (lambda (u)
+		     (or (fictitious? u)
+			 (some (lambda (u1)
+				(and (not (fictitious? u1))
+				     (= (squish-tag u w) (squish-tag u1 w))))
+			       us)))
+		    w)
 	   (c:switch
 	    (extract-squish-tag c1 w)
 	    (map (lambda (u) (c:fixnum (squish-tag u w))) us2)
@@ -2779,10 +2786,12 @@
  (if (every fictitious? us)
      (c:defaultless-switch c1 (map c:type-tag us) (map c2 us) p?)
      (let ((us1 (remove-if-not fictitious? us))
-	   (us2 (if (and (some char-type? us)
-			 (not (every (lambda (u)
-				      (or (char-type? u) (fictitious? u)))
-				     us)))
+	   ;; US1 are all of the fictitious members. US2 are all of the
+	   ;; nonfictitious members. US2 only contains char is US contains
+	   ;; char and does not contain some other nonfictitous nonchar.
+	   (us2 (if (some (lambda (u)
+			   (and (pointer-member? u) (zero? (squish-tag u w))))
+			  us)
 		    (remove-if
 		     (lambda (u) (or (char-type? u) (fictitious? u))) us)
 		    (remove-if fictitious? us))))
@@ -2807,22 +2816,22 @@
 
 (define (compile-type-switch us w c1 c2 c3 p?)
  (define (c u) (if (memq u us) (c2 u) (c3 #f)))
- (if (and (every char-type? us) (can-be? (lambda (u) (not (char-type? u))) w))
+ (if (and (every char-type? us) (can-be-non? char-type? w))
      (if (some char-type? us)
 	 (c:if (c:< (c:tag c1 w) (c:char-offset))
-	       (c (the-member-that char-type? w))
+	       (c2 (the-member-that char-type? w))
 	       (c3 #f)
 	       #f)
 	 (c3 #f))
      (let ((us (members-that (lambda (u) (not (char-type? u))) w)))
       (if (can-be? char-type? w)
 	  (c:switch (c:tag c1 w)
-		    (map (lambda (u) (c:type-tag u)) us)
+		    (map c:type-tag us)
 		    (map c us)
 		    (c (the-member-that char-type? w))
 		    p?)
 	  (c:defaultless-switch
-	   (c:tag c1 w) (map (lambda (u) (c:type-tag u)) us) (map c us) p?)))))
+	   (c:tag c1 w) (map c:type-tag us) (map c us) p?)))))
 
 (define (compile-defaultless-type-switch us w c1 c2 p?)
  ;; This has the semantics that the behaviour is undefined when C1 takes on
@@ -2830,12 +2839,11 @@
  (if (some char-type? us)
      (let ((us (remove-if char-type? us)))
       (c:switch (c:tag c1 w)
-		(map (lambda (u) (c:type-tag u)) us)
+		(map c:type-tag us)
 		(map c2 us)
 		(c2 (the-member-that char-type? w))
 		p?))
-     (c:defaultless-switch
-      (c:tag c1 w) (map (lambda (u) (c:type-tag u)) us) (map c2 us) p?)))
+     (c:defaultless-switch (c:tag c1 w) (map c:type-tag us) (map c2 us) p?)))
 
 (define (break? r)
  ;; needs work: Should also eliminate the break when the code generated by a

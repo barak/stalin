@@ -17,10 +17,10 @@ then
     DEBIAN_SYSTEM=t
 fi
 
-if [ x"${DEBIAN_SYSTEM}" != x ]
-then
-  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
-fi
+#if [ x"${DEBIAN_SYSTEM}" != x ]
+#then
+#  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
+#fi
 
 case `uname -s`/`uname -r` in
   IRIX*/*)   RANLIB=touch;;
@@ -34,28 +34,29 @@ case `uname -s`/`uname -r` in
 # Might also try -DSILENT and either
 # -DUSE_I686_PREFETCH or -DUSE_3DNOW_PREFETCH
 
-if [ x"${DEBIAN_SYSTEM}" = x ]
-then
+# The Debian conditionalization has been removed since the Debian package for
+# the Boehm GC doesn't make the mods from gc-Makefile.sed.
+#if [ x"${DEBIAN_SYSTEM}" = x ]
+#then
   # Under Debian, we have libgc, but otherwise, don't assume we have the Boehm
   # GC available.
-  rm -rf gc6.1alpha5
-  gunzip -c gc6.1alpha5.tar.gz | tar xf -
-  rm -f gc6.1alpha5/Makefile.new
-  sed -f gc-Makefile.sed gc6.1alpha5/Makefile >gc6.1alpha5/Makefile.new
-  mv -f gc6.1alpha5/Makefile.new gc6.1alpha5/Makefile
-  cd gc6.1alpha5
+  rm -rf gc6.8
+  gunzip -c gc6.8.tar.gz | tar xf -
+  rm -f gc6.8/Makefile.new
+  sed -f gc-Makefile.sed gc6.8/Makefile >gc6.8/Makefile.new
+  mv -f gc6.8/Makefile.new gc6.8/Makefile
+  cd gc6.8
   make test
   cd ..
-  cp -f gc6.1alpha5/include/gc.h include/gc.h
-  cp -f gc6.1alpha5/gc.a include/libgc.a
+  cp -f gc6.8/include/gc.h include/.
+  cp -f gc6.8/gc.a include/libgc.a
+  cp -f gc6.8/include/gc_config_macros.h include/.
   $RANLIB include/libgc.a
-  rm -rf gc6.1alpha5
-fi
+  rm -rf gc6.8
+#fi
 
 cd include
 rm -f libstalin.a
-# egcs can be used when it is available
-#egcs -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
 gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
 ar rc libstalin.a xlib-c.o
 $RANLIB libstalin.a

@@ -1,4 +1,4 @@
-I am pleased to announce the availability of Stalin 0.10.  Stalin is an
+I am pleased to announce the availability of Stalin 0.11.  Stalin is an
 aggressively optimizing whole-program compiler for Scheme that does
 polyvariant interprocedural flow analysis, flow-directed interprocedural
 escape analysis, flow-directed lightweight CPS conversion, flow-directed
@@ -48,7 +48,6 @@ Major improvements of this release include:
 
   GPL: Stalin is now released under the GNU Public License, version 2.
 
-Stalin 0.10 runs on a variety of Unix and Linux platforms including Intel IA32,
+Stalin 0.11 runs on a variety of Unix and Linux platforms including Intel IA32,
 Sun SPARC, SGI MIPS, Compaq Alpha, Intel ARM, and Motorola M68K.  It is
-available by anonymous FTP from
-ftp://ftp.nj.nec.com/pub/qobi/stalin.tar.Z.
+available by anonymous FTP from ftp://ftp.ecn.purdue.edu/qobi/stalin.tar.Z.

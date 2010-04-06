@@ -2276,7 +2276,8 @@
 	       (vector-set! d ip (matrix-ref a ip ip)))
 	      n)
   (let loop ((i 0))
-   (when (> i 50) (panic "Too many iterations in JACOBI"))
+   ;; This was changed from 50 to 500 for center-surround.
+   (when (> i 500) (panic "Too many iterations in JACOBI"))
    (let ((sm (sum (lambda (ip)
 		   (sum (lambda (ir)
 			 (let ((iq (+ ip ir 1)))
@@ -4111,7 +4112,7 @@
  (foreign-procedure (void*) int "get_video_height"))
 
 (define c-get-video-red
- ;; changed
+ ;; changed: used to return unsigned
  (foreign-procedure (void* int int) int "get_video_red"))
 
 (define c-get-video-green
@@ -4123,7 +4124,7 @@
  (foreign-procedure (void* int int) int "get_video_blue"))
 
 (define c-close-video-input-port
- ;; changed: used to return unsigned
+ ;; changed
  (foreign-procedure (void*) void "close_video_input_port"))
 
 (define (video-type-enum video-type)

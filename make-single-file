@@ -1,15 +1,10 @@
 #!/bin/tcsh -f
 scc -o remove-extra-blank-lines remove-extra-blank-lines.sc
 rm -f remove-extra-blank-lines.c
-rm -f stalin{1,2,3{a,b},4{a,b,c,d},5{a,b,c,d,e}}.sc main.sc
 rm -f stalin.sc last-line.sc trotsky.sed
-foreach f (stalin{1,2,3{a,b},4{a,b,c,d},5{a,b,c,d,e}}.sc)
-  sed -f native.sed source/$f >$f
-  end
-sed -f native.sed source/stalin.sc >main.sc
 cat <<eof >trotsky.sed
 \+;;; Begin delete for Trotsky+,\+;;; End delete for Trotsky+d
-\+;;; Tam V'Nishlam Shevah L'El Borei Olam+,\+;;;    http://www.neci.nj.nec.com/homepages/qobi+d
+\+;;; Tam V'Nishlam Shevah L'El Borei Olam+,\+;;;    http://www.ece.purdue.edu/~qobi+d
 s/\\\\+\./+\./g
 s/\\\\-\./-\./g
 eof
@@ -17,21 +12,20 @@ cat <<eof >last-line.sc
 ;;; Tam V'Nishlam Shevah L'El Borei Olam
 eof
 cat lenin.sc\
-    stalin1.sc\
-    stalin2.sc\
-    stalin3a.sc\
-    stalin3b.sc\
-    stalin4a.sc\
-    stalin4b.sc\
-    stalin4c.sc\
-    stalin4d.sc\
-    stalin5a.sc\
-    stalin5b.sc\
-    stalin5c.sc\
-    stalin5d.sc\
-    stalin5e.sc\
-    main.sc\
+    source/stalin1.sc\
+    source/stalin2.sc\
+    source/stalin3a.sc\
+    source/stalin3b.sc\
+    source/stalin4a.sc\
+    source/stalin4b.sc\
+    source/stalin4c.sc\
+    source/stalin4d.sc\
+    source/stalin5a.sc\
+    source/stalin5b.sc\
+    source/stalin5c.sc\
+    source/stalin5d.sc\
+    source/stalin5e.sc\
+    source/stalin.sc\
     |sed -f trotsky.sed|cat - last-line.sc\
     |remove-extra-blank-lines >stalin.sc
-rm -f stalin{1,2,3{a,b},4{a,b,c,d},5{a,b,c,d,e}}.sc main.sc
 rm -f last-line.sc trotsky.sed remove-extra-blank-lines
