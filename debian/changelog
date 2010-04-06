@@ -1,3 +1,22 @@
+stalin (0.11-6) UNRELEASED; urgency=low
+
+  * Address lintian warnings:
+    - copyright-without-copyright-notice (debian/copyright)
+    - description-contains-duplicated-word: not not (debian/control)
+    - ancient-standards-version 3.6.1 (debian/control)
+    - debhelper-but-no-misc-depends (stalin stanza in debian/control)
+    - maintainer-script-lacks-debhelper-token (debian/prerm)
+    - patch-system-but-direct-changes-in-diff (stalin-arch-*.c)
+    - patch-system-but-no-source-readme
+  * Add Homepage: and Vcs-*: fields (debian/control)
+  * Move to Section: lisp and Priority: extra (debian/control)
+  * Support uscan (debian/watch)
+  * Switch to dpkg-source format 3.0 (quilt)
+  * update/modernise/simplify build (debian/rules, debian/stalin.install)
+  * .PHONY target so "debian/rules build" works despite ./build (debian/rules)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Sun, 07 Nov 2010 09:54:10 +0000
+
 stalin (0.11-5) unstable; urgency=low
 
   * Build with debugging information (gcc -g).
