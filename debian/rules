@@ -57,41 +57,7 @@ override_dh_auto_install:
 	cp -r include/* debian/stalin/usr/lib/stalin
 	install -s include/stalin debian/stalin/usr/lib/stalin/
 
-        # manpages
-	install -d debian/stalin/usr/share/man/man1
-	cp stalin.1 debian/stalin/usr/share/man/man1
-
-        # docs
-	install -d debian/stalin/usr/share/doc/stalin
-	install README ANNOUNCEMENT debian/stalin/usr/share/doc/stalin
-	install stalin.el debian/stalin/usr/share/doc/stalin
-	cp -a benchmarks debian/stalin/usr/share/doc/stalin
-
 	dh_auto_install
-
-override_dh_clean:
-	dh_clean
-	rm -rf debian/tmp-test
-	rm -f debian/tmp-src-lsdiff
-
-buildpackage: override_dh_testdir
-	dpkg-buildpackage -D -us -uc -rfakeroot -i'\.git|\.pc'
-	lsdiff -z \
-	  -x stalin-0.11/debian/'*' \
-	  -x stalin-0.11/stalin-arch-amd64.c \
-	  -x stalin-0.11/stalin-arch-i386.c \
-	  -x stalin-0.11/stalin-arch-ia64.c \
-	  -x stalin-0.11/stalin-arch-sparc.c \
-	  ../stalin_$(version).diff.gz \
-	    > debian/tmp-src-lsdiff
-	@if test -s debian/tmp-src-lsdiff; \
-	then \
-	  echo "Diffs found outside ./debian in ../stalin_$(version).diff.gz"; \
-	  cat debian/tmp-src-lsdiff; \
-	  false; \
-	fi
-
-.PHONY: buildpackage
 
 
 # Local variables:
