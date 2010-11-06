@@ -7,8 +7,12 @@ version := $(shell echo $(version) | perl -pe 's/^Version:\s+//o')
 build_cpu := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 
 
-%:
+dh_targets=build clean binary-indep binary-arch binary install
+
+$(dh_targets):
 	dh --with quilt $@
+
+.PHONY: $(dh_targets)
 
 override_dh_auto_build:
         ifeq ($(build_cpu),amd64)
