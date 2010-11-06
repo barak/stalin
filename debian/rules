@@ -10,19 +10,6 @@ build_cpu := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 %:
 	dh --with quilt $@
 
-override_dh_testdir:
-	dh_testdir
-	@if ! test -f stalin.sc; \
-	then \
-	  echo; \
-	  echo -n "The upstream source does not appear to be available."; \
-	  echo "  Please put the contents"; \
-	  echo -n "of $(upstream_archive) into the"; \
-	  echo " current directory."; \
-	  echo; \
-	  false; \
-	fi
-
 override_dh_auto_build:
         ifeq ($(build_cpu),amd64)
 	  CC_OPTIMIZATION="-g -O0" ./build
