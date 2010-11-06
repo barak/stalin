@@ -1,0 +1,2 @@
+debian/scripts/* usr/bin/
+include/* usr/lib/stalin/

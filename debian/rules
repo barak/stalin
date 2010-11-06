@@ -30,21 +30,6 @@ override_dh_auto_build:
         # These don't work on all debian platforms yet.
         #cd benchmarks && ./compile-and-run-stalin-old-benchmarks
 
-override_dh_auto_install:
-	rm -rf debian/stalin
-	install -d debian/stalin
-
-        # Binaries
-	install -d debian/stalin/usr/bin
-	cp debian/stalin-script debian/stalin/usr/bin/stalin
-
-        # libs (some of these should be in share, but stalin doesn't make the
-        # distinction ATM)
-	install -d debian/stalin/usr/lib/stalin
-	cp -r include/* debian/stalin/usr/lib/stalin
-	install -s include/stalin debian/stalin/usr/lib/stalin/
-
-	dh_auto_install
 
 
 # Local variables:
