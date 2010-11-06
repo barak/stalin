@@ -7,6 +7,8 @@ Build-Depends: debhelper (>= 7.0.50), libgc-dev, quilt, libx11-dev,
 Maintainer: Rob Browning <rlb@defaultvalue.org>
 Standards-Version: 3.9.1
 Homepage: http://www.ece.purdue.edu/~qobi/software.html
+Vcs-Git: git://git.debian.org/git/collab-maint/stalin.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/stalin.git
 
 Package: stalin
 Architecture: i386 amd64 ia64 sparc kfreebsd-i386 kfreebsd-amd64
