@@ -5,7 +5,7 @@ Build-Depends: debhelper (>= 7.0.50), libgc-dev, quilt, libx11-dev,
   libgl1-mesa-dev | libgl-dev,
   freeglut3-dev | libglut-dev
 Maintainer: Rob Browning <rlb@defaultvalue.org>
-Standards-Version: 3.8.4
+Standards-Version: 3.9.1
 Homepage: http://www.ece.purdue.edu/~qobi/software.html
 
 Package: stalin
