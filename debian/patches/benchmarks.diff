@@ -1,0 +1,14 @@
+diff --git a/benchmarks/compile-stalin-benchmark b/benchmarks/compile-stalin-benchmark
+index b8ec6e6..63e39f9 100755
+--- a/benchmarks/compile-stalin-benchmark
++++ b/benchmarks/compile-stalin-benchmark
+@@ -6,6 +6,9 @@ case `uname -m` in
+   i[3456]86)
+     s="-Ob -Om -On -Or -Ot -k -architecture IA32"
+     c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
++  x86_64)
++    s="-Ob -Om -On -Or -Ot -k -architecture amd64"
++    c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
+   sun4*)
+     s="-Ob -Om -On -Or -Ot -k -architecture SPARC"
+     c="-copt -O3 -copt -fomit-frame-pointer -copt -Wall -copt -freg-struct-return";;
