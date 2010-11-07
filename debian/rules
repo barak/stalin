@@ -15,12 +15,7 @@ $(dh_targets):
 .PHONY: $(dh_targets)
 
 override_dh_auto_build:
-        ifeq ($(build_cpu),amd64)
-	  CC_OPTIMIZATION="-g -O0" ./build
-        else
-	  CC_OPTIMIZATION="-g -O2" ./build
-        endif
-
+	CC_OPTIMIZATION="-g -O2" ./build
 	./build-gl-fpi
 
         # Tests
