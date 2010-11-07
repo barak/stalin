@@ -33,9 +33,3 @@ override_dh_auto_build:
 
         # These don't work on all debian platforms yet.
         #cd benchmarks && ./compile-and-run-stalin-old-benchmarks
-
-
-
-# Local variables:
-# mode: makefile
-# End:
