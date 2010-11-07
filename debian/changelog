@@ -14,8 +14,9 @@ stalin (0.11-6) UNRELEASED; urgency=low
   * Switch to dpkg-source format 3.0 (quilt)
   * update/modernise/simplify build (debian/rules, debian/stalin.install)
   * .PHONY target so "debian/rules build" works despite ./build (debian/rules)
+  * remove conditional backing down from -O2 to -O0 on amd64 (debian/rules)
 
- -- Barak A. Pearlmutter <bap@debian.org>  Sun, 07 Nov 2010 09:54:10 +0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Sun, 07 Nov 2010 16:24:58 +0000
 
 stalin (0.11-5) unstable; urgency=low
 
