@@ -1,8 +1,8 @@
-Index: stalin-0.11/build
-===================================================================
---- stalin-0.11.orig/build	2006-11-11 13:58:34.000000000 -0800
-+++ stalin-0.11/build	2006-11-11 14:11:39.000000000 -0800
-@@ -22,6 +22,11 @@
+diff --git a/build b/build
+index cb39b48..93f7841 100755
+--- a/build
++++ b/build
+@@ -22,6 +22,11 @@ fi
  #  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
  #fi
  
@@ -14,19 +14,19 @@ Index: stalin-0.11/build
  case `uname -s`/`uname -r` in
    IRIX*/*)   RANLIB=touch;;
    SunOS/5.*) RANLIB=touch;;
-@@ -57,7 +62,7 @@
+@@ -58,7 +63,7 @@ case `uname -s`/`uname -r` in
  
  cd include
  rm -f libstalin.a
--gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
-+${CC} -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+-gcc -c -O3 -fomit-frame-pointer -freg-struct-return xlib-c.c
++${CC} -c -O3 -fomit-frame-pointer -freg-struct-return xlib-c.c
  ar rc libstalin.a xlib-c.o
  $RANLIB libstalin.a
  rm xlib-c.o
-Index: stalin-0.11/build-gl-fpi
-===================================================================
---- stalin-0.11.orig/build-gl-fpi	2006-11-11 13:58:34.000000000 -0800
-+++ stalin-0.11/build-gl-fpi	2006-11-11 14:11:39.000000000 -0800
+diff --git a/build-gl-fpi b/build-gl-fpi
+index 39d6263..ffc5a56 100755
+--- a/build-gl-fpi
++++ b/build-gl-fpi
 @@ -1,8 +1,14 @@
  #!/bin/sh
 +
@@ -44,18 +44,18 @@ Index: stalin-0.11/build-gl-fpi
  ar rc libstalin.a xlib-c.o gl-c.c
  case `uname -s`/`uname -r` in
    IRIX*/*)   RANLIB=touch;;
-Index: stalin-0.11/makefile
-===================================================================
---- stalin-0.11.orig/makefile	2006-11-11 13:58:34.000000000 -0800
-+++ stalin-0.11/makefile	2006-11-11 14:12:01.000000000 -0800
+diff --git a/makefile b/makefile
+index 6f61a29..812dac8 100644
+--- a/makefile
++++ b/makefile
 @@ -1,4 +1,5 @@
 -CC = gcc
 +
 +stalin ?= ./stalin
  
  OPTIONS = -d1 -d5 -d6 -On -t -c -db\
-           -clone-size-limit 4 -split-even-if-no-widening\
-@@ -22,54 +23,54 @@
+           -clone-size-limit 0 -split-even-if-no-widening\
+@@ -22,54 +23,54 @@ stalin-architecture: stalin-architecture.c
  	$(CC) -o stalin-architecture stalin-architecture.c
  
  stalin.c: stalin.sc
@@ -122,4 +122,4 @@ Index: stalin-0.11/makefile
 +	$(stalin) $(OPTIONS) -architecture PowerPC64 stalin
  	mv -f stalin.c stalin-PowerPC64.c
  
- # Should ./include/stalin, ./stalin.c, and ./stalin only be deleted in a
+ stalin-AMD64.c: stalin.sc
