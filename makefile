@@ -1,7 +1,7 @@
 CC = gcc
 
 OPTIONS = -d1 -d5 -d6 -On -t -c -db\
-          -clone-size-limit 4 -split-even-if-no-widening\
+          -clone-size-limit 0 -split-even-if-no-widening\
           -do-not-align-strings\
           -treat-all-symbols-as-external\
           -do-not-index-constant-structure-types-by-expression\
@@ -71,6 +71,10 @@ stalin-S390.c: stalin.sc
 stalin-PowerPC64.c: stalin.sc
 	./stalin $(OPTIONS) -architecture PowerPC64 stalin
 	mv -f stalin.c stalin-PowerPC64.c
+
+stalin-AMD64.c: stalin.sc
+	./stalin $(OPTIONS) -architecture AMD64 stalin
+	mv -f stalin.c stalin-AMD64.c
 
 # Should ./include/stalin, ./stalin.c, and ./stalin only be deleted in a
 # "distclean" target?

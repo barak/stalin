@@ -34,6 +34,7 @@ case `uname -s`/`uname -r` in
 # Might also try -DSILENT and either
 # -DUSE_I686_PREFETCH or -DUSE_3DNOW_PREFETCH
 
+
 # The Debian conditionalization has been removed since the Debian package for
 # the Boehm GC doesn't make the mods from gc-Makefile.sed.
 #if [ x"${DEBIAN_SYSTEM}" = x ]
@@ -57,7 +58,7 @@ case `uname -s`/`uname -r` in
 
 cd include
 rm -f libstalin.a
-gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+gcc -c -O3 -fomit-frame-pointer -freg-struct-return xlib-c.c
 ar rc libstalin.a xlib-c.o
 $RANLIB libstalin.a
 rm xlib-c.o

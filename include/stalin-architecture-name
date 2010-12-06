@@ -28,6 +28,8 @@ case `uname -m`/`uname -s` in
     echo "PowerPC64";;
   000661734C00/AIX)
     echo "PowerPC64";;
+  x86_64/Linux)
+    echo "AMD64";;
   *)
     echo "unknown";;
   esac
