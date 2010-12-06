@@ -1,5 +1,5 @@
 #!/bin/sh
 lib=`pwd`/include
 mv stalin $lib
-(echo "#!/bin/sh"; echo "exec $lib/stalin -I $lib -copt -fno-strict-aliasing "'$@') >stalin
+(echo "#!/bin/sh"; echo "ulimit -s unlimited"; echo "exec $lib/stalin -I $lib -copt -fno-strict-aliasing "'$@') >stalin
 chmod a+x stalin

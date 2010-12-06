@@ -2,7 +2,7 @@
 ;;;   IA32, ARM, M68K, PowerPC
 ;;;   IA32-align-double, SPARC64, S390
 ;;;   SPARC
-;;;   SPARCv9, Alpha
+;;;   SPARCv9, Alpha, AMD64
 ;;;   MIPS
 ;;;   PowerPC64
 
@@ -410,4 +410,37 @@
   4					;*length-size*
   4					;*tag-size*
   8					;*squished-size*
-  #t))					;*include-malloc-for-alloca?*
+  #t)					;*include-malloc-for-alloca?*
+ ("AMD64"
+  ;; OS: Linux, probably others
+  ;; compiler: gcc, probably others
+  ;; compiler options: default
+  "char"				;*char*
+  "int"					;*fixnum*
+  "float"				;*flonum* when float
+  "double"				;*flonum* when double
+  "unsigned"				;*length*
+  "unsigned"				;*tag*
+  "unsigned long"				;*squished*
+  "long"					;*signed-squished*
+  "FILE"				;*file*
+  "jmp_buf"				;*jmpbuf*
+  0					;*char-alignment*
+  2					;*fixnum-alignment*
+  2					;*flonum-alignment* when float
+  3					;*flonum-alignment* when double
+  3					;*pointer-alignment*
+  2					;*length-alignment*
+  2					;*tag-alignment*
+  3					;*squished-alignment*
+  3					;*file-alignment*
+  3					;*jmpbuf-alignment*
+  1					;*char-size*
+  4					;*fixnum-size*
+  4					;*flonum-size* when float
+  8					;*flonum-size* when double
+  8					;*pointer-size*
+  4					;*length-size*
+  4					;*tag-size*
+  8					;*squished-size*
+  #f))					;*include-malloc-for-alloca?*
