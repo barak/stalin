@@ -1,4 +1,4 @@
-#!/bin/tcsh -f
+#!/bin/sh
 scc -o remove-extra-blank-lines remove-extra-blank-lines.sc
 rm -f remove-extra-blank-lines.c
 rm -f stalin.sc last-line.sc trotsky.sed
