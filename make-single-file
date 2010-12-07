@@ -11,21 +11,21 @@ eof
 cat <<eof >last-line.sc
 ;;; Tam V'Nishlam Shevah L'El Borei Olam
 eof
-cat lenin.sc\
-    source/stalin1.sc\
-    source/stalin2.sc\
-    source/stalin3a.sc\
-    source/stalin3b.sc\
-    source/stalin4a.sc\
-    source/stalin4b.sc\
-    source/stalin4c.sc\
-    source/stalin4d.sc\
-    source/stalin5a.sc\
-    source/stalin5b.sc\
-    source/stalin5c.sc\
-    source/stalin5d.sc\
-    source/stalin5e.sc\
-    source/stalin.sc\
-    |sed -f trotsky.sed|cat - last-line.sc\
-    |remove-extra-blank-lines >stalin.sc
+cat lenin.sc \
+    source/stalin1.sc \
+    source/stalin2.sc \
+    source/stalin3a.sc \
+    source/stalin3b.sc \
+    source/stalin4a.sc \
+    source/stalin4b.sc \
+    source/stalin4c.sc \
+    source/stalin4d.sc \
+    source/stalin5a.sc \
+    source/stalin5b.sc \
+    source/stalin5c.sc \
+    source/stalin5d.sc \
+    source/stalin5e.sc \
+    source/stalin.sc \
+    | sed -f trotsky.sed | cat - last-line.sc \
+    | ./remove-extra-blank-lines > stalin.sc
 rm -f last-line.sc trotsky.sed remove-extra-blank-lines
