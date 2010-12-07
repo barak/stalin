@@ -16,8 +16,9 @@ stalin (0.11-6) UNRELEASED; urgency=low
   * .PHONY target so "debian/rules build" works despite ./build (debian/rules)
   * remove conditional backing down from -O2 to -O0 on amd64 (debian/rules)
   * merge upstream patch, update debian patches accordingly (debian/patches/)
+  * dh --parallel, dh 8
 
- -- Barak A. Pearlmutter <bap@debian.org>  Tue, 07 Dec 2010 10:12:14 +0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Tue, 07 Dec 2010 10:16:31 +0000
 
 stalin (0.11-5) unstable; urgency=low
 
