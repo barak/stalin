@@ -1,6 +1,4 @@
 #!/bin/sh
-scc -o remove-extra-blank-lines remove-extra-blank-lines.sc
-rm -f remove-extra-blank-lines.c
 rm -f stalin.sc last-line.sc trotsky.sed
 cat <<eof >trotsky.sed
 \+;;; Begin delete for Trotsky+,\+;;; End delete for Trotsky+d
@@ -27,5 +25,5 @@ cat lenin.sc \
     source/stalin5e.sc \
     source/stalin.sc \
     | sed -f trotsky.sed | cat - last-line.sc \
-    | ./remove-extra-blank-lines > stalin.sc
-rm -f last-line.sc trotsky.sed remove-extra-blank-lines
+    | cat --squeeze-blank > stalin.sc
+rm -f last-line.sc trotsky.sed
