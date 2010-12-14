@@ -24,6 +24,5 @@ cat lenin.sc \
     source/stalin5d.sc \
     source/stalin5e.sc \
     source/stalin.sc \
-    | sed -f trotsky.sed | cat - last-line.sc \
-    | cat --squeeze-blank > stalin.sc
+    | sed -f trotsky.sed | cat --squeeze-blank - last-line.sc > stalin.sc
 rm -f last-line.sc trotsky.sed
