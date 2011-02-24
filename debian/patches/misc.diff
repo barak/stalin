@@ -227,17 +227,6 @@ index 4f8d348..014e171 100644
 +  4					;*squished-size*
 +  #f)					;*include-malloc-for-alloca?*
 + )
-diff --git a/make-single-file b/make-single-file
-index ac650a7..edc757b 100755
---- a/make-single-file
-+++ b/make-single-file
-@@ -27,5 +27,5 @@ cat lenin.sc\
-     source/stalin5e.sc\
-     source/stalin.sc\
-     |sed -f trotsky.sed|cat - last-line.sc\
--    |remove-extra-blank-lines >stalin.sc
-+    |./remove-extra-blank-lines >stalin.sc
- rm -f last-line.sc trotsky.sed remove-extra-blank-lines
 diff --git a/makefile b/makefile
 index 812dac8..2524d3a 100644
 --- a/makefile
