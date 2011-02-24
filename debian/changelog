@@ -17,6 +17,7 @@ stalin (0.11-6) UNRELEASED; urgency=low
   * remove conditional backing down from -O2 to -O0 on amd64 (debian/rules)
   * merge upstream patch, update debian patches accordingly (debian/patches/)
   * dh --parallel, dh 8
+  * remove patch to make-single-file (debian/patches/misc.diff)
 
  -- Barak A. Pearlmutter <bap@debian.org>  Tue, 07 Dec 2010 10:16:31 +0000
 
