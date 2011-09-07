@@ -13,8 +13,8 @@ Vcs-Browser: http://git.debian.org/?p=collab-maint/stalin.git
 Package: stalin
 Architecture: i386 amd64 ia64 sparc kfreebsd-i386 kfreebsd-amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, libgc-dev, dpkg-dev
-Description: An extremely aggressive Scheme compiler
- stalin is an aggressive self-hosting Scheme compiler, designed to
+Description: Extremely aggressive Scheme compiler
+ Stalin is an aggressive self-hosting Scheme compiler, designed to
  generate resource efficient stand-alone executables with very high
  computational performance.  It is a batch mode compiler like gcc, not
  an interpreter, and is designed to be used only after your code has
@@ -30,4 +30,4 @@ Description: An extremely aggressive Scheme compiler
  and dispatching, and omit garbage collection for data of limited
  scope or accessibility, while omitting unreachable data altogether.
  .
- stalin also has a foreign procedure interface to both Xlib and OpenGL.
+ Stalin also has a foreign procedure interface to both Xlib and OpenGL.
