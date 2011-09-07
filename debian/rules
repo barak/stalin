@@ -7,9 +7,9 @@ version := $(shell echo $(version) | perl -pe 's/^Version:\s+//o')
 build_cpu := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 
 
-dh_targets=build clean binary-indep binary-arch binary install
+dh_targets=binary binary-arch binary-indep build build-arch build-indep clean install
 
-$(dh_targets):
+$(dh_targets) %:
 	dh $@ --with quilt --parallel
 
 .PHONY: $(dh_targets)
