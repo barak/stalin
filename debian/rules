@@ -10,7 +10,7 @@ build_cpu := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 dh_targets=binary binary-arch binary-indep build build-arch build-indep clean install
 
 $(dh_targets) %:
-	dh $@ --with quilt --parallel
+	dh $@ --parallel
 
 .PHONY: $(dh_targets)
 
