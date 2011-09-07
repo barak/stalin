@@ -1,0 +1,139 @@
+From: Rob Browning <rlb@defaultvalue.org>
+Date: Wed, 7 Sep 2011 16:02:52 +0100
+Subject: allow compiler selection
+
+instead of hardwiring gcc or stalin as the compiler at various phases,
+allow them to be specified with a variable that can be externally
+specified, merely defaulting to the above.
+---
+ build        |    7 ++++++-
+ build-gl-fpi |   10 ++++++++--
+ makefile     |   29 +++++++++++++++--------------
+ 3 files changed, 29 insertions(+), 17 deletions(-)
+
+diff --git a/build b/build
+index cb39b48..93f7841 100755
+--- a/build
++++ b/build
+@@ -22,6 +22,11 @@ fi
+ #  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
+ #fi
+ 
++if [ x"${CC}" = x ]
++then
++  CC=gcc
++fi
++
+ case `uname -s`/`uname -r` in
+   IRIX*/*)   RANLIB=touch;;
+   SunOS/5.*) RANLIB=touch;;
+@@ -58,7 +63,7 @@ case `uname -s`/`uname -r` in
+ 
+ cd include
+ rm -f libstalin.a
+-gcc -c -O3 -fomit-frame-pointer -freg-struct-return xlib-c.c
++${CC} -c -O3 -fomit-frame-pointer -freg-struct-return xlib-c.c
+ ar rc libstalin.a xlib-c.o
+ $RANLIB libstalin.a
+ rm xlib-c.o
+diff --git a/build-gl-fpi b/build-gl-fpi
+index 39d6263..ffc5a56 100755
+--- a/build-gl-fpi
++++ b/build-gl-fpi
+@@ -1,8 +1,14 @@
+ #!/bin/sh
++
++if [ x"${CC}" = x ]
++then
++  CC=gcc
++fi
++
+ cd include
+ rm -f libstalin.a
+-gcc -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
+-gcc -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
++${CC} -c -O2 -fomit-frame-pointer -freg-struct-return xlib-c.c
++${CC} -c -O2 -fomit-frame-pointer -freg-struct-return gl-c.c
+ ar rc libstalin.a xlib-c.o gl-c.c
+ case `uname -s`/`uname -r` in
+   IRIX*/*)   RANLIB=touch;;
+diff --git a/makefile b/makefile
+index 6f61a29..812dac8 100644
+--- a/makefile
++++ b/makefile
+@@ -1,4 +1,5 @@
+-CC = gcc
++
++stalin ?= ./stalin
+ 
+ OPTIONS = -d1 -d5 -d6 -On -t -c -db\
+           -clone-size-limit 0 -split-even-if-no-widening\
+@@ -22,54 +23,54 @@ stalin-architecture: stalin-architecture.c
+ 	$(CC) -o stalin-architecture stalin-architecture.c
+ 
+ stalin.c: stalin.sc
+-	./stalin $(OPTIONS) stalin
++	$(stalin) $(OPTIONS) stalin
+ 
+ stalin-IA32.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture IA32 stalin
++	$(stalin) $(OPTIONS) -architecture IA32 stalin
+ 	mv -f stalin.c stalin-IA32.c
+ 
+ stalin-IA32-align-double.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture IA32-align-double stalin
++	$(stalin) $(OPTIONS) -architecture IA32-align-double stalin
+ 	mv -f stalin.c stalin-IA32-align-double.c
+ 
+ stalin-SPARC.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture SPARC stalin
++	$(stalin) $(OPTIONS) -architecture SPARC stalin
+ 	mv -f stalin.c stalin-SPARC.c
+ 
+ stalin-SPARCv9.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture SPARCv9 stalin
++	$(stalin) $(OPTIONS) -architecture SPARCv9 stalin
+ 	mv -f stalin.c stalin-SPARCv9.c
+ 
+ stalin-SPARC64.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture SPARC64 stalin
++	$(stalin) $(OPTIONS) -architecture SPARC64 stalin
+ 	mv -f stalin.c stalin-SPARC64.c
+ 
+ stalin-MIPS.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture MIPS stalin
++	$(stalin) $(OPTIONS) -architecture MIPS stalin
+ 	mv -f stalin.c stalin-MIPS.c
+ 
+ stalin-Alpha.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture Alpha stalin
++	$(stalin) $(OPTIONS) -architecture Alpha stalin
+ 	mv -f stalin.c stalin-Alpha.c
+ 
+ stalin-ARM.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture ARM stalin
++	$(stalin) $(OPTIONS) -architecture ARM stalin
+ 	mv -f stalin.c stalin-ARM.c
+ 
+ stalin-M68K.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture M68K stalin
++	$(stalin) $(OPTIONS) -architecture M68K stalin
+ 	mv -f stalin.c stalin-M68K.c
+ 
+ stalin-PowerPC.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture PowerPC stalin
++	$(stalin) $(OPTIONS) -architecture PowerPC stalin
+ 	mv -f stalin.c stalin-PowerPC.c
+ 
+ stalin-S390.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture S390 stalin
++	$(stalin) $(OPTIONS) -architecture S390 stalin
+ 	mv -f stalin.c stalin-S390.c
+ 
+ stalin-PowerPC64.c: stalin.sc
+-	./stalin $(OPTIONS) -architecture PowerPC64 stalin
++	$(stalin) $(OPTIONS) -architecture PowerPC64 stalin
+ 	mv -f stalin.c stalin-PowerPC64.c
+ 
+ stalin-AMD64.c: stalin.sc
+-- 

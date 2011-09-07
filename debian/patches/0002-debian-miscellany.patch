@@ -1,0 +1,342 @@
+From: Rob Browning <rlb@defaultvalue.org>
+Date: Wed, 7 Sep 2011 16:02:52 +0100
+Subject: debian miscellany
+
+Use the internal libgc, even on Debian, because the Debian package for
+the Boehm GC doesn't make the mods in gc-Makefile.sed and runs out of
+RAM during a bootstrap build.
+
+Use standard debian mechanism for determining build architecture.
+
+Add amd64 stanza to include/stalin.architectures
+
+Abstract out optimisation level, defaulting to -O3 if not set.
+
+Abstract out per-architecture precompiled stalin C generation.
+---
+ build                            |   25 +++++---
+ include/stalin-architecture-name |   12 ++++
+ include/stalin.architectures     |  128 +++++++++++++++++++++++++++++++++++++-
+ makefile                         |   61 ++++--------------
+ 4 files changed, 168 insertions(+), 58 deletions(-)
+
+diff --git a/build b/build
+index 93f7841..78a5f55 100755
+--- a/build
++++ b/build
+@@ -1,5 +1,7 @@
+ #!/bin/sh
+ 
++set -e
++
+ # On SPARCv9 under Solaris you need to use cc since gcc doesn't support
+ # SPARCv9 under Solaris.
+ 
+@@ -17,11 +19,6 @@ then
+     DEBIAN_SYSTEM=t
+ fi
+ 
+-#if [ x"${DEBIAN_SYSTEM}" != x ]
+-#then
+-#  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
+-#fi
+-
+ if [ x"${CC}" = x ]
+ then
+   CC=gcc
+@@ -40,14 +37,22 @@ case `uname -s`/`uname -r` in
+ # -DUSE_I686_PREFETCH or -DUSE_3DNOW_PREFETCH
+ 
+ 
+-# The Debian conditionalization has been removed since the Debian package for
+-# the Boehm GC doesn't make the mods from gc-Makefile.sed.
+-#if [ x"${DEBIAN_SYSTEM}" = x ]
++# For now we use the internal libgc, even on Debian, because the
++# Debian package for the Boehm GC doesn't make the mods in
++# gc-Makefile.sed and runs out of RAM during a bootstrap build.
++
++#if [ x"${DEBIAN_SYSTEM}" != x ]
+ #then
++#  ARCH_OPTS="${ARCH_OPTS} -g -I/usr/include/gc"
++#fi
++
++if true
++then
+   # Under Debian, we have libgc, but otherwise, don't assume we have the Boehm
+   # GC available.
+   rm -rf gc6.8
+   gunzip -c gc6.8.tar.gz | tar xf -
++  (cd gc6.8 && patch -p1 < ../debian/patches/libgc-amd64.diff)
+   rm -f gc6.8/Makefile.new
+   sed -f gc-Makefile.sed gc6.8/Makefile >gc6.8/Makefile.new
+   mv -f gc6.8/Makefile.new gc6.8/Makefile
+@@ -59,7 +64,7 @@ case `uname -s`/`uname -r` in
+   cp -f gc6.8/include/gc_config_macros.h include/.
+   $RANLIB include/libgc.a
+   rm -rf gc6.8
+-#fi
++fi
+ 
+ cd include
+ rm -f libstalin.a
+@@ -74,7 +79,7 @@ case `./include/stalin-architecture-name` in
+     echo "Cannot (yet) run Stalin on this architecture"
+     exit 1;;
+   *)
+-    cp -f stalin-`./include/stalin-architecture-name`.c stalin.c;;
++    cp -f stalin-arch-`./include/stalin-architecture-name`.c stalin.c;;
+   esac
+ 
+ # Stalin can be compiled with -freg-struct-return on most platforms. But gcc
+diff --git a/include/stalin-architecture-name b/include/stalin-architecture-name
+index 79c5e5e..bf09564 100755
+--- a/include/stalin-architecture-name
++++ b/include/stalin-architecture-name
+@@ -1,4 +1,16 @@
+ #!/bin/sh
++
++if test -e /etc/debian_version
++then
++  if test -z `which dpkg-architecture`
++  then
++    echo "Please install the dpkg-dev package."
++    exit 1
++  fi
++  echo `dpkg-architecture -qDEB_HOST_ARCH_CPU`
++  exit 0
++fi
++
+ case `uname -m`/`uname -s` in
+   i[3456]86/*)
+     echo "IA32";;
+diff --git a/include/stalin.architectures b/include/stalin.architectures
+index 4f8d348..014e171 100644
+--- a/include/stalin.architectures
++++ b/include/stalin.architectures
+@@ -1,3 +1,5 @@
++;;; -*-scheme-*-
++
+ ;;; There are the following equivalence classes of architectures:
+ ;;;   IA32, ARM, M68K, PowerPC
+ ;;;   IA32-align-double, SPARC64, S390
+@@ -443,4 +445,128 @@
+   4					;*length-size*
+   4					;*tag-size*
+   8					;*squished-size*
+-  #f))					;*include-malloc-for-alloca?*
++  #f)					;*include-malloc-for-alloca?*
++ ("amd64"
++  ;; Debian amd64
++  "char"				;*char*
++  "int"					;*fixnum*
++  "float"				;*flonum* when float
++  "double"				;*flonum* when double
++  "unsigned"				;*length*
++  "unsigned"				;*tag*
++  "unsigned long"				;*squished*
++  "long"					;*signed-squished*
++  "FILE"				;*file*
++  "jmp_buf"				;*jmpbuf*
++  0					;*char-alignment*
++  2					;*fixnum-alignment*
++  2					;*flonum-alignment* when float
++  3					;*flonum-alignment* when double
++  3					;*pointer-alignment*
++  2					;*length-alignment*
++  2					;*tag-alignment*
++  3					;*squished-alignment*
++  3					;*file-alignment*
++  3					;*jmpbuf-alignment*
++  1					;*char-size*
++  4					;*fixnum-size*
++  4					;*flonum-size* when float
++  8					;*flonum-size* when double
++  8					;*pointer-size*
++  4					;*length-size*
++  4					;*tag-size*
++  8					;*squished-size*
++  #f)					;*include-malloc-for-alloca?*
++ ("ia64"
++  ;; Debian ia64
++  "char"				;*char*
++  "int"					;*fixnum*
++  "float"				;*flonum* when float
++  "double"				;*flonum* when double
++  "unsigned"				;*length*
++  "unsigned"				;*tag*
++  "unsigned long"				;*squished*
++  "long"					;*signed-squished*
++  "FILE"				;*file*
++  "jmp_buf"				;*jmpbuf*
++  0					;*char-alignment*
++  2					;*fixnum-alignment*
++  2					;*flonum-alignment* when float
++  3					;*flonum-alignment* when double
++  3					;*pointer-alignment*
++  2					;*length-alignment*
++  2					;*tag-alignment*
++  3					;*squished-alignment*
++  3					;*file-alignment*
++  4					;*jmpbuf-alignment*
++  1					;*char-size*
++  4					;*fixnum-size*
++  4					;*flonum-size* when float
++  8					;*flonum-size* when double
++  8					;*pointer-size*
++  4					;*length-size*
++  4					;*tag-size*
++  8					;*squished-size*
++  #f)					;*include-malloc-for-alloca?*
++ ("i386"
++  ;; Debian i386
++  "char"				;*char*
++  "int"					;*fixnum*
++  "float"				;*flonum* when float
++  "double"				;*flonum* when double
++  "unsigned"				;*length*
++  "unsigned"				;*tag*
++  "unsigned"				;*squished*
++  "int"					;*signed-squished*
++  "FILE"				;*file*
++  "jmp_buf"				;*jmpbuf*
++  0					;*char-alignment*
++  2					;*fixnum-alignment*
++  2					;*flonum-alignment* when float
++  2					;*flonum-alignment* when double
++  2					;*pointer-alignment*
++  2					;*length-alignment*
++  2					;*tag-alignment*
++  2					;*squished-alignment*
++  2					;*file-alignment*
++  2					;*jmpbuf-alignment*
++  1					;*char-size*
++  4					;*fixnum-size*
++  4					;*flonum-size* when float
++  8					;*flonum-size* when double
++  4					;*pointer-size*
++  4					;*length-size*
++  4					;*tag-size*
++  4					;*squished-size*
++  #f)					;*include-malloc-for-alloca?*
++ ("sparc"
++  "char"				;*char*
++  "int"					;*fixnum*
++  "float"				;*flonum* when float
++  "double"				;*flonum* when double
++  "unsigned"				;*length*
++  "unsigned"				;*tag*
++  "unsigned"				;*squished*
++  "int"					;*signed-squished*
++  "FILE"				;*file*
++  "jmp_buf"				;*jmpbuf*
++  0					;*char-alignment*
++  2					;*fixnum-alignment*
++  2					;*flonum-alignment* when float
++  3					;*flonum-alignment* when double
++  2					;*pointer-alignment*
++  2					;*length-alignment*
++  2					;*tag-alignment*
++  2					;*squished-alignment*
++  3					;*file-alignment*
++  2					;*jmpbuf-alignment*
++  1					;*char-size*
++  4					;*fixnum-size*
++  4					;*flonum-size* when float
++  8					;*flonum-size* when double
++  4					;*pointer-size*
++  4					;*length-size*
++  4					;*tag-size*
++  4					;*squished-size*
++  #f)					;*include-malloc-for-alloca?*
++ )
+diff --git a/makefile b/makefile
+index 812dac8..bd0d6bd 100644
+--- a/makefile
++++ b/makefile
+@@ -8,13 +8,19 @@ OPTIONS = -d1 -d5 -d6 -On -t -c -db\
+           -do-not-index-constant-structure-types-by-expression\
+           -do-not-index-allocated-structure-types-by-expression
+ 
++architectures := amd64 i386 ia64 sparc
++
++arch_c_files := $(addprefix stalin-arch-,$(addsuffix .c,$(architectures)))
++
+ # Stalin can be compiled with -freg-struct-return on most platforms. But gcc
+ # and egcs have a bug on Linux/Alpha that causes them to crash when given
+ # -freg-struct-return. ARCH_OPTS is set up apprpriately by ./build to handle
+ # this.
+ 
++CC_OPTIMIZATION ?= -O3
++
+ stalin: stalin.c
+-	$(CC) -o stalin -I./include -O3 -fomit-frame-pointer\
++	$(CC) -o stalin -I./include $(CC_OPTIMIZATION) -fomit-frame-pointer\
+               -fno-strict-aliasing ${ARCH_OPTS}\
+ 	      stalin.c -L./include -lm -lgc
+ 	./post-make
+@@ -25,53 +31,12 @@ stalin-architecture: stalin-architecture.c
+ stalin.c: stalin.sc
+ 	$(stalin) $(OPTIONS) stalin
+ 
+-stalin-IA32.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture IA32 stalin
+-	mv -f stalin.c stalin-IA32.c
+-
+-stalin-IA32-align-double.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture IA32-align-double stalin
+-	mv -f stalin.c stalin-IA32-align-double.c
+-
+-stalin-SPARC.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture SPARC stalin
+-	mv -f stalin.c stalin-SPARC.c
+-
+-stalin-SPARCv9.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture SPARCv9 stalin
+-	mv -f stalin.c stalin-SPARCv9.c
+-
+-stalin-SPARC64.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture SPARC64 stalin
+-	mv -f stalin.c stalin-SPARC64.c
+-
+-stalin-MIPS.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture MIPS stalin
+-	mv -f stalin.c stalin-MIPS.c
+-
+-stalin-Alpha.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture Alpha stalin
+-	mv -f stalin.c stalin-Alpha.c
+-
+-stalin-ARM.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture ARM stalin
+-	mv -f stalin.c stalin-ARM.c
+-
+-stalin-M68K.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture M68K stalin
+-	mv -f stalin.c stalin-M68K.c
+-
+-stalin-PowerPC.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture PowerPC stalin
+-	mv -f stalin.c stalin-PowerPC.c
+-
+-stalin-S390.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture S390 stalin
+-	mv -f stalin.c stalin-S390.c
++stalin-arch-%.c: stalin.sc
++	$(stalin) $(OPTIONS) -architecture $(patsubst stalin-arch-%.c,%,$@) \
++	  $(patsubst %.sc,%,$<)
++	mv -f stalin.c $@
+ 
+-stalin-PowerPC64.c: stalin.sc
+-	$(stalin) $(OPTIONS) -architecture PowerPC64 stalin
+-	mv -f stalin.c stalin-PowerPC64.c
++all-precompiled-srcs: $(arch_c_files)
+ 
+ stalin-AMD64.c: stalin.sc
+ 	./stalin $(OPTIONS) -architecture AMD64 stalin
+@@ -88,3 +53,5 @@ clean:
+ 	rm -f ./include/stalin
+ 	rm -f ./stalin.c
+ 	rm -f ./stalin
++	rm -f ./stalin-architecture
++	cd benchmarks && ./make-clean
+-- 

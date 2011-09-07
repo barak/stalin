@@ -1,7 +1,7 @@
-allow-compiler-selection.diff
-misc.diff
-prebuilt-arch-amd64.diff
-prebuilt-arch-i386.diff
-prebuilt-arch-ia64.diff
-prebuilt-arch-sparc.diff
-benchmarks.diff
+0001-allow-compiler-selection.patch
+0002-debian-miscellany.patch
+0003-prebuilt-arch-amd64.patch
+0004-prebuilt-arch-i386.patch
+0005-prebuilt-arch-ia64.patch
+0006-prebuilt-arch-sparc.patch
+0007-benchmarks-amd64.patch
