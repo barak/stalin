@@ -5,7 +5,7 @@ Build-Depends: debhelper (>= 9), libgc-dev, libx11-dev,
   libgl1-mesa-dev | libgl-dev,
   freeglut3-dev | libglut-dev
 Maintainer: Rob Browning <rlb@defaultvalue.org>
-Standards-Version: 3.9.2
+Standards-Version: 3.9.4
 Homepage: http://www.ece.purdue.edu/~qobi/software.html
 Vcs-Git: git://git.debian.org/git/collab-maint/stalin.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/stalin.git
