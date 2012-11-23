@@ -17,7 +17,7 @@ Abstract out per-architecture precompiled stalin C generation.
  build                            |   25 +++++---
  include/stalin-architecture-name |   12 ++++
  include/stalin.architectures     |  128 +++++++++++++++++++++++++++++++++++++-
- makefile                         |   61 ++++--------------
+ makefile                         |   61 +++++-------------
  4 files changed, 168 insertions(+), 58 deletions(-)
 
 diff --git a/build b/build
@@ -339,4 +339,3 @@ index 812dac8..bd0d6bd 100644
  	rm -f ./stalin
 +	rm -f ./stalin-architecture
 +	cd benchmarks && ./make-clean
--- 

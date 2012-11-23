@@ -136,4 +136,3 @@ index 6f61a29..812dac8 100644
  	mv -f stalin.c stalin-PowerPC64.c
  
  stalin-AMD64.c: stalin.sc
--- 
