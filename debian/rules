@@ -2,8 +2,7 @@
 
 SHELL := /bin/bash
 
-version := $(shell dpkg-parsechangelog | grep Version:)
-version := $(shell echo $(version) | perl -pe 's/^Version:\s+//o')
+version := $(shell dpkg-parsechangelog | grep Version: | sed 's/^Version: //')
 build_cpu := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 
 
