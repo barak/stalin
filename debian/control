@@ -1,15 +1,16 @@
 Source: stalin
-Section: devel
-Priority: optional
-Build-Depends: debhelper (>= 7.0.50), libgc-dev, quilt, libx11-dev,
+Section: lisp
+Priority: extra
+Build-Depends: debhelper (>= 7.0.50), libgc-dev, libx11-dev,
   libgl1-mesa-dev | libgl-dev,
   freeglut3-dev | libglut-dev
 Maintainer: Rob Browning <rlb@defaultvalue.org>
-Standards-Version: 3.6.1
+Standards-Version: 3.8.4
+Homepage: http://www.ece.purdue.edu/~qobi/software.html
 
 Package: stalin
 Architecture: i386 amd64 ia64 sparc kfreebsd-i386 kfreebsd-amd64
-Depends: ${shlibs:Depends}, libgc-dev, dpkg-dev
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgc-dev, dpkg-dev
 Description: An extremely aggressive Scheme compiler
  stalin is an aggressive self-hosting Scheme compiler, designed to
  generate resource efficient stand-alone executables with very high
@@ -18,7 +19,7 @@ Description: An extremely aggressive Scheme compiler
  stabilized.
  .
  It places a few limitations on the content of the source code.  For
- example, you may not not LOAD or EVAL new expressions or procedure
+ example, you may not LOAD or EVAL new expressions or procedure
  definitions at runtime, but in exchange, it is able to perform
  various global analyses which may allow it to transparently map
  Scheme types to C types and to use native C arithmetic operations on

@@ -4,8 +4,52 @@ This package was originally debianized by Rob Browning
 The upstream source was obtained from
 
   ftp://ftp.ecn.purdue.edu/qobi/stalin-0.10alpha2.tgz
+  ftp://ftp.ecn.purdue.edu/qobi/stalin-0.11.tgz
 
 Copyright:
 
-Stalin is distributed under the Gnu Public License (GPL). See
-/usr/share/common-licenses/GPL for more details.
+Stalin is distributed under the Gnu Public License v2 (GPL).
+See /usr/share/common-licenses/GPL-2 for more details.
+
+Stalin was written by Jeffrey Mark Siskind, with copyright notices for
+his institutional affiliation at the time, which have all granted
+appropriate copyright releases.
+
+  ;;; Stalin 0.11 - A global optimizing compiler for Scheme
+  ;;; Copyright 1993, 1994, and 1995 University of Toronto. All rights reserved.
+  ;;; Copyright 1996 Technion. All rights reserved.
+  ;;; Copyright 1996 and 1997 University of Vermont. All rights reserved.
+  ;;; Copyright 1997, 1998, 1999, 2000, and 2001 NEC Research Institute, Inc. All
+  ;;; rights reserved.
+  ;;; Copyright 2002, 2003, 2004, 2005, and 2006 Purdue University. All rights
+  ;;; reserved.
+
+  ;;; This program is free software; you can redistribute it and/or
+  ;;; modify it under the terms of the GNU General Public License
+  ;;; as published by the Free Software Foundation; either version 2
+  ;;; of the License, or (at your option) any later version.
+
+  ;;; This program is distributed in the hope that it will be useful,
+  ;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ;;; GNU General Public License for more details.
+
+  ;;; You should have received a copy of the GNU General Public License
+  ;;; along with this program; if not, write to the Free Software
+  ;;; Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+
+  ;;; written by:
+  ;;;    Jeffrey Mark Siskind
+  ;;;    School of Electrical and Computer Engineering
+  ;;;    Purdue University
+  ;;;    Electrical Engineering Building, Room 330
+  ;;;    465 Northwestern Avenue
+  ;;;    West Lafayette IN 47907-2035 USA
+  ;;;    voice: 765/496-3197
+  ;;;    fax: 765/494-6440
+  ;;;    qobi@purdue.edu
+  ;;;    http://www.ece.purdue.edu/~qobi
+
+Files in the benchmarks/ directory have misc copyright and authors.
+All are redistributable, and none of the benchmark code ends up in the
+generated binary package.

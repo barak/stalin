@@ -1,3 +1,26 @@
+stalin (0.11-6) unstable; urgency=medium
+
+  [ Rob Browning ]
+  * Move debian/.gitignore to ./ and add /.pc.
+  * Move prebuilt ./stalin-arch-*.c files to debian/prebuilt-src/.
+
+  [ Barak A. Pearlmutter ]
+  * Remove obsolete debian/prerm.
+  * Update depends, standards-version, section, priority, and homepage.
+  * Expand copyright information and update for 0.11.
+  * Add uscan support (debian/watch).
+  * Switch to "3.0 (quilt)" source format.
+
+  [ Rob Browning ]
+  * Simplify override_dh_testdir since entire tree is now in git.
+  * Update FSF address in debian/copyright.
+  * Don't use debian/clean since it can't handle directories.
+  * Switch to git-dpm.
+  * Don't build/use the local libgc. (Closes: 778130)
+  * Remove quilt build dependency.
+
+ -- Rob Browning <rlb@defaultvalue.org>  Sat, 27 Jun 2015 11:34:59 -0500
+
 stalin (0.11-5) unstable; urgency=low
 
   * Build with debugging information (gcc -g).

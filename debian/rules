@@ -8,22 +8,17 @@ build_cpu := $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 
 
 %:
-	dh --with quilt $@
+	dh $@
 
 override_dh_testdir:
-	dh_testdir
-	@if ! test -f stalin.sc; \
-	then \
-	  echo; \
-	  echo -n "The upstream source does not appear to be available."; \
-	  echo "  Please put the contents"; \
-	  echo -n "of $(upstream_archive) into the"; \
-	  echo " current directory."; \
-	  echo; \
-	  false; \
-	fi
+	dh_testdir stalin.sc
 
 override_dh_auto_build:
+	ln -sf debian/prebuilt-src/stalin-arch-amd64.c .
+	ln -sf debian/prebuilt-src/stalin-arch-i386.c .
+	ln -sf debian/prebuilt-src/stalin-arch-ia64.c .
+	ln -sf debian/prebuilt-src/stalin-arch-sparc.c .
+
         ifeq ($(build_cpu),amd64)
 	  CC_OPTIMIZATION="-g -O0" ./build
         else
@@ -57,42 +52,11 @@ override_dh_auto_install:
 	cp -r include/* debian/stalin/usr/lib/stalin
 	install -s include/stalin debian/stalin/usr/lib/stalin/
 
-        # manpages
-	install -d debian/stalin/usr/share/man/man1
-	cp stalin.1 debian/stalin/usr/share/man/man1
-
-        # docs
-	install -d debian/stalin/usr/share/doc/stalin
-	install README ANNOUNCEMENT debian/stalin/usr/share/doc/stalin
-	install stalin.el debian/stalin/usr/share/doc/stalin
-	cp -a benchmarks debian/stalin/usr/share/doc/stalin
-
 	dh_auto_install
 
 override_dh_clean:
 	dh_clean
-	rm -rf debian/tmp-test
-	rm -f debian/tmp-src-lsdiff
-
-buildpackage: override_dh_testdir
-	dpkg-buildpackage -D -us -uc -rfakeroot -i'\.git|\.pc'
-	lsdiff -z \
-	  -x stalin-0.11/debian/'*' \
-	  -x stalin-0.11/stalin-arch-amd64.c \
-	  -x stalin-0.11/stalin-arch-i386.c \
-	  -x stalin-0.11/stalin-arch-ia64.c \
-	  -x stalin-0.11/stalin-arch-sparc.c \
-	  ../stalin_$(version).diff.gz \
-	    > debian/tmp-src-lsdiff
-	@if test -s debian/tmp-src-lsdiff; \
-	then \
-	  echo "Diffs found outside ./debian in ../stalin_$(version).diff.gz"; \
-	  cat debian/tmp-src-lsdiff; \
-	  false; \
-	fi
-
-.PHONY: buildpackage
-
+	rm -rf debian/tmp-test stalin-arch-{amd64,i386,ia64,sparc}.c
 
 # Local variables:
 # mode: makefile
